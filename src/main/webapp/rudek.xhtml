@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+
+<h:body>
+
+    <h:form>
+        <p:panel id="panel" header="Form" style="margin-bottom:10px;">
+            <p:messages id="messages" />
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="name" value="Ime:" />
+                <p:inputText id="name" required="true" />
+
+                <p:outputLabel for="@next" value="Prezim:" />
+                <p:inputText id="extended" required="true" />
+
+                <p:outputLabel for="@next" value="Number:" />
+                <p:spinner id="number" value="0"/>
+            </h:panelGrid>
+        </p:panel>
+
+        <p:commandButton value="Submit" update="panel"  />
+    </h:form>
+
+</h:body>
+</html>
