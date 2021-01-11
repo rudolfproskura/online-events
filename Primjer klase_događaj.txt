@@ -1,0 +1,168 @@
+DOGADAJ.h
+
+class Dogadaj{
+
+private:
+
+      string ID;
+      string Naziv;
+      int Vrijemeod;
+      int Vrijemedo;
+      int Ulazbesplatan;
+      int Cijena;
+      string MjestoOdrzavanja;
+      string Vrsta;
+      string Rezervacija;
+      int OcjenaDogadaja;
+
+public:
+
+     void setID(string ID);
+     string getID()const;
+     void setNaziv(string Naziv);
+     string getNaziv()const;
+     void setVrijemeOd (int Vrijemeod);
+     int getVrijemeOd()const;
+     void setVrijemeDo(int VrijmeDo);
+     int getVrijemeDo()const;
+     void setUlazBesplatan(int UlazBespalatan);
+     int getUlazBesplatan()cosnt;
+     void setCijena(int Cijena);
+     int getCijena()const;
+     void setMjesto(string MjestoOdrzavanja);
+     string getMjesto()const;
+     void setVrsta(string Vrsta);
+     string getVrsta()const;
+     void setOcjeni(int OcjenaDogadaja);
+     int getOcjenaDogadaja()const;
+
+    
+
+
+    void ispis();
+    DOGADAJ();
+   ~DOGADAJ();
+
+};
+
+
+
+*********************************************************************
+DOGADAJ::DOGADAJ(){
+
+   id="";
+   Naziv="";
+   VrijmeOd=0;
+   VrijemeDo=0;
+   UlazBesplatan=0;
+   Cijena=50;
+   Mjesto="";
+   Vrsta="";
+   OcjenaDogadaja=0;
+
+}
+
+void DOGADAJ::ispis()
+{
+}
+
+void DOGADAJ::setNaziv(string Naziv)
+{
+this->Naziv=Naziv;
+}
+
+
+string DOGADAJ::getNaziv()const
+{
+return Naziv;
+}
+
+
+void DOGADAJ::setVrijemeod(int VrijemeOd)
+{
+    this->VrijemeOd=VrijemeOd;
+}
+
+
+int DOGADAJ::getVrijemeOd()const
+{
+    return VrijemeOd;
+} 
+
+
+void DOGADAJ::setVrijemeDo(int VrijemeDo)
+{
+     this->Vrijmedo=VrijemeDo;
+
+}
+
+
+int DOGADAJ::getVrijemeDo()const
+{
+     return VrijemeDo;
+}
+
+
+void DOGADAJ::setUlazBesplatno(int UlazBesplatan)
+{ 
+  this->UlazBesplatno=UlazBesplatan;
+}
+
+int DOGADAJ::getUlazBesplatan()const
+{
+   return UlazBesplatan;
+}
+
+void DOGADAJ::setCjenik(int Cijena)
+{
+   this->Cjenik=Cijena;
+}
+
+int DOGADAJ::getCijena()const
+{
+  return Cijena;
+}
+
+
+void DOGADAJ::setNazivMjesta(string Mjesto)
+{
+   this->NazivMjesta=Mjesto;
+}
+
+
+string DOGADAJ::getNazivMjesta()cosnt
+{
+    return Mjesto;
+}
+
+
+
+void DOGADAJ::setVrste(string Vrsta)
+{
+  this->Vrste=Vrsta;
+}
+
+
+string DOGADAJ::getVrste()const
+{
+   return Vrsta;
+}
+
+
+
+
+void DOGADAJ::setOcjeni(int Ocjena)
+{
+  this->Ocjeni=Ocjena;
+}
+
+
+int DOGADAJ::getOcjeni()const
+{
+  return Ocjena;
+}
+
+
+**********************************************************************
+Još moram pogledati baze
+
