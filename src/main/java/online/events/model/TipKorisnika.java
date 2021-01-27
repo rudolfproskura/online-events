@@ -8,7 +8,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name = "tip_korisnika", schema = "igea_tk")
+@Table(name = "tip_korisnika", schema = "online_events")
 public class TipKorisnika {
 
     @Id

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "dogadaj", schema = "igea_tk")
+@Table(name = "dogadaj", schema = "online_events")
 public class Dogadaj {
 
     @Id

@@ -8,7 +8,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name = "grad", schema = "igea_tk")
+@Table(name = "grad", schema = "online_events")
 public class Grad {
 
     @Id

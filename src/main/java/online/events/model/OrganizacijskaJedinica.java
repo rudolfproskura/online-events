@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "organizacijska_jedinica", schema = "igea_tk")
+@Table(name = "organizacijska_jedinica", schema = "online_events")
 public class OrganizacijskaJedinica {
 
     @Id
