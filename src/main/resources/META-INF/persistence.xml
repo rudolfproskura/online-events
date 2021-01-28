@@ -1,0 +1,25 @@
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="OnlineEventsPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>OnlineEventsDB</jta-data-source>
+
+        <properties>
+            <property name = "hibernate.show_sql" value = "true" />
+<!--            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> &lt;!&ndash; DB Driver &ndash;&gt;-->
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbName" /> &lt;!&ndash; BD Mane &ndash;&gt;-->
+<!--            <property name="javax.persistence.jdbc.user" value="postgres" /> &lt;!&ndash; DB User &ndash;&gt;-->
+<!--            <property name="javax.persistence.jdbc.password" value="12345" /> &lt;!&ndash; DB Password &ndash;&gt;-->
+
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <!-- Property definiran u profilu od mavena -->
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+        </properties>
+    </persistence-unit>
+</persistence>
+
+
+
+

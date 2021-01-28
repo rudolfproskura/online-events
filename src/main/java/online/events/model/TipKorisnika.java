@@ -1,6 +1,8 @@
 package online.events.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,11 +16,18 @@ public class TipKorisnika {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifra", nullable = false)
+    @NotNull
     private Integer sifraTipKorisnika;
 
+    @NotNull @Size(min = 1, max = 50)
     @Column(name = "naziv", nullable = true, length = 50)
     private String nazivTipKorisnika;
 
+    @Size(min = 1, max = 50)
+    @Column(name = "opis", nullable = true, length = 100)
+    private String opisTipKorisnika;
+
+    @NotNull
     @Column(name = "aktivan", nullable = false)
     private Boolean aktivanTipKorisnika;
 
