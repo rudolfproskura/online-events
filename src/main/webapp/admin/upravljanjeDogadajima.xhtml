@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
+
+<h:head>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-bottom:5px" toggleable="true" toggleSpeed="500"
+                 toggleableHeader="true" widgetVar="widgetInput">
+            <h:panelGrid>
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
+            </h:panelGrid>
+            <h:panelGrid id="panelGridInputForm" columns="2">
+                <p:outputLabel for="sifraDogadajaInput" value="Šifra događaja:   "/>
+                <p:inputText id="sifraDogadajaInput"
+
+                             readonly="true" disabled="true"/>
+                <p:outputLabel for="nazivDogadaja" value="Naziv događaja:   "/>
+                <p:inputTextarea id="nazivDogadaja"
+
+                                 cols="40"
+                                 maxlength="250" autoResize="false" required="false"
+                                 requiredMessage="Naziv događaja je obavezan podatak!"/>
+
+                <p:outputLabel for="grad" value="Grad:   "/>
+                <p:selectOneMenu id="grad"
+
+                                 filter="true"
+                                 filterMatchMode="startsWith" style="width:250px" required="false"
+                                 requiredMessage="Grad je obavezan podatak!">
+<!--                    <f:selectItems value="#{dogadajiController.gradSelectItems}"/>-->
+                </p:selectOneMenu>
+
+                <p:outputLabel for="vrijemeOd" value="Vrijeme od   :"/>
+                <p:calendar id="vrijemeOd"
+
+                            pattern="dd.MM.yyyy HH:mm">
+                    <f:converter converterId="LocalDateConverter"/>
+                </p:calendar>
+
+                <p:outputLabel for="vrijemeDo" value="Vrijeme do   :"/>
+                <p:calendar id="vrijemeDo"
+
+                            pattern="dd.MM.yyyy HH:mm">
+                    <f:converter converterId="LocalDateConverter"/>
+                </p:calendar>
+
+                <h:outputText value="Slobodan ulaz: "/>
+                <p:selectBooleanButton id="value1"
+
+                                       onLabel="Da"
+                                       offLabel="Ne"
+                                       style="width:60px"/>
+                <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
+                                 style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
+                                 update="panelGridInputForm, j_idt5:filterAdvanced" icon="pi pi-replay"/>
+                <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"
+                                 style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
+                                 update="panel_unos, j_idt5:filterAdvanced" icon="pi pi-save"/>
+
+            </h:panelGrid>
+        </p:panel>
+
+
+        </h:form>
+    </h:body>
+</html>
