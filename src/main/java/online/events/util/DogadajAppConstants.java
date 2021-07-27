@@ -15,7 +15,7 @@ public class DogadajAppConstants {
     public static final String ENTITY_SLOBODAN_ULAZ_NE = "NE";
     public static final String ENTITY_SLOBODAN_ULAZ_DA = "DA";
 
-    public static final Integer TIP_ORGANIZACIJSKE_JEDINICE_REGIJA = 0;
-    public static final Integer TIP_ORGANIZACIJSKE_JEDINICE_ZUPANIJA = 1;
+    public static final Integer TIP_ORGANIZACIJSKE_JEDINICE_REGIJA = 1;
+    public static final Integer TIP_ORGANIZACIJSKE_JEDINICE_ZUPANIJA = 2;
 
 }

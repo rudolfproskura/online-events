@@ -41,8 +41,9 @@ public abstract class GenericDao<E, T> implements Serializable {
      * Returns list of entities (entites transfor to dto)
      */
     public List<T> findAll() {
-        List<E> listEntity = getEntityManager().createQuery(getBasicSql()).getResultList();
-        return formListDto(listEntity);
+   //TODO     List<E> listEntity = getEntityManager().createQuery(getBasicSql()).getResultList();
+        //return formListDto(listEntity);
+        return formListDto(null);
     }
 
     /*

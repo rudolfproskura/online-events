@@ -76,8 +76,8 @@ public class GradDao extends GenericDao<Grad, GradDto> implements Serializable {
         List<SelectItem> resultSelectItems = new ArrayList<>();
         resultSelectItems.add(new SelectItem("", "Odaberite"));
         //sql
-        String sql = "select grad.sifra, grad.naziv from igea_tk.grad grad ";
-        if (regije != null && regije.length > 0) sql = sql + "join igea_tk.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica ";
+        String sql = "select grad.sifra, grad.naziv from online_events.grad grad ";
+        if (regije != null && regije.length > 0) sql = sql + "join online_events.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica ";
         sql = sql + "where 1 = 1 ";
         if (regije != null && regije.length > 0) sql = sql + "and org_jed.org_jedinica in :regije ";
         if (zupanije != null && zupanije.length > 0) sql = sql + "and grad.org_jedinica in :zupanije ";

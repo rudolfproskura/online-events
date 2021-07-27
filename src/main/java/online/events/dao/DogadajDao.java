@@ -278,11 +278,11 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
     private List<Object[]> formAndExecuteFilterSql(DogadajFilterDto filterDto) {
         List<Object[]> resultList = null;
 
-        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag from igea_tk.dogadaj dog " +
-                "join igea_tk.grad grad on grad.sifra = dog.grad " +
-                "join igea_tk.velicina_grada vel_gr on vel_gr.sifra = grad.velicina " +
-                "join igea_tk.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica " +
-                "join igea_tk.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica " +
+        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag from online_events.dogadaj dog " +
+                "join online_events.grad grad on grad.sifra = dog.grad " +
+                "join online_events.velicina_grada vel_gr on vel_gr.sifra = grad.velicina " +
+                "join online_events.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica " +
+                "join online_events.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica " +
                 "where 1 = 1 ";
         //where dio
         if (filterDto.getSifraDogadaja() != null) sql = sql + "and dog.sifra = :sifraDogadaja ";

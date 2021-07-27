@@ -78,7 +78,7 @@ public class OrganizacijskaJedinicaDao extends GenericDao<Object, Organizacijska
         List<SelectItem> resultSelectItems = new ArrayList<>();
         resultSelectItems.add(new SelectItem("", "Odaberite"));
         //sql
-        String sql = "select sifra, naziv from igea_tk.organizacijska_jedinica " +
+        String sql = "select sifra, naziv from online_events.organizacijska_jedinica " +
                 "where 1 = 1 ";
         if (regije != null && regije.length > 0) sql = sql + "and org_jedinica in :regije";
         //query
