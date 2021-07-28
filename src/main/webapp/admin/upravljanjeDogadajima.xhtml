@@ -27,7 +27,7 @@
                 <p:inputText id="sifraDogadajaInput"
                              value="#{dogadajiController.dogadajDto.sifraDogadaja}"
                              readonly="true" disabled="true"/>
-                <p:outputLabel for="nazivDogadaja" value="Naziv događaja:   "/>
+                <p:outputLabel for="nazivDogadaja" value="Naziv događaja   :   "/>
                 <p:inputTextarea id="nazivDogadaja"
                                  value="#{dogadajiController.dogadajDto.nazivDogadaja}" rows="3"
                                  cols="40"
@@ -177,7 +177,7 @@
                     <f:facet name="header">
                         Rezultati pretrage
                     </f:facet>
-                    <p:ajax event="rowSelect" listener="#{dogadajiController.onTableRowSelect}" update="j_idt5:panel_unos"/>
+<!--                    <p:ajax event="rowSelect" listener="#{dogadajiController.onTableRowSelect}" update="j_idt5:panel_unos"/>-->
                     <p:column headerText="Šifra">
                         <h:outputText value="#{filterDogadajDto.sifraDogadaja}"/>
                     </p:column>

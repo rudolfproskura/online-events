@@ -13,6 +13,7 @@ import online.events.util.DogadajAppUtil;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -93,7 +94,7 @@ public class GradDao extends GenericDao<Grad, GradDto> implements Serializable {
         List<Object[]> resultList = query.getResultList();
         if (resultList != null && !resultList.isEmpty()) {
             Stream<Object[]> listGradStream = resultList.stream();
-            listGradStream.forEach(p -> resultSelectItems.add(new SelectItem((Integer)p[0], (String)p[1])));
+            listGradStream.forEach(p -> resultSelectItems.add(new SelectItem(((BigInteger)p[0]).intValue(), (String)p[1])));
         }
         return resultSelectItems;
     }

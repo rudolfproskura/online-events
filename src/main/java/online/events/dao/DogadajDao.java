@@ -9,15 +9,14 @@ import online.events.util.DogadajAppConstants;
 import online.events.util.DogadajAppUtil;
 import org.apache.commons.lang3.StringUtils;
 
-
 import javax.persistence.Query;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 
 public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serializable {
@@ -110,7 +109,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
 
             } else {
                 Object[] entity = (Object[]) o;
-                dogadajDto.setSifraDogadaja((Integer) entity[IDX_DOGADAJ_SIFRA]);
+                dogadajDto.setSifraDogadaja(((BigInteger) entity[IDX_DOGADAJ_SIFRA]).intValue());
                 dogadajDto.setNazivDogadaja((String) entity[IDX_DOGADAJ_NAZIV]);
                 dogadajDto.setVrijemeOd(((Timestamp) entity[IDX_DOGADAJ_VRIJEME_OD]).toLocalDateTime());
                 if (entity[IDX_DOGADAJ_VRIJEME_DO] != null)
@@ -119,7 +118,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 //grad
                 GradDto gradDto = new GradDto();
                 gradDto.setNazivGrada((String) entity[IDX_GRAD_NAZIV]);
-                gradDto.setSifraGrada((Integer) entity[IDX_GRAD_SIFRA]);
+                gradDto.setSifraGrada(((BigInteger) entity[IDX_GRAD_SIFRA]).intValue());
                 //velicina grada
                 VelicinaGradaDto velicinaGradaDto = new VelicinaGradaDto();
                 velicinaGradaDto.setNazivVelicineGrada((String) entity[IDX_GRAD_VELICINA_NAZIV]);

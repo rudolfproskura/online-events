@@ -10,6 +10,7 @@ import online.events.util.DogadajAppUtil;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +89,7 @@ public class OrganizacijskaJedinicaDao extends GenericDao<Object, Organizacijska
         List<Object[]> resultList = query.getResultList();
         if (resultList != null && !resultList.isEmpty()) {
             Stream<Object[]> listZupnijaStream = resultList.stream();
-            listZupnijaStream.forEach(p -> resultSelectItems.add(new SelectItem((Integer)p[0], (String)p[1])));
+            listZupnijaStream.forEach(p -> resultSelectItems.add(new SelectItem(((BigInteger)p[0]).intValue(), (String)p[1])));
         }
         return resultSelectItems;
     }
