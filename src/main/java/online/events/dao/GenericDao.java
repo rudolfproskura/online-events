@@ -1,14 +1,10 @@
 package online.events.dao;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 public abstract class GenericDao<E, T> implements Serializable {
 
@@ -41,9 +37,9 @@ public abstract class GenericDao<E, T> implements Serializable {
      * Returns list of entities (entites transfor to dto)
      */
     public List<T> findAll() {
-   //TODO     List<E> listEntity = getEntityManager().createQuery(getBasicSql()).getResultList();
-        //return formListDto(listEntity);
-        return formListDto(null);
+        List<E> listEntity = getEntityManager().createQuery(getBasicSql()).getResultList();
+        return formListDto(listEntity);
+        //return formListDto(null);
     }
 
     /*

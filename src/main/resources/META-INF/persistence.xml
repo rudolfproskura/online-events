@@ -3,7 +3,7 @@
              version="2.1">
     <persistence-unit name="OnlineEventsPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>OnlineEventsDB</jta-data-source>
+        <jta-data-source>jdbc/OnlineEventsDB</jta-data-source>
 
         <properties>
             <property name = "hibernate.show_sql" value = "true" />
@@ -11,11 +11,18 @@
 <!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbName" /> &lt;!&ndash; BD Mane &ndash;&gt;-->
 <!--            <property name="javax.persistence.jdbc.user" value="postgres" /> &lt;!&ndash; DB User &ndash;&gt;-->
 <!--            <property name="javax.persistence.jdbc.password" value="12345" /> &lt;!&ndash; DB Password &ndash;&gt;-->
+<!--            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />-->
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/online_events" />-->
+<!--            <property name="javax.persistence.jdbc.user" value="root" />-->
+<!--            <property name="javax.persistence.jdbc.password" value="root" />-->
 
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>-->
             <!-- Property definiran u profilu od mavena -->
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+<!--            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />-->
+            <property name="hibernate.transaction.jta.platform"
+                      value="org.hibernate.engine.transaction.jta.platform.internal.WebSphereExtendedJtaPlatform" />
         </properties>
     </persistence-unit>
 </persistence>
