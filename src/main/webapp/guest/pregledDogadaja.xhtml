@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
+
+<h:head>
+</h:head>
+
+<h:body>
+    <script type="text/javascript">
+        PrimeFaces.locales ['hr'] = {
+            closeText: 'Zatvori',
+            prevText: 'Natrag',
+            nextText: 'Naprijed',
+            monthNames: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
+            monthNamesShort: ['Sij', 'Vel', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
+            dayNames: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
+            dayNamesShort: ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub'],
+            dayNamesMin: ['N', 'P', 'U', 'S ', 'Č', 'P ', 'S'],
+            weekHeader: 'Tjedan',
+            firstDay: 1,
+            timeOnlyTitle: 'Samo vrijeme',
+            timeText: 'Vrijeme',
+            hourText: 'Sat',
+            minuteText: 'Minuta',
+            secondText: 'Sekunda',
+            currentText: 'Današnji datum',
+            ampm: false,
+            year: 'Godina',
+            month: 'Mjesec',
+            week: 'Tjedan',
+            day: 'Dan',
+            allDayText: 'Cijeli dan',
+            moreLinkText: 'weitere',
+            noEventsText: 'Nema događaja za prikaz',
+            list: 'Pregled rasporeda'
+        };
+    </script>
+    <h:form>
+        <p:panel id="panel_unos" header="Pregled događaja" style="margin-bottom:5px" toggleable="true"
+                 toggleSpeed="500" toggleableHeader="true" widgetVar="widgetInput">
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:schedule id="schedule" value="#{pregledDogadajaController.eventModel}" widgetVar="myschedule"
+                            locale="hr">
+                    <p:ajax event="dateSelect" listener="#{pregledDogadajaController.onDateSelect}"
+                            update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventSelect" listener="#{pregledDogadajaController.onEventSelect}"
+                            update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventMove" listener="#{pregledDogadajaController.onEventMove}" update="messages"/>
+                    <p:ajax event="eventResize" listener="#{pregledDogadajaController.onEventResize}"
+                            update="messages"/>
+                </p:schedule>
+
+                <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="fade" hideEffect="fade">
+                    <h:panelGrid id="eventDetails" columns="2" cellpadding="7">
+                        <p:outputLabel for="title" value="Titles" styleClass="p-text-bold"/>
+                        <p:inputText id="title" value="#{pregledDogadajaController.event.title}" required="true"/>
+
+                        <p:outputLabel for="from" value="From" styleClass="p-text-bold"/>
+                        <p:datePicker id="from" value="#{pregledDogadajaController.event.startDate}"
+                                      pattern="dd/MM/yyyy"
+                                      showTime="true" appendTo="@(body)"/>
+
+                        <p:outputLabel for="to" value="To" styleClass="p-text-bold"/>
+                        <p:datePicker id="to" value="#{pregledDogadajaController.event.endDate}" pattern="dd/MM/yyyy"
+                                      showTime="true" appendTo="@(body)"/>
+
+                        <p:outputLabel for="allDay" value="All Day" styleClass="p-text-bold"/>
+                        <h:selectBooleanCheckbox id="allDay" value="#{pregledDogadajaController.event.allDay}"/>
+                    </h:panelGrid>
+
+                    <div class="p-d-flex p-jc-between p-mt-3">
+                        <p:commandButton type="reset" value="Reset" styleClass="p-text-bold ui-button-outlined"/>
+                        <p:commandButton id="addButton" value="Save" action="#{pregledDogadajaController.addEvent}"
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    </div>
+                </p:dialog>
+
+        </p:panel>
+    </h:form>
+</h:body>
+
+</html>
