@@ -36,6 +36,8 @@ public class DogadajFilterDto implements Serializable {
     private String[] odabraneZupanije;
     private String[] odabraneVelicineGrada;
 
+    private Integer korisnik;
+
     // constructors
     public DogadajFilterDto() {
         super();
@@ -180,5 +182,13 @@ public class DogadajFilterDto implements Serializable {
 
     public void setSifraDogadaja(Integer sifraDogadaja) {
         this.sifraDogadaja = sifraDogadaja;
+    }
+
+    public Integer getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(Integer korisnik) {
+        this.korisnik = korisnik;
     }
 }

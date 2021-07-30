@@ -281,8 +281,9 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 "join online_events.grad grad on grad.sifra = dog.grad " +
                 "join online_events.velicina_grada vel_gr on vel_gr.sifra = grad.velicina " +
                 "join online_events.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica " +
-                "join online_events.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica " +
-                "where 1 = 1 ";
+                "join online_events.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica ";
+        if (filterDto.getKorisnik() != null) sql = sql + "join online_events.korisnik_dogadaj korisnik_dogadaj on korisnik_dogadaj.dogadaj = dog.sifra ";
+        sql = sql + "where 1 = 1 ";
         //where dio
         if (filterDto.getSifraDogadaja() != null) sql = sql + "and dog.sifra = :sifraDogadaja ";
         if (StringUtils.isNotBlank(filterDto.getNazivDogadaja())) sql = sql + "and dog.naziv like :nazivDogadaja ";
@@ -299,7 +300,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             sql = sql + "and vel_gr.sifra in :velicineGrada ";
         if (filterDto.getOdabraniGradovi() != null && filterDto.getOdabraniGradovi().length > 0)
             sql = sql + "and grad.sifra in :gradovi ";
-
+        if (filterDto.getKorisnik() != null)
+            sql = sql + "and korisnik_dogadaj.korisnik = :korisnik ";
+        //default order by
+        sql = sql + " order by dog.sifra ";
         Query queryDogadaj = getEntityManager().createNativeQuery(sql);
         //parametri
         if (filterDto.getSifraDogadaja() != null)
@@ -329,8 +333,9 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (filterDto.getSifraDogadaja() == null && (filterDto.getOdabraneRegije() == null || filterDto.getOdabraneRegije().length == 0) && (filterDto.getOdabraneZupanije() == null || filterDto.getOdabraneZupanije().length == 0) && (filterDto.getOdabraniGradovi() == null || filterDto.getOdabraniGradovi().length == 0)) {
             sql = sql + " and vel_gr.aktivan = true ";
         }
-        //default order by
-        sql = sql + " order by dog.sifra ";
+        if (filterDto.getKorisnik() != null)
+            queryDogadaj.setParameter("korisnik", filterDto.getKorisnik());
+
         //izvrši query
         resultList = queryDogadaj.getResultList();
         return resultList;

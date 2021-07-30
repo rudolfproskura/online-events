@@ -8,6 +8,17 @@ DROP SCHEMA IF EXISTS online_events;
 
 CREATE SCHEMA online_events;
 
+CREATE TABLE online_events.korisnik
+(
+    sifra BIGINT PRIMARY KEY  AUTO_INCREMENT,
+    korisnicko_ime VARCHAR(50) NOT NULL,
+    ime VARCHAR(50) NOT NULL,
+    prezime VARCHAR(50) NOT NULL,
+    oib VARCHAR(11) NOT NULL,
+    email VARCHAR(11) NOT NULL
+);
+
+
 CREATE TABLE online_events.tip_organizacijske_jedinice
 (
     sifra BIGINT PRIMARY KEY  AUTO_INCREMENT,
@@ -56,6 +67,16 @@ CREATE TABLE online_events.dogadaj
     grad BIGINT NOT NULL,
     FOREIGN KEY (grad) REFERENCES online_events.grad (sifra)
 );
+
+CREATE TABLE online_events.korisnik_dogadaj
+(
+    sifra        BIGINT PRIMARY KEY  AUTO_INCREMENT,
+    korisnik     BIGINT     NOT NULL,
+    dogadaj      BIGINT     NOT NULL,
+    FOREIGN KEY (korisnik) REFERENCES online_events.korisnik (sifra),
+    FOREIGN KEY (dogadaj) REFERENCES online_events.dogadaj (sifra)
+);
+
 
 INSERT INTO online_events.tip_organizacijske_jedinice(sifra, naziv, aktivan) VALUES (1, 'REGIJA', true);
 INSERT INTO online_events.tip_organizacijske_jedinice(sifra, naziv, aktivan) VALUES (2, 'ŽUPANIJA', true);
