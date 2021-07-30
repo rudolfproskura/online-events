@@ -78,6 +78,15 @@ public class PregledDogadajaController implements Serializable {
         eventModel = new DefaultScheduleModel();
 
         DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                .title("Nogometna utakmica")
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusHours(2))
+                .description("Varaždin.............. ulaz slobodan")
+                .borderColor("blue")
+                .build();
+        eventModel.addEvent(event);
+
+        event = DefaultScheduleEvent.builder()
                 .title("Champions League Match")
                 .startDate(previousDay8Pm())
                 .endDate(previousDay11Pm())
