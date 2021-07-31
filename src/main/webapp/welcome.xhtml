@@ -10,18 +10,27 @@
 <h:body>
 
     <h:form>
-        <div class="p-mb-3 p-text-center" style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!</div>
+        <div class="p-mb-3 p-text-center"
+             style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!
+        </div>
 
         <h:panelGroup layout="block" style="text-align : center;">
-        <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!" style="text-align : center;"/>
+            <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"
+                            style="text-align : center;"/>
         </h:panelGroup>
 
         <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
-            <p:graphicImage library="images" name="home_page.png"/>
+            <p:link id="home_CL" href="http://localhost:9080/online-events/welcome.xhtml">
+                <p:graphicImage library="images" name="home_page.png" onclick=""/>
+            </p:link>
             <p:graphicImage library="images" name="blank.png"/>
-            <p:graphicImage library="images" name="events_calendar.jpg"/>
+            <p:link id="calendar_CL" href="http://localhost:9080/online-events/guest/pregledDogadaja.xhtml">
+                <p:graphicImage library="images" name="events_calendar.jpg"/>
+            </p:link>
             <p:graphicImage library="images" name="blank.png"/>
-            <p:graphicImage library="images" name="login_home.png"/>
+            <p:link id="login_CL" href="http://localhost:9080/online-events/login.xhtml">
+                <p:graphicImage library="images" name="login_home.png"/>
+            </p:link>
         </div>
 
 
