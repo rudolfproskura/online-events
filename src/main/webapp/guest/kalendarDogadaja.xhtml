@@ -40,11 +40,15 @@
         };
     </script>
     <h:form>
-        <p:panel id="panel_unos" header="Pregled događaja" style="margin-bottom:5px" toggleable="true"
+        <p:menubar>
+            <p:menuitem value="Početna" icon="pi pi-fw pi-home" url="http://localhost:9080/online-events/welcome.xhtml"/>
+            <p:menuitem value="Pretraga" icon="pi pi-fw pi-filter" url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"/>
+        </p:menubar>
+        <p:panel id="panel_unos" header="Kalendar događaja" style="margin-bottom:5px" toggleable="false"
                  toggleSpeed="500" toggleableHeader="true" widgetVar="widgetInput">
                 <p:growl id="messages" showDetail="true"/>
 
-                <p:schedule id="schedule" value="#{pregledDogadajaController.eventModel}" widgetVar="myschedule"
+                <p:schedule id="schedule" value="#{pregledDogadajaController.eventModel}" widgetVar="myschedule" style="width: 800px;"
                             locale="hr">
                     <p:ajax event="dateSelect" listener="#{pregledDogadajaController.onDateSelect}"
                             update="eventDetails"
