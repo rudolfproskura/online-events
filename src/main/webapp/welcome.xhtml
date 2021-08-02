@@ -3,6 +3,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
+<title>Online events</title>
+
 <h:head>
 
 </h:head>
@@ -24,10 +26,27 @@
                 <p:graphicImage library="images" name="events_calendar.jpg"/>
             </p:link>
             <p:graphicImage library="images" name="blank.png"/>
-            <p:link id="login_CL" href="http://localhost:9080/online-events/login.xhtml">
-                <p:graphicImage library="images" name="login_home.png"/>
-            </p:link>
+            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
+                <p:graphicImage library="images" name="login_home.png" />
+            </h:outputLink>
+
         </div>
+
+<!--        <p:growl id="growl" sticky="true" showDetail="true" life="3000000" />-->
+
+        <p:dialog header="Login" widgetVar="dlg" resizable="false" >
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="username" value="Korisničko ime:" />
+                <p:inputText id="username" value="#{welcomeController.username}" required="true" label="username" />
+
+                <h:outputLabel for="password" value="Lozinka:" />
+                <p:password id="password" value="#{welcomeController.password}" required="true" label="password" />
+
+                <f:facet name="footer">
+                    <p:commandButton value="Login" action="#{welcomeController.login}"/>
+                </f:facet>
+            </h:panelGrid>
+        </p:dialog>
 
 
     </h:form>
