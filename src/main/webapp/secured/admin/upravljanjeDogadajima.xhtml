@@ -17,17 +17,23 @@
 
 <h:body>
     <form id="logout" action="ibm_security_logout" method="post">
-        <p:menubar>
-            <p:menuitem value="Početna" icon="pi pi-fw pi-home"
-                        url="http://localhost:9080/online-events/welcome.xhtml"/>
+        <p:menubar style="background-color: #a6cbfa; color: black">
+            <p:menuitem value="Početna"
+                        icon="pi pi-fw pi-home"
+                        url="http://localhost:9080/online-events/welcome.xhtml"
+                        style="color: black; font-size:larger; font-weight:600"/>
 
-            <p:menuitem value="Pretraga/pregled" icon="pi pi-fw pi-filter"
+            <p:menuitem value="Pretraga/pregled"
+                        icon="pi pi-fw pi-filter"
                         url="http://localhost:9080/online-events/secured/admin/upravljanjeDogadajima.xhtml"
-                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"/>
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
 
-            <p:menuitem value="Unos/Ažuriranje događaja" icon="pi pi-fw pi-calendar-plus"
+            <p:menuitem value="Unos/Ažuriranje događaja"
+                        icon="pi pi-fw pi-calendar-plus"
                         url="http://localhost:9080/online-events/secured/admin/upravljanjeDogadajima.xhtml"
-                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer')}"/>
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
 
             <f:facet name="options">
                   <span class="ui-input-icon-left">
@@ -45,7 +51,7 @@
 
 
     <h:form id="mainForm">
-        <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-bottom:5px" toggleable="true"
+        <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-top:10px; color: #dfefff" toggleable="true"
                  toggleSpeed="500"
                  toggleableHeader="true" widgetVar="widgetInput">
             <h:panelGrid>
@@ -108,7 +114,7 @@
             </h:panelGrid>
         </p:panel>
 
-        <p:panel id="panel_filter2" header="Pretraga događaja" style="margin-bottom:5px" toggleable="true"
+        <p:panel id="panel_filter2" header="Pretraga događaja" style="margin-top:5px; color: #dfefff" toggleable="true"
                  toggleSpeed="500" closeSpeed="500" toggleableHeader="true" collapsed="false" widgetVar="widgetFilter">
 
             <h:panelGrid columns="2" id="inputFormPanelGrid">
