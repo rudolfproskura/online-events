@@ -38,8 +38,8 @@ public class DogadajSessionBean implements IDogadajSessionBean {
      * @return
      * @throws DogadajAppRuleException
      */
-    public void editDogadaj(DogadajDto dogadajDto) throws DogadajAppRuleException {
-        dogadajDao.edit(dogadajDto);
+    public void editDogadaj(DogadajDto dogadajDto, String logedUser) throws DogadajAppRuleException {
+        dogadajDao.edit(dogadajDto, logedUser);
     }
 
 }

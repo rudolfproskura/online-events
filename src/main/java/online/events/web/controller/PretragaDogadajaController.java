@@ -92,7 +92,7 @@ public class PretragaDogadajaController implements Serializable {
         try {
             if (dogadajDto != null) {
                 if (dogadajDto.getSifraDogadaja() != null) {
-                    dogadajSessionBean.editDogadaj(dogadajDto);
+                    dogadajSessionBean.editDogadaj(dogadajDto, null);
                     addMessage("Događaj " + dogadajDto.getSifraDogadaja() + " je uspješno ažuriran.", DogadajAppConstants.SEVERITY_INFO);
                 } else {
                     //create
@@ -172,6 +172,7 @@ public class PretragaDogadajaController implements Serializable {
         dogadajFilterDto.setOdabraneVelicineGrada(null);
         dogadajFilterDto.setOdabraniGradovi(null);
         dogadajFilterDto.setOdabraneZupanije(null);
+        dogadajFilterDto.setKreator(null);
         dogadajiFilterList = null;
     }
 

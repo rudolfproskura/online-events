@@ -200,7 +200,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         }
     }
 
-    private void validateBeforeEdit(DogadajDto dogadajDto) throws DogadajAppRuleException {
+    private void validateBeforeEdit(DogadajDto dogadajDto, String logedUser) throws DogadajAppRuleException {
         boolean hasError = false;
         List<String> messages = new ArrayList<String>();
 
@@ -210,7 +210,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         }
         if (dogadajDto.getSifraDogadaja() == null) {
             hasError = true;
-            messages.add("Događaj nema šifra - pokuavate ažurirati nepostojeći događaj!");
+            messages.add("Događaj nema šifra - pokušavate ažurirati nepostojeći događaj!");
         }
         if (StringUtils.isBlank(dogadajDto.getNazivDogadaja())) {
             hasError = true;
@@ -230,11 +230,15 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         }
         if (dogadajDto.getGradDogadajaDto() == null || dogadajDto.getGradDogadajaDto().getSifraGrada() == null) {
             hasError = true;
-            messages.add("Događaj nama odabran grad!");
+            messages.add("Događaj nema odabran grad!");
         }
         if (StringUtils.isBlank(dogadajDto.getSlobodanUlaz())) {
             hasError = true;
             messages.add("Događaj nema odabran način ulaza!");
+        }
+        if (!StringUtils.equals(dogadajDto.getKreatorDogadaja().getKorisnickoIme(), logedUser)) {
+            hasError = true;
+            messages.add("Ne možete mijenjati događaje koje niste kreirali!");
         }
         if (hasError && !messages.isEmpty()) {
             throw new DogadajAppRuleException(messages);
@@ -262,8 +266,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
      * @param dogadajDto
      * @throws DogadajAppRuleException
      */
-    public void edit(DogadajDto dogadajDto) throws DogadajAppRuleException {
-        validateBeforeEdit(dogadajDto);
+    public void edit(DogadajDto dogadajDto, String logedUser) throws DogadajAppRuleException {
+        validateBeforeEdit(dogadajDto, logedUser);
         Dogadaj entity = formEntity(dogadajDto);
         getEntityManager().merge(entity);
         getEntityManager().flush();
@@ -324,6 +328,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             sql = sql + "and grad.sifra in :gradovi ";
         if (filterDto.getKorisnik() != null)
             sql = sql + "and korisnik_dogadaj.korisnik = :korisnik ";
+        if (StringUtils.isNotBlank(filterDto.getKreator()))
+            sql = sql + "and dog.kreator = :kreator ";
         //default order by
         sql = sql + " order by dog.sifra ";
         Query queryDogadaj = getEntityManager().createNativeQuery(sql);
@@ -357,6 +363,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         }
         if (filterDto.getKorisnik() != null)
             queryDogadaj.setParameter("korisnik", filterDto.getKorisnik());
+        if (StringUtils.isNotBlank(filterDto.getKreator()))
+            queryDogadaj.setParameter("kreator", filterDto.getKreator());
 
         //izvrši query
         resultList = queryDogadaj.getResultList();

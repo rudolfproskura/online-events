@@ -24,7 +24,7 @@ public interface IDogadajSessionBean {
 	 * @return
 	 * @throws DogadajAppRuleException
 	 */
-	public void editDogadaj(DogadajDto dogadajDto) throws DogadajAppRuleException;
+	public void editDogadaj(DogadajDto dogadajDto, String logedUser) throws DogadajAppRuleException;
 
 
 }

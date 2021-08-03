@@ -11,19 +11,27 @@
 <!--<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>-->
 
 <h:head>
+    <title>Unos / Ažuriranje događaja</title>
+
 </h:head>
 
 <h:body>
     <form id="logout" action="ibm_security_logout" method="post">
         <p:menubar>
-            <p:menuitem value="Kalendar" icon="pi pi-fw pi-home"
+            <p:menuitem value="Početna" icon="pi pi-fw pi-home"
                         url="http://localhost:9080/online-events/welcome.xhtml"/>
-            <p:menuitem value="Pretraga" icon="pi pi-fw pi-filter"
-                        url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"
+
+            <p:menuitem value="Pretraga/pregled" icon="pi pi-fw pi-filter"
+                        url="http://localhost:9080/online-events/secured/admin/upravljanjeDogadajima.xhtml"
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"/>
+
+            <p:menuitem value="Unos/Ažuriranje događaja" icon="pi pi-fw pi-calendar-plus"
+                        url="http://localhost:9080/online-events/secured/admin/upravljanjeDogadajima.xhtml"
                         rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer')}"/>
+
             <f:facet name="options">
                   <span class="ui-input-icon-left">
-                    <i class="pi pi-user pi-user" />
+                    <i class="pi pi-user pi-user"/>
                     <p:inputText value="#{request.remoteUser}" readonly="true"/>
                 </span>
                 <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
@@ -37,7 +45,8 @@
 
 
     <h:form id="mainForm">
-        <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-bottom:5px" toggleable="true" toggleSpeed="500"
+        <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-bottom:5px" toggleable="true"
+                 toggleSpeed="500"
                  toggleableHeader="true" widgetVar="widgetInput">
             <h:panelGrid>
                 <p:messages id="messages" showDetail="true" closable="true">
@@ -103,7 +112,7 @@
                  toggleSpeed="500" closeSpeed="500" toggleableHeader="true" collapsed="false" widgetVar="widgetFilter">
 
             <h:panelGrid columns="2" id="inputFormPanelGrid">
-                <h:panelGrid columns="2" >
+                <h:panelGrid columns="2">
                     <p:outputLabel for="nazivDogadajaFilter" value="Naziv događaja:   "/>
                     <p:inputTextarea id="nazivDogadajaFilter"
                                      value="#{dogadajiController.dogadajFilterDto.nazivDogadaja}"
@@ -140,7 +149,7 @@
                 </h:panelGrid>
                 <h:panelGrid columns="2">
                     <h:outputLabel for="sifraFilter" value="Šifra događaja:"/>
-                    <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}" />
+                    <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}"/>
 
                     <h:outputLabel for="regijaFilter" value="Regija:"/>
                     <p:selectCheckboxMenu id="regijaFilter"
@@ -179,6 +188,12 @@
                         <f:selectItems
                                 value="#{dogadajiController.getGrad(dogadajiController.dogadajFilterDto.odabraneRegije, dogadajiController.dogadajFilterDto.odabraneZupanije, dogadajiController.dogadajFilterDto.odabraneVelicineGrada)}"/>
                     </p:selectCheckboxMenu>
+                    <p:outputLabel for="kreatorFilter" value="Kreator:   "/>
+                    <p:selectOneMenu id="kreatorFilter" value="#{dogadajiController.dogadajFilterDto.kreator}"
+                                     filter="false" style="width:100px">
+                        <f:selectItems value="#{dogadajiController.kreatorFilterSelectItems}"/>
+                    </p:selectOneMenu>
+
                     <p:commandButton value="Poništi filter" actionListener="#{dogadajiController.resetFilterDto}"
                                      id="filterreset" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
                                      ajax="true"
@@ -187,6 +202,7 @@
                                      id="filter" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
                                      ajax="true" update="filterAdvanced"
                                      icon="pi pi-search"/>
+
                 </h:panelGrid>
             </h:panelGrid>
             <h:panelGrid columns="2">
@@ -203,7 +219,8 @@
                     <f:facet name="header">
                         Rezultati pretrage
                     </f:facet>
-<!--                    <p:ajax event="rowSelect" listener="#{dogadajiController.onTableRowSelect}" update="j_idt5:panel_unos"/>-->
+                    <p:ajax event="rowSelect" listener="#{dogadajiController.onTableRowSelect}"
+                            update="mainForm:panel_unos"/>
                     <p:column headerText="Šifra">
                         <h:outputText value="#{filterDogadajDto.sifraDogadaja}"/>
                     </p:column>
@@ -245,6 +262,6 @@
         </p:panel>
 
 
-        </h:form>
-    </h:body>
+    </h:form>
+</h:body>
 </html>

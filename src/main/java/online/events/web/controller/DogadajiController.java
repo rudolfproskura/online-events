@@ -39,6 +39,7 @@ public class DogadajiController implements Serializable {
 
     //fields
     private static final long serialVersionUID = 1L;
+    private String logedUser;
     private DogadajDto dogadajDto;
     private DogadajFilterDto dogadajFilterDto;
 
@@ -51,6 +52,7 @@ public class DogadajiController implements Serializable {
     private List<SelectItem> slobodanUlazFilterSelectItems = new ArrayList<>();
     private List<SelectItem> regijaFilterSelectItems = new ArrayList<>();
     private List<SelectItem> velicinaGradaFilterSelectItems = new ArrayList<>();
+    private List<SelectItem> kreatorFilterSelectItems = new ArrayList<>();
 
     //pune se kod inita
     private List<OrganizacijskaJedinicaDto> organizacijskaJedinicaDtoList;
@@ -93,7 +95,7 @@ public class DogadajiController implements Serializable {
         try {
             if (dogadajDto != null) {
                 if (dogadajDto.getSifraDogadaja() != null) {
-                    dogadajSessionBean.editDogadaj(dogadajDto);
+                    dogadajSessionBean.editDogadaj(dogadajDto, logedUser);
                     addMessage("Događaj " + dogadajDto.getSifraDogadaja() + " je uspješno ažuriran.", DogadajAppConstants.SEVERITY_INFO);
                 } else {
                     //create
@@ -186,6 +188,9 @@ public class DogadajiController implements Serializable {
         getDogadajDto().setVrijemeDo(null);
         getDogadajDto().setGradDogadajaDto(new GradDto());
         getDogadajDto().setSlobodanUlaz("false");
+        KorisnikDto kreatorDogadaja = new KorisnikDto();
+        kreatorDogadaja.setKorisnickoIme(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        getDogadajDto().setKreatorDogadaja(kreatorDogadaja);
         resetFilterDto();
     }
 
@@ -247,6 +252,7 @@ public class DogadajiController implements Serializable {
         KorisnikDto kreatorDogadaja = new KorisnikDto();
         kreatorDogadaja.setKorisnickoIme(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         dogadajDto.setKreatorDogadaja(kreatorDogadaja);
+        logedUser =  FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
     }
 
     /*
@@ -276,6 +282,10 @@ public class DogadajiController implements Serializable {
         //velcina grada
         velicinaGradaDtoList.stream()
                 .forEach(velicinaGradaDto -> velicinaGradaFilterSelectItems.add(new SelectItem(velicinaGradaDto.getSifraVelicineGrada(), velicinaGradaDto.getNazivVelicineGrada())));
+
+        //kretor- filter
+        kreatorFilterSelectItems.add(new SelectItem(logedUser, "ja"));
+        kreatorFilterSelectItems.add(new SelectItem(null, "svi"));
     }
 
     public void addMessage(String summary, String severity) {
@@ -394,5 +404,21 @@ public class DogadajiController implements Serializable {
 
     public void setVelicinaGradaDtoList(List<VelicinaGradaDto> velicinaGradaDtoList) {
         this.velicinaGradaDtoList = velicinaGradaDtoList;
+    }
+
+    public String getLogedUser() {
+        return logedUser;
+    }
+
+    public void setLogedUser(String logedUser) {
+        this.logedUser = logedUser;
+    }
+
+    public List<SelectItem> getKreatorFilterSelectItems() {
+        return kreatorFilterSelectItems;
+    }
+
+    public void setKreatorFilterSelectItems(List<SelectItem> kreatorFilterSelectItems) {
+        this.kreatorFilterSelectItems = kreatorFilterSelectItems;
     }
 }
