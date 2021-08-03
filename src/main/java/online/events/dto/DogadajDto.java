@@ -16,6 +16,7 @@ public class DogadajDto implements Serializable {
     private LocalDateTime vrijemeOd;
     private LocalDateTime vrijemeDo;
     private String slobodanUlaz;
+    private KorisnikDto kreatorDogadaja;
 
     // constructors
     public DogadajDto() {
@@ -71,4 +72,11 @@ public class DogadajDto implements Serializable {
         this.slobodanUlaz = slobodanUlaz;
     }
 
+    public KorisnikDto getKreatorDogadaja() {
+        return kreatorDogadaja;
+    }
+
+    public void setKreatorDogadaja(KorisnikDto kreatorDogadaja) {
+        this.kreatorDogadaja = kreatorDogadaja;
+    }
 }

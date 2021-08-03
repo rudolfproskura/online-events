@@ -244,6 +244,9 @@ public class DogadajiController implements Serializable {
     private void initializeDogadajDto() {
         dogadajDto = new DogadajDto();
         dogadajDto.setGradDogadajaDto(new GradDto());
+        KorisnikDto kreatorDogadaja = new KorisnikDto();
+        kreatorDogadaja.setKorisnickoIme(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        dogadajDto.setKreatorDogadaja(kreatorDogadaja);
     }
 
     /*

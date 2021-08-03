@@ -12,11 +12,7 @@ import javax.persistence.*;
 public class Korisnik {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sifra", nullable = false)
-    private Integer sifra;
-
-    @Column(name = "korisnicko_ime", nullable = false, length = 50)
+    @Column(name = "korisnicko_ime", nullable = false, length = 20)
     private String korisnicko_ime;
 
     @Column(name = "ime", nullable = false, length = 50)
@@ -32,10 +28,8 @@ public class Korisnik {
     private String email;
 
 
-
-    @JoinColumn(name = "tip", referencedColumnName = "sifra")
-    @ManyToOne
-    private TipKorisnika tipKorisnika;
+    @Column(name = "tip_korisnika", nullable = false, length = 50)
+     private String tipKorisnika;
 
     //constructors
     public Korisnik() {
@@ -43,14 +37,6 @@ public class Korisnik {
     }
 
     //getters & setters
-
-    public Integer getSifra() {
-        return sifra;
-    }
-
-    public void setSifra(Integer sifra) {
-        this.sifra = sifra;
-    }
 
     public String getKorisnicko_ime() {
         return korisnicko_ime;
@@ -92,11 +78,11 @@ public class Korisnik {
         this.email = email;
     }
 
-    public TipKorisnika getTipKorisnika() {
+    public String getTipKorisnika() {
         return tipKorisnika;
     }
 
-    public void setTipKorisnika(TipKorisnika tipKorisnika) {
+    public void setTipKorisnika(String tipKorisnika) {
         this.tipKorisnika = tipKorisnika;
     }
 }

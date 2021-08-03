@@ -5,6 +5,7 @@ import online.events.dto.*;
 import online.events.exception.DogadajAppRuleException;
 import online.events.model.Dogadaj;
 import online.events.model.Grad;
+import online.events.model.Korisnik;
 import online.events.util.DogadajAppConstants;
 import online.events.util.DogadajAppUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +35,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
     private static final int IDX_ZUPANIJA_NAZIV = 7;
     private static final int IDX_REGIJA_NAZIV = 8;
     private static final int IDX_GRAD_SIFRA = 9;
+    private static final int IDX_KREATOR_USERNAME = 10;
+
 
     @Override
     protected Dogadaj formEntity(DogadajDto dto) {
@@ -57,6 +60,11 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                     entity.setSlobodanUlaz(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA);
                 }
             }
+            if (dto.getKreatorDogadaja() != null) {
+                Korisnik korisnik = new Korisnik();
+                korisnik.setKorisnicko_ime(dto.getKreatorDogadaja().getKorisnickoIme());
+                entity.setKreator(korisnik);
+            }
         }
         return entity;
     }
@@ -73,6 +81,11 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 dogadajDto.setVrijemeOd(dogadajEntity.getVrijemeOd());
                 dogadajDto.setVrijemeDo(dogadajEntity.getVrijemeDo());
                 dogadajDto.setSlobodanUlaz(dogadajEntity.getSlobodanUlaz());
+                //kreator dogadaja
+                if (dogadajEntity.getKreator() != null) {
+                    KorisnikDto korisnikDto = new KorisnikDto();
+                    korisnikDto.setKorisnickoIme(dogadajEntity.getKreator().getKorisnicko_ime());
+                }
                 //grad dogadaja
                 if (dogadajEntity.getGrad() != null) {
                     GradDto gradDto = new GradDto();
@@ -132,6 +145,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 organizacijskaJedinicaDto.setNadredenaOrganizacijeDto(nadredenaOrganizacijskaJedinicaDto);
                 gradDto.setOrganizacijskaJedinicaDto(organizacijskaJedinicaDto);
                 dogadajDto.setGradDogadajaDto(gradDto);
+                //kreator
+                KorisnikDto kreatorDogadajaDto = new KorisnikDto();
+                kreatorDogadajaDto.setKorisnickoIme((String) entity[IDX_KREATOR_USERNAME]);
+                dogadajDto.setKreatorDogadaja(kreatorDogadajaDto);
             }
         }
         return dogadajDto;
@@ -173,6 +190,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (StringUtils.isBlank(dogadajDto.getSlobodanUlaz())) {
             hasError = true;
             messages.add("Događaj nema odabran način ulaza!");
+        }
+        if (dogadajDto.getKreatorDogadaja() == null || StringUtils.isBlank(dogadajDto.getKreatorDogadaja().getKorisnickoIme())) {
+            hasError = true;
+            messages.add("Događaj nema unesenog kreatora!");
         }
         if (hasError && !messages.isEmpty()) {
             throw new DogadajAppRuleException(messages);
@@ -277,12 +298,13 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
     private List<Object[]> formAndExecuteFilterSql(DogadajFilterDto filterDto) {
         List<Object[]> resultList = null;
 
-        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag from online_events.dogadaj dog " +
+        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag, dog.kreator from online_events.dogadaj dog " +
                 "join online_events.grad grad on grad.sifra = dog.grad " +
                 "join online_events.velicina_grada vel_gr on vel_gr.sifra = grad.velicina " +
                 "join online_events.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica " +
                 "join online_events.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica ";
-        if (filterDto.getKorisnik() != null) sql = sql + "join online_events.korisnik_dogadaj korisnik_dogadaj on korisnik_dogadaj.dogadaj = dog.sifra ";
+        if (filterDto.getKorisnik() != null)
+            sql = sql + "join online_events.korisnik_dogadaj korisnik_dogadaj on korisnik_dogadaj.dogadaj = dog.sifra ";
         sql = sql + "where 1 = 1 ";
         //where dio
         if (filterDto.getSifraDogadaja() != null) sql = sql + "and dog.sifra = :sifraDogadaja ";

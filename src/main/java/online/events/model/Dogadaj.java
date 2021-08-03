@@ -36,6 +36,10 @@ public class Dogadaj {
     @Column(name = "slobodan_ulaz", nullable = false, length = 250)
     private String slobodanUlaz;
 
+    @JoinColumn(name = "kreator", referencedColumnName = "korisnicko_ime")
+    @ManyToOne
+    private Korisnik kreator;
+
     //constructors
     public Dogadaj() {
         super();
@@ -88,5 +92,13 @@ public class Dogadaj {
 
     public void setSlobodanUlaz(String slobodanUlaz) {
         this.slobodanUlaz = slobodanUlaz;
+    }
+
+    public Korisnik getKreator() {
+        return kreator;
+    }
+
+    public void setKreator(Korisnik kreator) {
+        this.kreator = kreator;
     }
 }

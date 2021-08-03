@@ -18,6 +18,7 @@ public class DogadajFilterDto implements Serializable {
     private Integer sifraGrada;
     private String nazivGrada;
     private Integer velicinaGrada;
+    private String kreator;
 
     //razdoblje pocetka
     private LocalDateTime vrijemeOdPocetak;
@@ -190,5 +191,13 @@ public class DogadajFilterDto implements Serializable {
 
     public void setKorisnik(Integer korisnik) {
         this.korisnik = korisnik;
+    }
+
+    public String getKreator() {
+        return kreator;
+    }
+
+    public void setKreator(String kreator) {
+        this.kreator = kreator;
     }
 }

@@ -19,7 +19,8 @@
             <p:menuitem value="Kalendar" icon="pi pi-fw pi-home"
                         url="http://localhost:9080/online-events/welcome.xhtml"/>
             <p:menuitem value="Pretraga" icon="pi pi-fw pi-filter"
-                        url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"/>
+                        url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer')}"/>
             <f:facet name="options">
                   <span class="ui-input-icon-left">
                     <i class="pi pi-user pi-user" />
@@ -84,6 +85,10 @@
                                        onLabel="Da"
                                        offLabel="Ne"
                                        style="width:60px"/>
+                <p:outputLabel for="kretorDogadaja" value="Kreator događaja:   "/>
+                <p:inputText id="kretorDogadaja"
+                             value="#{dogadajiController.dogadajDto.kreatorDogadaja.korisnickoIme}"
+                             readonly="true" disabled="true"/>
                 <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
                                  update="panelGridInputForm, filterAdvanced" icon="pi pi-replay"/>
@@ -230,6 +235,10 @@
                     <p:column headerText="Regija">
                         <h:outputText
                                 value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nadredenaOrganizacijeDto.nazivOrgJedinice}"/>
+                    </p:column>
+                    <p:column headerText="Kreator">
+                        <h:outputText
+                                value="#{filterDogadajDto.kreatorDogadaja.korisnickoIme}"/>
                     </p:column>
                 </p:dataTable>
             </h:panelGrid>
