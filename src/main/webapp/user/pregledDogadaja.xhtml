@@ -39,13 +39,31 @@
             list: 'Pregled rasporeda'
         };
     </script>
-    <h:form>
+
+
+    <form id="logout" action="ibm_security_logout" method="post">
+        <p:menubar>
+            <p:menuitem value="Kalendar" icon="pi pi-fw pi-home"
+                        url="http://localhost:9080/online-events/welcome.xhtml"/>
+            <p:menuitem value="Pretraga" icon="pi pi-fw pi-filter"
+                        url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"/>
+            <f:facet name="options">
+                <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
+                                    <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"
+                                              onclick="document.getElementById('logout').submit()"/>
+<!--                <a href="#" onclick="document.getElementById('logout').submit()">Logout</a>-->
+            </f:facet>
+
+        </p:menubar>
+    </form>
+
+    <h:form id="mainForm">
         <p:panel id="panel_filter2" header="Pretraga događaja" style="margin-bottom:5px" toggleable="false"
                  toggleSpeed="500" closeSpeed="500" toggleableHeader="true" collapsed="false" widgetVar="widgetFilter">
 
 
             <h:panelGrid columns="2" id="inputFormPanelGrid">
-                <h:panelGrid columns="2" >
+                <h:panelGrid columns="2">
                     <p:outputLabel for="nazivDogadajaFilter" value="Naziv događaja:   "/>
                     <p:inputTextarea id="nazivDogadajaFilter"
                                      value="#{dogadajiController.dogadajFilterDto.nazivDogadaja}"
@@ -82,7 +100,7 @@
                 </h:panelGrid>
                 <h:panelGrid columns="2">
                     <h:outputLabel for="sifraFilter" value="Šifra događaja:"/>
-                    <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}" />
+                    <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}"/>
 
                     <h:outputLabel for="regijaFilter" value="Regija:"/>
                     <p:selectCheckboxMenu id="regijaFilter"
@@ -184,48 +202,50 @@
 
         <p:panel id="panel_unos" header="Pregled događaja" style="margin-bottom:5px" toggleable="true"
                  toggleSpeed="500" toggleableHeader="true" widgetVar="widgetInput">
-                <p:growl id="messages" showDetail="true"/>
+            <p:growl id="messages" showDetail="true"/>
 
-                <p:schedule id="schedule" value="#{pregledDogadajaController.eventModel}" widgetVar="myschedule"
-                            locale="hr">
-                    <p:ajax event="dateSelect" listener="#{pregledDogadajaController.onDateSelect}"
-                            update="eventDetails"
-                            oncomplete="PF('eventDialog').show();"/>
-                    <p:ajax event="eventSelect" listener="#{pregledDogadajaController.onEventSelect}"
-                            update="eventDetails"
-                            oncomplete="PF('eventDialog').show();"/>
-                    <p:ajax event="eventMove" listener="#{pregledDogadajaController.onEventMove}" update="messages"/>
-                    <p:ajax event="eventResize" listener="#{pregledDogadajaController.onEventResize}"
-                            update="messages"/>
-                </p:schedule>
+            <p:schedule id="schedule" value="#{pregledDogadajaController.eventModel}" widgetVar="myschedule"
+                        locale="hr">
+                <p:ajax event="dateSelect" listener="#{pregledDogadajaController.onDateSelect}"
+                        update="eventDetails"
+                        oncomplete="PF('eventDialog').show();"/>
+                <p:ajax event="eventSelect" listener="#{pregledDogadajaController.onEventSelect}"
+                        update="eventDetails"
+                        oncomplete="PF('eventDialog').show();"/>
+                <p:ajax event="eventMove" listener="#{pregledDogadajaController.onEventMove}" update="messages"/>
+                <p:ajax event="eventResize" listener="#{pregledDogadajaController.onEventResize}"
+                        update="messages"/>
+            </p:schedule>
 
-                <p:dialog widgetVar="eventDialog" header="Detalji događaja" showEffect="fade" hideEffect="fade">
-                    <h:panelGrid id="eventDetails" columns="2" cellpadding="7">
-                        <p:outputLabel for="title" value="Naziv" styleClass="p-text-bold"/>
-                        <p:inputText id="title" value="#{pregledDogadajaController.event.title}" required="true" disabled="true"/>
+            <p:dialog widgetVar="eventDialog" header="Detalji događaja" showEffect="fade" hideEffect="fade">
+                <h:panelGrid id="eventDetails" columns="2" cellpadding="7">
+                    <p:outputLabel for="title" value="Naziv" styleClass="p-text-bold"/>
+                    <p:inputText id="title" value="#{pregledDogadajaController.event.title}" required="true"
+                                 disabled="true"/>
 
-                        <p:outputLabel for="from" value="Od" styleClass="p-text-bold"/>
-                        <p:datePicker id="from" value="#{pregledDogadajaController.event.startDate}"
-                                      pattern="dd/MM/yyyy"
-                                      showTime="true" appendTo="@(body)"
-                                      disabled="true"/>
+                    <p:outputLabel for="from" value="Od" styleClass="p-text-bold"/>
+                    <p:datePicker id="from" value="#{pregledDogadajaController.event.startDate}"
+                                  pattern="dd/MM/yyyy"
+                                  showTime="true" appendTo="@(body)"
+                                  disabled="true"/>
 
-                        <p:outputLabel for="to" value="Do" styleClass="p-text-bold"/>
-                        <p:datePicker id="to" value="#{pregledDogadajaController.event.endDate}" pattern="dd/MM/yyyy"
-                                      showTime="true" appendTo="@(body)"
-                                      disabled="true"
-                        />
+                    <p:outputLabel for="to" value="Do" styleClass="p-text-bold"/>
+                    <p:datePicker id="to" value="#{pregledDogadajaController.event.endDate}" pattern="dd/MM/yyyy"
+                                  showTime="true" appendTo="@(body)"
+                                  disabled="true"
+                    />
 
-                        <p:outputLabel for="description" value="Mjesto održavanja:" styleClass="p-text-bold"/>
-                        <p:inputTextarea id="description" value="#{pregledDogadajaController.event.description}" disabled="true"/>
-                    </h:panelGrid>
+                    <p:outputLabel for="description" value="Mjesto održavanja:" styleClass="p-text-bold"/>
+                    <p:inputTextarea id="description" value="#{pregledDogadajaController.event.description}"
+                                     disabled="true"/>
+                </h:panelGrid>
 
-<!--                    <div class="p-d-flex p-jc-between p-mt-3">-->
-<!--                        <p:commandButton type="reset" value="Reset" styleClass="p-text-bold ui-button-outlined"/>-->
-<!--                        <p:commandButton id="addButton" value="Save" action="#{pregledDogadajaController.addEvent}"-->
-<!--                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>-->
-<!--                    </div>-->
-                </p:dialog>
+                <!--                    <div class="p-d-flex p-jc-between p-mt-3">-->
+                <!--                        <p:commandButton type="reset" value="Reset" styleClass="p-text-bold ui-button-outlined"/>-->
+                <!--                        <p:commandButton id="addButton" value="Save" action="#{pregledDogadajaController.addEvent}"-->
+                <!--                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>-->
+                <!--                    </div>-->
+            </p:dialog>
 
         </p:panel>
     </h:form>

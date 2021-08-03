@@ -11,8 +11,8 @@
 
 <h:body>
 
-    <h:form>
-        <div class="p-mb-3 p-text-center"
+    <h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
+    <div class="p-mb-3 p-text-center"
              style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!
         </div>
 
@@ -36,20 +36,31 @@
 
         <p:dialog header="Login" widgetVar="dlg" resizable="false" >
             <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="username" value="Korisničko ime:" />
-                <p:inputText id="username" value="#{welcomeController.username}" required="true" label="username" />
+                <h:outputLabel for="j_username" value="Korisničko ime:" />
+                <p:inputText id="j_username" name="j_username" />
 
-                <h:outputLabel for="password" value="Lozinka:" />
-                <p:password id="password" value="#{welcomeController.password}" required="true" label="password" />
+                <h:outputLabel for="j_password" value="Lozinka:" />
+                <p:password id="j_password" name="j_password" autocomplete="false"/>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Login" action="#{welcomeController.login}"/>
+                    <p:commandButton id="submit" value="Login" ajax="false"/>
                 </f:facet>
             </h:panelGrid>
         </p:dialog>
 
 
     </h:form>
+
+    <script type="text/javascript">
+        // Force safari to refresh the page
+        // if a cached copy was loaded
+        // from the browser back-forward cache.
+        window.onpageshow = function(e) {
+            if (e.persisted) {
+                window.location.reload();
+            }
+        }
+    </script>
 
 </h:body>
 </html>

@@ -31,6 +31,13 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
+    <welcome-file-list>
+        <welcome-file>/welcome.html</welcome-file>
+    </welcome-file-list>
+
+    <session-config>
+        <session-timeout>2</session-timeout>
+    </session-config>
 
     <!-- SECURITY ROLES -->
     <security-role>
@@ -38,44 +45,44 @@
     </security-role>
 
     <security-role>
-        <role-name>organizator</role-name>
+        <role-name>organizer</role-name>
     </security-role>
 
     <security-role>
-        <role-name>korisnik</role-name>
+        <role-name>user</role-name>
     </security-role>
 
     <!-- SECURITY CONSTRAINTS -->
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>AdminViewProperties</web-resource-name>-->
+<!--            <url-pattern>/admin.jsf</url-pattern>-->
+<!--            <http-method>GET</http-method>-->
+<!--        </web-resource-collection>-->
+<!--        <auth-constraint>-->
+<!--            <role-name>admin</role-name>-->
+<!--        </auth-constraint>-->
+<!--    </security-constraint>-->
+
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>AdminViewProperties</web-resource-name>
-            <url-pattern>/admin.jsf</url-pattern>
-            <http-method>GET</http-method>
+            <web-resource-name>OrganizerViewProperties</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+<!--            <http-method>GET</http-method>-->
         </web-resource-collection>
         <auth-constraint>
-            <role-name>admin</role-name>
+            <role-name>organizer</role-name>
         </auth-constraint>
     </security-constraint>
 
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>UserViewProperties</web-resource-name>
-            <url-pattern>/user.jsf</url-pattern>
-            <http-method>GET</http-method>
+            <url-pattern>/user/*</url-pattern>
+<!--            <http-method>GET</http-method>-->
         </web-resource-collection>
         <auth-constraint>
-            <role-name>organizator</role-name>
-        </auth-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>UserViewProperties</web-resource-name>
-            <url-pattern>/user.jsf</url-pattern>
-            <http-method>GET</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>korisnik</role-name>
+            <role-name>user</role-name>
         </auth-constraint>
     </security-constraint>
     <deny-uncovered-http-methods/>
