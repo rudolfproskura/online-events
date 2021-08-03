@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/home")
 @FormAuthenticationMechanismDefinition(
         loginToContinue = @LoginToContinue(errorPage = "/error.xhtml",
-                loginPage = "/welcome.xhtml"))
+                loginPage = "/login.xhtml"))
 @ServletSecurity(value = @HttpConstraint(rolesAllowed = {"user", "organizer", "admin"}, transportGuarantee = ServletSecurity.TransportGuarantee.NONE))
 public class HomeServlet extends HttpServlet {
 
@@ -29,15 +29,12 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (securityContext.isCallerInRole("admin")) {
-            response.sendRedirect("/admin/upravljanjeDogadajima.xhtml");
+            response.sendRedirect("/online-events/secured/admin/upravljanjeDogadajima.xhtml");
         } else if (securityContext.isCallerInRole("organizer")) {
-            response.sendRedirect("/admin/upravljanjeDogadajima.xhtml");
+            response.sendRedirect("/online-events/secured/admin/upravljanjeDogadajima.xhtml");
         } else if (securityContext.isCallerInRole("user")) {
-            response.sendRedirect("/online-events/user/pregledDogadaja.xhtml");
-        } else {
-            response.sendRedirect("/online-events/welcome.xhtml");
+            response.sendRedirect("/online-events/secured/user/pregledDogadaja.xhtml");
         }
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -14,7 +14,24 @@
 </h:head>
 
 <h:body>
-    <h:form>
+    <form id="logout" action="ibm_security_logout" method="post">
+        <p:menubar>
+            <p:menuitem value="Kalendar" icon="pi pi-fw pi-home"
+                        url="http://localhost:9080/online-events/welcome.xhtml"/>
+            <p:menuitem value="Pretraga" icon="pi pi-fw pi-filter"
+                        url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"/>
+            <f:facet name="options">
+                <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
+                <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"
+                          onclick="document.getElementById('logout').submit()"/>
+                <!--                <a href="#" onclick="document.getElementById('logout').submit()">Logout</a>-->
+            </f:facet>
+
+        </p:menubar>
+    </form>
+
+
+    <h:form id="mainForm">
         <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-bottom:5px" toggleable="true" toggleSpeed="500"
                  toggleableHeader="true" widgetVar="widgetInput">
             <h:panelGrid>

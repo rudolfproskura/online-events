@@ -11,7 +11,7 @@
 
 <h:body>
 
-    <h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
+    <h:form id="login">
     <div class="p-mb-3 p-text-center"
              style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!
         </div>
@@ -26,9 +26,13 @@
                 <p:graphicImage library="images" name="events_calendar.jpg"/>
             </p:link>
             <p:graphicImage library="images" name="blank.png"/>
-            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
-                <p:graphicImage library="images" name="login_home.png" />
-            </h:outputLink>
+            <p:link id="login_CL" href="http://localhost:9080/online-events/home">
+                <p:graphicImage library="images" name="login_home.png"/>
+            </p:link>
+
+<!--            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">-->
+<!--                <p:graphicImage library="images" name="login_home.png" />-->
+<!--            </h:outputLink>-->
 
         </div>
 

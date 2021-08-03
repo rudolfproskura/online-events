@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+    <title></title>
+</head>
+<body>
+<h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
+<h:panelGrid columns="2" cellpadding="5">
+    <h:outputLabel for="j_username" value="Korisničko ime:"/>
+    <p:inputText id="j_username" name="j_username"/>
+
+    <h:outputLabel for="j_password" value="Lozinka:"/>
+    <p:password id="j_password" name="j_password" autocomplete="false"/>
+
+    <f:facet name="footer">
+        <p:commandButton id="submit" value="Login" ajax="false"/>
+    </f:facet>
+</h:panelGrid>
+</h:form>
+</body>
+</html>
