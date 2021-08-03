@@ -48,10 +48,15 @@
             <p:menuitem value="Pretraga" icon="pi pi-fw pi-filter"
                         url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"/>
             <f:facet name="options">
+                <span class="ui-input-icon-left">
+                    <i class="pi pi-user pi-user" />
+                    <p:inputText value="#{request.remoteUser}" readonly="true"/>
+                </span>
+<!--                <p:inputText value="#{request.remoteUser}" disabled="true"/>-->
                 <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
-                                    <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"
-                                              onclick="document.getElementById('logout').submit()"/>
-<!--                <a href="#" onclick="document.getElementById('logout').submit()">Logout</a>-->
+                <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"
+                          onclick="document.getElementById('logout').submit()"/>
+                <!--                <a href="#" onclick="document.getElementById('logout').submit()">Logout</a>-->
             </f:facet>
 
         </p:menubar>
