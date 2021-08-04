@@ -52,13 +52,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 grad.setSifraGrada(dto.getGradDogadajaDto().getSifraGrada());
                 entity.setGrad(grad);
             }
-            if (StringUtils.isNotBlank(dto.getSlobodanUlaz())) {
-                if (dto.getSlobodanUlaz().equals(DogadajAppConstants.DTO_SLOBODAN_ULAZ_FALSE) || dto.getSlobodanUlaz().equals(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_NE)) {
+            if (dto.getSlobodanUlazBoolen()) {
+                entity.setSlobodanUlaz(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA);
+            } else {
                     entity.setSlobodanUlaz(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_NE);
-                }
-                if (dto.getSlobodanUlaz().equals(DogadajAppConstants.DTO_SLOBODAN_ULAZ_TRUE) || dto.getSlobodanUlaz().equals(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA)) {
-                    entity.setSlobodanUlaz(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA);
-                }
             }
             if (dto.getKreatorDogadaja() != null) {
                 Korisnik korisnik = new Korisnik();
@@ -81,6 +78,11 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 dogadajDto.setVrijemeOd(dogadajEntity.getVrijemeOd());
                 dogadajDto.setVrijemeDo(dogadajEntity.getVrijemeDo());
                 dogadajDto.setSlobodanUlaz(dogadajEntity.getSlobodanUlaz());
+                if (StringUtils.equals(dogadajDto.getSlobodanUlaz(), DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA)) {
+                    dogadajDto.setSlobodanUlazBoolen(true);
+                } else {
+                    dogadajDto.setSlobodanUlazBoolen(false);
+                }
                 //kreator dogadaja
                 if (dogadajEntity.getKreator() != null) {
                     KorisnikDto korisnikDto = new KorisnikDto();
@@ -128,6 +130,11 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 if (entity[IDX_DOGADAJ_VRIJEME_DO] != null)
                     dogadajDto.setVrijemeDo(((Timestamp) entity[IDX_DOGADAJ_VRIJEME_DO]).toLocalDateTime());
                 dogadajDto.setSlobodanUlaz((String) entity[IDX_DOGADAJ_SLOBODAN_ULAZ]);
+                if (StringUtils.equals(dogadajDto.getSlobodanUlaz(), DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA)) {
+                    dogadajDto.setSlobodanUlazBoolen(true);
+                } else {
+                    dogadajDto.setSlobodanUlazBoolen(false);
+                }
                 //grad
                 GradDto gradDto = new GradDto();
                 gradDto.setNazivGrada((String) entity[IDX_GRAD_NAZIV]);
@@ -187,7 +194,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             hasError = true;
             messages.add("Događaj nama odabran grad!");
         }
-        if (StringUtils.isBlank(dogadajDto.getSlobodanUlaz())) {
+        if (dogadajDto.getSlobodanUlazBoolen() == null) {
             hasError = true;
             messages.add("Događaj nema odabran način ulaza!");
         }
@@ -232,7 +239,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             hasError = true;
             messages.add("Događaj nema odabran grad!");
         }
-        if (StringUtils.isBlank(dogadajDto.getSlobodanUlaz())) {
+        if (dogadajDto.getSlobodanUlazBoolen() == null) {
             hasError = true;
             messages.add("Događaj nema odabran način ulaza!");
         }

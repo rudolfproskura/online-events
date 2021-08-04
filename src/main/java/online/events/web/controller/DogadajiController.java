@@ -187,7 +187,7 @@ public class DogadajiController implements Serializable {
         getDogadajDto().setVrijemeOd(null);
         getDogadajDto().setVrijemeDo(null);
         getDogadajDto().setGradDogadajaDto(new GradDto());
-        getDogadajDto().setSlobodanUlaz("false");
+        getDogadajDto().setSlobodanUlazBoolen(true);
         KorisnikDto kreatorDogadaja = new KorisnikDto();
         kreatorDogadaja.setKorisnickoIme(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         getDogadajDto().setKreatorDogadaja(kreatorDogadaja);
@@ -248,6 +248,7 @@ public class DogadajiController implements Serializable {
      */
     private void initializeDogadajDto() {
         dogadajDto = new DogadajDto();
+        dogadajDto.setSlobodanUlazBoolen(true);
         dogadajDto.setGradDogadajaDto(new GradDto());
         KorisnikDto kreatorDogadaja = new KorisnikDto();
         kreatorDogadaja.setKorisnickoIme(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());

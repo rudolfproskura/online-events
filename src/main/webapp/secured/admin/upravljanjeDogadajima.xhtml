@@ -96,9 +96,10 @@
 
                 <h:outputText value="Slobodan ulaz: "/>
                 <p:selectBooleanButton id="value1"
-                                       value="#{dogadajiController.dogadajDto.slobodanUlaz}"
+                                       value="#{dogadajiController.dogadajDto.slobodanUlazBoolen}"
                                        onLabel="Da"
                                        offLabel="Ne"
+                                       onIcon="pi pi-check" offIcon="pi pi-times"
                                        style="width:60px"/>
                 <p:outputLabel for="kretorDogadaja" value="Kreator događaja:   "/>
                 <p:inputText id="kretorDogadaja"
@@ -147,7 +148,7 @@
                                 locale="de" pattern="dd.MM.yyyy HH:mm">
                         <f:converter converterId="LocalDateConverter"/>
                     </p:calendar>
-                    <p:outputLabel for="ulazSlobodanFilter" value="Ulaz slobodan:   "/>
+                    <p:outputLabel for="ulazSlobodanFilter" value="Slobodan ulaz:   "/>
                     <p:selectOneMenu id="ulazSlobodanFilter" value="#{dogadajiController.dogadajFilterDto.slobodanUlaz}"
                                      filter="false" style="width:100px">
                         <f:selectItems value="#{dogadajiController.slobodanUlazFilterSelectItems}"/>
