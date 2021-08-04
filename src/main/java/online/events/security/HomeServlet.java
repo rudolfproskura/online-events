@@ -33,7 +33,7 @@ public class HomeServlet extends HttpServlet {
         } else if (securityContext.isCallerInRole("organizer")) {
             response.sendRedirect("/online-events/secured/admin/upravljanjeDogadajima.xhtml");
         } else if (securityContext.isCallerInRole("user")) {
-            response.sendRedirect("/online-events/secured/user/pregledDogadaja.xhtml");
+            response.sendRedirect("/online-events/secured/user/pretragaPregledDogadaja.xhtml");
         }
     }
 
