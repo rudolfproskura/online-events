@@ -2,10 +2,7 @@ package online.events.web.controller;
 
 
 import online.events.bean.IDogadajSessionBean;
-import online.events.dao.DogadajDao;
-import online.events.dao.GradDao;
-import online.events.dao.OrganizacijskaJedinicaDao;
-import online.events.dao.VelicinaGradaDao;
+import online.events.dao.*;
 import online.events.dto.*;
 import online.events.exception.DogadajAppRuleException;
 import online.events.util.DogadajAppConstants;
@@ -118,6 +115,16 @@ public class PretragaPregledDogadajaController implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             addMessage("Došlo je do greške prilikom kreiranja/ažuriranja događaja.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+    public void dodajUKalendar(String korisnik, Integer dogadaj) {
+        try {
+            dogadajSessionBean.createKorisnikDogadaj(korisnik, dogadaj);
+            addMessage("Događaj je dodan u kalendar.", DogadajAppConstants.SEVERITY_INFO);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom dodavanja doađaja u kalendar.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
 

@@ -200,14 +200,18 @@
                                 value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nadredenaOrganizacijeDto.nazivOrgJedinice}"/>
                     </p:column>
                     <p:column headerText="Kalendar" exportable="false">
-                        <p:commandButton icon="pi pi-pencil"
-                                         styleClass="edit-button rounded-button ui-button-success">
-<!--                            <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>-->
+                        <p:commandButton icon="pi pi-pencil" title="Dodaj u moj kalendar"
+                                         styleClass="edit-button rounded-button ui-button-success"
+                                         rendered="#{filterDogadajDto.korisnikDogadaj == null or !filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }"
+                                         actionListener="#{pretragaPregledDogadajaController.dodajUKalendar(request.remoteUser, filterDogadajDto.sifraDogadaja)}" >
+
+                        <!--                            <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>-->
 <!--                            <p:resetInput target=":form:manage-product-content"/>-->
                         </p:commandButton>
-                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" />
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Makni iz mojeg kalendara"
+                                         rendered="#{filterDogadajDto.korisnikDogadaj != null and filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }">
 
-<!--                        </p:commandButton>-->
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
             </h:panelGrid>

@@ -3,6 +3,7 @@ package online.events.bean;
 
 
 import online.events.dao.DogadajDao;
+import online.events.dao.KorisnikDogadajDao;
 import online.events.dto.DogadajDto;
 import online.events.exception.DogadajAppRuleException;
 
@@ -20,6 +21,9 @@ public class DogadajSessionBean implements IDogadajSessionBean {
 
     @Inject
     private DogadajDao dogadajDao;
+
+    @Inject
+    private KorisnikDogadajDao korisnikDogadajDao;
 
 
     /**
@@ -41,5 +45,10 @@ public class DogadajSessionBean implements IDogadajSessionBean {
     public void editDogadaj(DogadajDto dogadajDto, String logedUser) throws DogadajAppRuleException {
         dogadajDao.edit(dogadajDto, logedUser);
     }
+
+    public void createKorisnikDogadaj(String korisnik, Integer dogadaj) throws DogadajAppRuleException {
+        korisnikDogadajDao.createKorisnikDogadaj(korisnik, dogadaj);
+    }
+
 
 }
