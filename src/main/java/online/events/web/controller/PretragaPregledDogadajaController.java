@@ -52,6 +52,7 @@ public class PretragaPregledDogadajaController implements Serializable {
     private List<SelectItem> regijaFilterSelectItems = new ArrayList<>();
     private List<SelectItem> velicinaGradaFilterSelectItems = new ArrayList<>();
     private List<SelectItem> kreatorFilterSelectItems = new ArrayList<>();
+    private List<SelectItem> kalendarFilterSelectItems = new ArrayList<>();
 
     //pune se kod inita
     private List<OrganizacijskaJedinicaDto> organizacijskaJedinicaDtoList;
@@ -85,6 +86,7 @@ public class PretragaPregledDogadajaController implements Serializable {
         getSelectItems();
         //initialization
         dogadajFilterDto = new DogadajFilterDto();
+        dogadajFilterDto.setLoggedUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
     }
 
     /*
@@ -174,6 +176,7 @@ public class PretragaPregledDogadajaController implements Serializable {
         dogadajFilterDto.setOdabraneVelicineGrada(null);
         dogadajFilterDto.setOdabraniGradovi(null);
         dogadajFilterDto.setOdabraneZupanije(null);
+        dogadajFilterDto.setDodaniUKalendar(null);
         dogadajiFilterList = null;
     }
 
@@ -286,6 +289,10 @@ public class PretragaPregledDogadajaController implements Serializable {
         //kretor- filter
         kreatorFilterSelectItems.add(new SelectItem(logedUser, "ja"));
         kreatorFilterSelectItems.add(new SelectItem(null, "svi"));
+        //kalendar - filter
+        kalendarFilterSelectItems.add(new SelectItem(null, "svi"));
+        kalendarFilterSelectItems.add(new SelectItem("ADDED_TO_CAL", "dodani u moj kalendar"));
+        kalendarFilterSelectItems.add(new SelectItem("NOT_ADDED_TO_CAL", "nisu dodani u moj kalendar"));
     }
 
     public void addMessage(String summary, String severity) {
@@ -420,5 +427,13 @@ public class PretragaPregledDogadajaController implements Serializable {
 
     public void setKreatorFilterSelectItems(List<SelectItem> kreatorFilterSelectItems) {
         this.kreatorFilterSelectItems = kreatorFilterSelectItems;
+    }
+
+    public List<SelectItem> getKalendarFilterSelectItems() {
+        return kalendarFilterSelectItems;
+    }
+
+    public void setKalendarFilterSelectItems(List<SelectItem> kalendarFilterSelectItems) {
+        this.kalendarFilterSelectItems = kalendarFilterSelectItems;
     }
 }

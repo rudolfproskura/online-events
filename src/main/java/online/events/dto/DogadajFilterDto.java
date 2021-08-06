@@ -19,6 +19,8 @@ public class DogadajFilterDto implements Serializable {
     private String nazivGrada;
     private Integer velicinaGrada;
     private String kreator;
+    private String dodaniUKalendar;
+    private String loggedUser;
 
     //razdoblje pocetka
     private LocalDateTime vrijemeOdPocetak;
@@ -37,7 +39,6 @@ public class DogadajFilterDto implements Serializable {
     private String[] odabraneZupanije;
     private String[] odabraneVelicineGrada;
 
-    private Integer korisnik;
 
     // constructors
     public DogadajFilterDto() {
@@ -185,19 +186,27 @@ public class DogadajFilterDto implements Serializable {
         this.sifraDogadaja = sifraDogadaja;
     }
 
-    public Integer getKorisnik() {
-        return korisnik;
-    }
-
-    public void setKorisnik(Integer korisnik) {
-        this.korisnik = korisnik;
-    }
-
     public String getKreator() {
         return kreator;
     }
 
     public void setKreator(String kreator) {
         this.kreator = kreator;
+    }
+
+    public String getDodaniUKalendar() {
+        return dodaniUKalendar;
+    }
+
+    public void setDodaniUKalendar(String dodaniUKalendar) {
+        this.dodaniUKalendar = dodaniUKalendar;
+    }
+
+    public String getLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(String loggedUser) {
+        this.loggedUser = loggedUser;
     }
 }

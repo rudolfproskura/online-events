@@ -36,6 +36,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
     private static final int IDX_REGIJA_NAZIV = 8;
     private static final int IDX_GRAD_SIFRA = 9;
     private static final int IDX_KREATOR_USERNAME = 10;
+    private static final int IDX_KORISNIK_DOGADAJ_USERNAME = 11;
 
 
     @Override
@@ -156,6 +157,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 KorisnikDto kreatorDogadajaDto = new KorisnikDto();
                 kreatorDogadajaDto.setKorisnickoIme((String) entity[IDX_KREATOR_USERNAME]);
                 dogadajDto.setKreatorDogadaja(kreatorDogadajaDto);
+                //korisnik dogadaj
+                dogadajDto.setKorisnikDogadaj(entity[IDX_KORISNIK_DOGADAJ_USERNAME] != null ? (String) entity[IDX_KORISNIK_DOGADAJ_USERNAME] : null);
             }
         }
         return dogadajDto;
@@ -299,23 +302,31 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (listDogadajObjects != null && !listDogadajObjects.isEmpty()) {
             resultList = new ArrayList<>();
             listDogadajObjects.stream().forEach(p -> resultList.add(formDTO(p)));
+            //logika za dogadaje koji nisu dodani u kalendar korisnika - izbaciti sve koji imaju popunjeni korisnikDogadaj
+            if (StringUtils.isNotBlank(filterDto.getDodaniUKalendar()) && StringUtils.equals(filterDto.getDodaniUKalendar(), "NOT_ADDED_TO_CAL")) {
+                List<DogadajDto> toRemove = new ArrayList<>();
+                for (DogadajDto dogadajDto : resultList) {
+                    if (StringUtils.isNotBlank(dogadajDto.getKorisnikDogadaj()) && StringUtils.equals(dogadajDto.getKorisnikDogadaj(), filterDto.getLoggedUser())) {
+                        toRemove.add(dogadajDto);
+                    }
+                }
+                resultList.removeAll(toRemove);
+            }
         } else {
             resultList = null;
         }
-
         return resultList;
     }
 
     private List<Object[]> formAndExecuteFilterSql(DogadajFilterDto filterDto) {
         List<Object[]> resultList = null;
 
-        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag, dog.kreator from online_events.dogadaj dog " +
+        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag, dog.kreator as kreator, korisnik_dogadaj.korisnik as korisnikd from online_events.dogadaj dog " +
                 "join online_events.grad grad on grad.sifra = dog.grad " +
                 "join online_events.velicina_grada vel_gr on vel_gr.sifra = grad.velicina " +
                 "join online_events.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica " +
-                "join online_events.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica ";
-        if (filterDto.getKorisnik() != null)
-            sql = sql + "join online_events.korisnik_dogadaj korisnik_dogadaj on korisnik_dogadaj.dogadaj = dog.sifra ";
+                "join online_events.organizacijska_jedinica nad_org_jed on nad_org_jed.sifra = org_jed.org_jedinica " +
+                "left join online_events.korisnik_dogadaj korisnik_dogadaj on korisnik_dogadaj.dogadaj = dog.sifra ";
         sql = sql + "where 1 = 1 ";
         //where dio
         if (filterDto.getSifraDogadaja() != null) sql = sql + "and dog.sifra = :sifraDogadaja ";
@@ -333,7 +344,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             sql = sql + "and vel_gr.sifra in :velicineGrada ";
         if (filterDto.getOdabraniGradovi() != null && filterDto.getOdabraniGradovi().length > 0)
             sql = sql + "and grad.sifra in :gradovi ";
-        if (filterDto.getKorisnik() != null)
+        if (StringUtils.isNotBlank(filterDto.getDodaniUKalendar()) && StringUtils.equals(filterDto.getDodaniUKalendar(), "ADDED_TO_CAL"))
             sql = sql + "and korisnik_dogadaj.korisnik = :korisnik ";
         if (StringUtils.isNotBlank(filterDto.getKreator()))
             sql = sql + "and dog.kreator = :kreator ";
@@ -368,8 +379,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (filterDto.getSifraDogadaja() == null && (filterDto.getOdabraneRegije() == null || filterDto.getOdabraneRegije().length == 0) && (filterDto.getOdabraneZupanije() == null || filterDto.getOdabraneZupanije().length == 0) && (filterDto.getOdabraniGradovi() == null || filterDto.getOdabraniGradovi().length == 0)) {
             sql = sql + " and vel_gr.aktivan = true ";
         }
-        if (filterDto.getKorisnik() != null)
-            queryDogadaj.setParameter("korisnik", filterDto.getKorisnik());
+        if (StringUtils.isNotBlank(filterDto.getDodaniUKalendar()) && StringUtils.equals(filterDto.getDodaniUKalendar(), "ADDED_TO_CAL"))
+            queryDogadaj.setParameter("korisnik", filterDto.getLoggedUser());
         if (StringUtils.isNotBlank(filterDto.getKreator()))
             queryDogadaj.setParameter("kreator", filterDto.getKreator());
 

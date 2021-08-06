@@ -18,6 +18,7 @@ public class DogadajDto implements Serializable {
     private String slobodanUlaz;
     private Boolean slobodanUlazBoolen;
     private KorisnikDto kreatorDogadaja;
+    private String korisnikDogadaj;
 
     // constructors
     public DogadajDto() {
@@ -87,5 +88,13 @@ public class DogadajDto implements Serializable {
 
     public void setSlobodanUlazBoolen(Boolean slobodanUlazBoolen) {
         this.slobodanUlazBoolen = slobodanUlazBoolen;
+    }
+
+    public String getKorisnikDogadaj() {
+        return korisnikDogadaj;
+    }
+
+    public void setKorisnikDogadaj(String korisnikDogadaj) {
+        this.korisnikDogadaj = korisnikDogadaj;
     }
 }

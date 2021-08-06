@@ -98,6 +98,14 @@ ALTER TABLE online_events.dogadaj
 
 ALTER TABLE online_events.korisnik MODIFY email VARCHAR(50) ;
 
+CREATE TABLE online_events.korisnik_dogadaj
+(
+    korisnik     VARCHAR(20)     NOT NULL,
+    dogadaj      BIGINT     NOT NULL,
+    PRIMARY KEY (korisnik, dogadaj),
+    FOREIGN KEY (korisnik) REFERENCES online_events.korisnik (korisnicko_ime),
+    FOREIGN KEY (dogadaj) REFERENCES online_events.dogadaj (sifra)
+);
 
 INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('bartol', 'Bartol', 'Proskura', '11111111111', 'bartol@gmail.com','organizer');
 INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('helena', 'Helena', 'Boban', '11111111111', 'helena@gmail.com','organizer');

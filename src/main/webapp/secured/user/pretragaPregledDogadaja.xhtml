@@ -131,11 +131,13 @@
                         <f:selectItems
                                 value="#{pretragaPregledDogadajaController.getGrad(pretragaPregledDogadajaController.dogadajFilterDto.odabraneRegije, pretragaPregledDogadajaController.dogadajFilterDto.odabraneZupanije, pretragaPregledDogadajaController.dogadajFilterDto.odabraneVelicineGrada)}"/>
                     </p:selectCheckboxMenu>
-                    <p:outputLabel for="kreatorFilter" value="Moji:   "/>
-                    <p:selectOneMenu id="kreatorFilter" value="#{pretragaPregledDogadajaController.dogadajFilterDto.kreator}"
-                                     filter="false" style="width:100px">
-                        <f:selectItems value="#{pretragaPregledDogadajaController.kreatorFilterSelectItems}"/>
+
+                    <p:outputLabel for="kalendarFilter" value="Kalendar:   "/>
+                    <p:selectOneMenu id="kalendarFilter" value="#{pretragaPregledDogadajaController.dogadajFilterDto.dodaniUKalendar}"
+                                     filter="false" style="width:250px">
+                        <f:selectItems value="#{pretragaPregledDogadajaController.kalendarFilterSelectItems}"/>
                     </p:selectOneMenu>
+
 
                     <p:commandButton value="Poništi filter" actionListener="#{pretragaPregledDogadajaController.resetFilterDto}"
                                      id="filterreset" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
@@ -197,9 +199,15 @@
                         <h:outputText
                                 value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nadredenaOrganizacijeDto.nazivOrgJedinice}"/>
                     </p:column>
-                    <p:column headerText="Spremljeni">
-                        <h:outputText
-                                value="#{filterDogadajDto.kreatorDogadaja.korisnickoIme}"/>
+                    <p:column headerText="Kalendar" exportable="false">
+                        <p:commandButton icon="pi pi-pencil"
+                                         styleClass="edit-button rounded-button ui-button-success">
+<!--                            <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>-->
+<!--                            <p:resetInput target=":form:manage-product-content"/>-->
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" />
+
+<!--                        </p:commandButton>-->
                     </p:column>
                 </p:dataTable>
             </h:panelGrid>
