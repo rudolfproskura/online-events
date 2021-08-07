@@ -124,7 +124,17 @@ public class PretragaPregledDogadajaController implements Serializable {
             addMessage("Događaj je dodan u kalendar.", DogadajAppConstants.SEVERITY_INFO);
         } catch (Exception ex) {
             ex.printStackTrace();
-            addMessage("Došlo je do greške prilikom dodavanja doađaja u kalendar.", DogadajAppConstants.SEVERITY_ERR);
+            addMessage("Došlo je do greške prilikom dodavanja događaja u kalendar.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+    public void makniIzKalendara(String korisnik, Integer dogadaj) {
+        try {
+            dogadajSessionBean.deleteKorisnikDogadaj(korisnik, dogadaj);
+            addMessage("Događaj je maknut iz kalendara.", DogadajAppConstants.SEVERITY_INFO);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom brisanja događaja u kalendara.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
 

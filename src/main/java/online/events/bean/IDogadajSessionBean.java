@@ -28,5 +28,7 @@ public interface IDogadajSessionBean {
 
 	public void createKorisnikDogadaj(String korisnik, Integer dogadaj) throws DogadajAppRuleException;
 
+	public void deleteKorisnikDogadaj(String korisnik, Integer dogadaj) throws DogadajAppRuleException;
 
-}
+
+	}

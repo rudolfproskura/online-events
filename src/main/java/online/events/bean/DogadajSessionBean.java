@@ -50,5 +50,7 @@ public class DogadajSessionBean implements IDogadajSessionBean {
         korisnikDogadajDao.createKorisnikDogadaj(korisnik, dogadaj);
     }
 
-
+    public void deleteKorisnikDogadaj(String korisnik, Integer dogadaj) throws DogadajAppRuleException {
+        korisnikDogadajDao.deleteKorisnikDogadaj(korisnik, dogadaj);
+    }
 }

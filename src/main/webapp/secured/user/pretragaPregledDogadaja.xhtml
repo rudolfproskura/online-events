@@ -166,7 +166,11 @@
                     </f:facet>
                     <p:ajax event="rowSelect" listener="#{pretragaPregledDogadajaController.onTableRowSelect}"/>
 <!--                            update="mainForm:panel_unos"-->
-
+                    <h:panelGrid>
+                        <p:messages id="messages" showDetail="true" closable="true">
+                            <p:autoUpdate/>
+                        </p:messages>
+                    </h:panelGrid>
                     <p:column headerText="Šifra">
                         <h:outputText value="#{filterDogadajDto.sifraDogadaja}"/>
                     </p:column>
@@ -209,7 +213,8 @@
 <!--                            <p:resetInput target=":form:manage-product-content"/>-->
                         </p:commandButton>
                         <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Makni iz mojeg kalendara"
-                                         rendered="#{filterDogadajDto.korisnikDogadaj != null and filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }">
+                                         rendered="#{filterDogadajDto.korisnikDogadaj != null and filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }"
+                                         actionListener="#{pretragaPregledDogadajaController.makniIzKalendara(request.remoteUser, filterDogadajDto.sifraDogadaja)}">
 
                         </p:commandButton>
                     </p:column>
