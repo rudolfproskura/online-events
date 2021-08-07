@@ -16,6 +16,7 @@
 </h:head>
 
 <h:body>
+    <p:growl id="growl" showDetail="true" />
     <form id="logout" action="ibm_security_logout" method="post">
         <p:menubar style="background-color: #a6cbfa; color: black">
             <p:menuitem value="Početna"
@@ -51,6 +52,8 @@
 
 
     <h:form id="mainForm">
+
+
         <p:panel id="panel_filter2" header="Pretraga događaja" style="margin-top:10px; color: #dfefff" toggleable="true"
                  toggleSpeed="500" closeSpeed="500" toggleableHeader="true" collapsed="false" widgetVar="widgetFilter">
 
@@ -151,6 +154,8 @@
                 </h:panelGrid>
             </h:panelGrid>
             <h:panelGrid columns="2">
+<!--                <p:growl id="growl" showDetail="true" />-->
+
                 <p:dataTable id="filterAdvanced" var="filterDogadajDto"
                              rows="10"
                              paginator="true"
@@ -207,16 +212,23 @@
                         <p:commandButton icon="pi pi-pencil" title="Dodaj u moj kalendar"
                                          styleClass="edit-button rounded-button ui-button-success"
                                          rendered="#{filterDogadajDto.korisnikDogadaj == null or !filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }"
-                                         actionListener="#{pretragaPregledDogadajaController.dodajUKalendar(request.remoteUser, filterDogadajDto.sifraDogadaja)}" >
+                                         actionListener="#{pretragaPregledDogadajaController.dodajUKalendar(request.remoteUser, filterDogadajDto.sifraDogadaja)}" update="growl"
+                        >
+                            <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite dodati događaj u vaš kalendar?" icon="pi pi-exclamation-triangle"/>
 
                         <!--                            <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}"/>-->
 <!--                            <p:resetInput target=":form:manage-product-content"/>-->
                         </p:commandButton>
-                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Makni iz mojeg kalendara"
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Izbriši iz mojeg kalendara"
                                          rendered="#{filterDogadajDto.korisnikDogadaj != null and filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }"
-                                         actionListener="#{pretragaPregledDogadajaController.makniIzKalendara(request.remoteUser, filterDogadajDto.sifraDogadaja)}">
-
+                                         actionListener="#{pretragaPregledDogadajaController.makniIzKalendara(request.remoteUser, filterDogadajDto.sifraDogadaja)}" update="growl"
+                        >
+                            <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite izbrisati događaj iz vašeg kalendara?" icon="pi pi-info-circle"/>
                         </p:commandButton>
+                        <p:confirmPopup global="true">
+                            <p:commandButton value="Ne" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                            <p:commandButton value="Da" type="button" styleClass="ui-confirm-popup-yes" />
+                        </p:confirmPopup>
                     </p:column>
                 </p:dataTable>
             </h:panelGrid>
