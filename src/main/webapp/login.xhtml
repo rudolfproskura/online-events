@@ -1,23 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<head>
-    <title></title>
-</head>
-<body>
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
+
+<h:head>
+    <title>Login</title>
+</h:head>
+
+<h:body>
 <h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
-<h:panelGrid columns="2" cellpadding="5">
-    <h:outputLabel for="j_username" value="Korisničko ime:"/>
-    <p:inputText id="j_username" name="j_username"/>
+    <div class="p-mb-3 p-text-center"
+         style="font-size:44px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Prijava na ONLINE EVENTS stranice!
+    </div>
 
-    <h:outputLabel for="j_password" value="Lozinka:"/>
-    <p:password id="j_password" name="j_password" autocomplete="false"/>
+    <h:panelGroup layout="block" >
+<!--        <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"-->
+<!--                        style="text-align : center;"/>-->
+        <h:panelGrid columns="2" cellpadding="5" style="margin : 0 auto" >
+            <p:outputLabel for="j_username" value="Korisničko ime:" style="font-size: large"/>
+            <p:inputText id="j_username"  name="j_username" required="true" label="username" />
 
-    <f:facet name="footer">
-        <p:commandButton id="submit" value="Login" ajax="false"/>
-    </f:facet>
-</h:panelGrid>
+            <p:outputLabel for="j_password" value="Lozinka:" style="font-size: large"/>
+            <p:password id="j_password"  name="j_password" required="true" label="password"  autocomplete="false"/>
+
+            <f:facet name="footer">
+                <p:commandButton id="submit" value="Login" ajax="false"/>
+            </f:facet>
+        </h:panelGrid>
+    </h:panelGroup>
+
+    <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+        <p:link id="home_CL" href="http://localhost:9080/online-events/welcome.xhtml">
+            <p:graphicImage library="images" name="home_page.png"/>
+        </p:link>
+    </div>
+
+
+<!--    <h:panelGroup layout="block" style="text-align : center;">-->
+<!--        <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"-->
+<!--                        style="text-align : center;"/>-->
+<!--&lt;!&ndash;        <h:panelGrid columns="2" cellpadding="5" style="margin : 0 auto" >&ndash;&gt;-->
+<!--&lt;!&ndash;            <p:outputLabel for="j_username" value="Korisničko ime:" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <p:inputText id="j_username"  name="j_username" required="true" label="username" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <p:outputLabel for="j_password" value="Lozinka:" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <p:password id="j_password"  name="j_password" required="true" label="password"  autocomplete="false"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <f:facet name="footer">&ndash;&gt;-->
+<!--&lt;!&ndash;                <p:commandButton id="submit" value="Login" ajax="false"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </f:facet>&ndash;&gt;-->
+<!--&lt;!&ndash;        </h:panelGrid>&ndash;&gt;-->
+<!--    </h:panelGroup>-->
+
+
+
 </h:form>
-</body>
+</h:body>
 </html>
