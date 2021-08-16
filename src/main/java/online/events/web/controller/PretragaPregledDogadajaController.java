@@ -69,6 +69,7 @@ public class PretragaPregledDogadajaController implements Serializable {
     private ScheduleEvent<?> event = new DefaultScheduleEvent<>();
 
     private List<DogadajDto> dogadajiAllList;
+    private List<DogadajDto> dogadajiMyList;
 
 
     private boolean slotEventOverlap = true;
@@ -137,21 +138,8 @@ public class PretragaPregledDogadajaController implements Serializable {
         dogadajFilterDto = new DogadajFilterDto();
         dogadajFilterDto.setLoggedUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         //calendar
-        eventModelAllEvents = new DefaultScheduleModel();
-        eventModelMyEvents = new DefaultScheduleModel();
-
-        getListAllDogadaj();
-        for (DogadajDto dogadajDto : dogadajiAllList) {
-            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                    .title(dogadajDto.getNazivDogadaja())
-                    .startDate(dogadajDto.getVrijemeOd())
-                    .endDate(dogadajDto.getVrijemeDo())
-                    .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                    .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
-                    .overlapAllowed(true)
-                    .build();
-            eventModelAllEvents.addEvent(event);
-        }
+        getAllDogadaj();
+        getMyDogadaj();
     }
 
     /*
@@ -189,6 +177,7 @@ public class PretragaPregledDogadajaController implements Serializable {
     public void dodajUKalendar(String korisnik, Integer dogadaj) {
         try {
             dogadajSessionBean.createKorisnikDogadaj(korisnik, dogadaj);
+            getMyDogadaj();
             addMessage("Događaj je dodan u kalendar.", DogadajAppConstants.SEVERITY_INFO);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -225,9 +214,62 @@ public class PretragaPregledDogadajaController implements Serializable {
         }
     }
 
-    public void getListAllDogadaj() {
+    private void getAllDogadaj() {
+        eventModelAllEvents = new DefaultScheduleModel();
+
+        getListAllDogadaj();
+        for (DogadajDto dogadajDto : dogadajiAllList) {
+            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                    .title(dogadajDto.getNazivDogadaja())
+                    .startDate(dogadajDto.getVrijemeOd())
+                    .endDate(dogadajDto.getVrijemeDo())
+                    .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
+                    .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                    .overlapAllowed(true)
+                    .build();
+            eventModelAllEvents.addEvent(event);
+        }
+    }
+
+    private void getListAllDogadaj() {
         try {
             dogadajiAllList = dogadajDao.getFilterList(new DogadajFilterDto());
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom pretraživanja događaja.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+    private void getMyDogadaj() {
+        eventModelMyEvents = new DefaultScheduleModel();
+
+        getListMyDogadaj();
+        for (DogadajDto dogadajDto : dogadajiMyList) {
+            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                    .title(dogadajDto.getNazivDogadaja())
+                    .startDate(dogadajDto.getVrijemeOd())
+                    .endDate(dogadajDto.getVrijemeDo())
+                    .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
+                    .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                    .overlapAllowed(true)
+                    .build();
+            eventModelMyEvents.addEvent(event);
+        }
+    }
+
+    private void getListMyDogadaj() {
+        try {
+            DogadajFilterDto dogadajFilterDto = new DogadajFilterDto();
+            dogadajFilterDto.setDodaniUKalendar("ADDED_TO_CAL");
+            dogadajFilterDto.setLoggedUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+            dogadajiMyList = dogadajDao.getFilterList(dogadajFilterDto);
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
                 for (String message : eventEx.getMessages()) {
