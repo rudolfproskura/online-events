@@ -16,6 +16,35 @@
 </h:head>
 
 <h:body>
+    <script type="text/javascript">
+        PrimeFaces.locales ['hr'] = {
+            closeText: 'Zatvori',
+            prevText: 'Natrag',
+            nextText: 'Naprijed',
+            monthNames: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
+            monthNamesShort: ['Sij', 'Vel', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
+            dayNames: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
+            dayNamesShort: ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub'],
+            dayNamesMin: ['N', 'P', 'U', 'S ', 'Č', 'P ', 'S'],
+            weekHeader: 'Tjedan',
+            firstDay: 1,
+            timeOnlyTitle: 'Samo vrijeme',
+            timeText: 'Vrijeme',
+            hourText: 'Sat',
+            minuteText: 'Minuta',
+            secondText: 'Sekunda',
+            currentText: 'Današnji datum',
+            ampm: false,
+            year: 'Godina',
+            month: 'Mjesec',
+            week: 'Tjedan',
+            day: 'Dan',
+            allDayText: 'Cijeli dan',
+            moreLinkText: 'weitere',
+            noEventsText: 'Nema događaja za prikaz',
+            list: 'Pregled rasporeda'
+        };
+    </script>
     <p:growl id="growl" showDetail="true" />
     <form id="logout" action="ibm_security_logout" method="post">
         <p:menubar style="background-color: #a6cbfa; color: black">
@@ -172,7 +201,7 @@
                     <p:ajax event="rowSelect" listener="#{pretragaPregledDogadajaController.onTableRowSelect}"/>
 <!--                            update="mainForm:panel_unos"-->
                     <h:panelGrid>
-                        <p:messages id="messages" showDetail="true" closable="true">
+                        <p:messages id="messages1" showDetail="true" closable="true">
                             <p:autoUpdate/>
                         </p:messages>
                     </h:panelGrid>
@@ -237,8 +266,103 @@
         <p:panel id="panel_calendar" header="Pregled događaja" style="margin-top:5px; color: #dfefff" toggleable="true"
                  toggleSpeed="500"  toggleableHeader="true" collapsed="true" widgetVar="widgetCalendar">
 
+            <h:panelGrid columns="2" id="calendarPanelGrid">
+                <h:panelGrid columns="1" title="Moji događaji">
+                    <p:panel id="panel_my_calendar" header="Moji događaji" style="margin-top:1px; color: #dfefff" toggleable="false"
+                             widgetVar="widgetMyCalendar">
+
+                        <p:growl id="messages" showDetail="true"/>
+
+                        <p:schedule id="schedule" value="#{pretragaPregledDogadajaController.eventModelMyEvents}" widgetVar="myschedule" style="width: 800px;"
+                                    locale="hr">
+                            <p:ajax event="dateSelect" listener="#{pretragaPregledDogadajaController.onDateSelect}"
+                                    update="eventDetails"
+                                    oncomplete="PF('eventDialog').show();"/>
+                            <p:ajax event="eventSelect" listener="#{pretragaPregledDogadajaController.onEventSelect}"
+                                    update="eventDetails"
+                                    oncomplete="PF('eventDialog').show();"/>
+                            <p:ajax event="eventMove" listener="#{pretragaPregledDogadajaController.onEventMove}" update="messages"/>
+                            <p:ajax event="eventResize" listener="#{pretragaPregledDogadajaController.onEventResize}"
+                                    update="messages"/>
+                        </p:schedule>
+
+                        <p:dialog widgetVar="eventDialog" header="Detalji događaja" showEffect="fade" hideEffect="fade">
+                        <h:panelGrid id="eventDetails" columns="2" cellpadding="7">
+                            <p:outputLabel for="title" value="Naziv" styleClass="p-text-bold"/>
+                            <p:inputText id="title" value="#{pretragaPregledDogadajaController.event.title}" required="true" disabled="true"/>
+
+                            <p:outputLabel for="from" value="Od" styleClass="p-text-bold"/>
+                            <p:datePicker id="from" value="#{pretragaPregledDogadajaController.event.startDate}"
+                                          pattern="dd/MM/yyyy"
+                                          showTime="true" appendTo="@(body)"
+                                          disabled="true"/>
+
+                            <p:outputLabel for="to" value="Do" styleClass="p-text-bold"/>
+                            <p:datePicker id="to" value="#{pretragaPregledDogadajaController.event.endDate}" pattern="dd/MM/yyyy"
+                                          showTime="true" appendTo="@(body)"
+                                          disabled="true"
+                            />
+
+                            <p:outputLabel for="description" value="Mjesto održavanja:" styleClass="p-text-bold"/>
+                            <p:inputTextarea id="description" value="#{pretragaPregledDogadajaController.event.description}" disabled="true"/>
+                        </h:panelGrid>
+
+
+                        </p:dialog>
+
+                    </p:panel>
+                </h:panelGrid>
+
+                <h:panelGrid columns="1" title="Svi događaji">
+                    <p:panel id="panel_all_calendar" header="Svi događaji" style="margin-top:1px; color: #dfefff" toggleable="false"
+                             widgetVar="widgetAllCalendar">
+
+                        <p:growl id="messages_all" showDetail="true"/>
+
+                        <p:schedule id="schedule1" value="#{pretragaPregledDogadajaController.eventModelAllEvents}" widgetVar="myschedule1" style="width: 800px;"
+                                    locale="hr">
+                            <p:ajax event="dateSelect" listener="#{pretragaPregledDogadajaController.onDateSelect}"
+                                    update="eventDetails1"
+                                    oncomplete="PF('eventDialog1').show();"/>
+                            <p:ajax event="eventSelect" listener="#{pretragaPregledDogadajaController.onEventSelect}"
+                                    update="eventDetails1"
+                                    oncomplete="PF('eventDialog1').show();"/>
+                            <p:ajax event="eventMove" listener="#{pretragaPregledDogadajaController.onEventMove}" update="messages_all"/>
+                            <p:ajax event="eventResize" listener="#{pretragaPregledDogadajaController.onEventResize}"
+                                    update="messages_all"/>
+                        </p:schedule>
+
+                        <p:dialog widgetVar="eventDialog1" header="Detalji događaja" showEffect="fade" hideEffect="fade">
+                            <h:panelGrid id="eventDetails1" columns="2" cellpadding="7">
+                                <p:outputLabel for="title" value="Naziv" styleClass="p-text-bold"/>
+                                <p:inputText id="title1" value="#{pretragaPregledDogadajaController.event.title}" required="true" disabled="true"/>
+
+                                <p:outputLabel for="from1" value="Od" styleClass="p-text-bold"/>
+                                <p:datePicker id="from1" value="#{pretragaPregledDogadajaController.event.startDate}"
+                                              pattern="dd/MM/yyyy"
+                                              showTime="true" appendTo="@(body)"
+                                              disabled="true"/>
+
+                                <p:outputLabel for="to1" value="Do" styleClass="p-text-bold"/>
+                                <p:datePicker id="to1" value="#{pretragaPregledDogadajaController.event.endDate}" pattern="dd/MM/yyyy"
+                                              showTime="true" appendTo="@(body)"
+                                              disabled="true"
+                                />
+
+                                <p:outputLabel for="description1" value="Mjesto održavanja:" styleClass="p-text-bold"/>
+                                <p:inputTextarea id="description1" value="#{pretragaPregledDogadajaController.event.description}" disabled="true"/>
+                            </h:panelGrid>
+
+
+                        </p:dialog>
+
+                    </p:panel>
+                </h:panelGrid>
+            </h:panelGrid>
+
         </p:panel>
 
     </h:form>
+
 </h:body>
 </html>
