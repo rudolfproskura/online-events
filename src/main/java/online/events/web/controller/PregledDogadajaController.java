@@ -81,16 +81,19 @@ public class PregledDogadajaController implements Serializable {
         eventModel = new DefaultScheduleModel();
         getListDogadaj();
 
-        for (DogadajDto dogadajDto : dogadajiFilterList) {
-            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                    .title(dogadajDto.getNazivDogadaja())
-                    .startDate(dogadajDto.getVrijemeOd())
-                    .endDate(dogadajDto.getVrijemeDo())
-                    .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                    .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
-                    .overlapAllowed(true)
-                    .build();
-            eventModel.addEvent(event);
+        if (dogadajiFilterList != null && !dogadajiFilterList.isEmpty()) {
+
+            for (DogadajDto dogadajDto : dogadajiFilterList) {
+                DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                        .title(dogadajDto.getNazivDogadaja())
+                        .startDate(dogadajDto.getVrijemeOd())
+                        .endDate(dogadajDto.getVrijemeDo())
+                        .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
+                        .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                        .overlapAllowed(true)
+                        .build();
+                eventModel.addEvent(event);
+            }
         }
 
 

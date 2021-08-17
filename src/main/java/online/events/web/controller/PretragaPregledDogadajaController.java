@@ -218,16 +218,19 @@ public class PretragaPregledDogadajaController implements Serializable {
         eventModelAllEvents = new DefaultScheduleModel();
 
         getListAllDogadaj();
-        for (DogadajDto dogadajDto : dogadajiAllList) {
-            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                    .title(dogadajDto.getNazivDogadaja())
-                    .startDate(dogadajDto.getVrijemeOd())
-                    .endDate(dogadajDto.getVrijemeDo())
-                    .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                    .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
-                    .overlapAllowed(true)
-                    .build();
-            eventModelAllEvents.addEvent(event);
+        if (dogadajiAllList != null && !dogadajiAllList.isEmpty()) {
+
+            for (DogadajDto dogadajDto : dogadajiAllList) {
+                DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                        .title(dogadajDto.getNazivDogadaja())
+                        .startDate(dogadajDto.getVrijemeOd())
+                        .endDate(dogadajDto.getVrijemeDo())
+                        .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
+                        .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                        .overlapAllowed(true)
+                        .build();
+                eventModelAllEvents.addEvent(event);
+            }
         }
     }
 
@@ -251,16 +254,18 @@ public class PretragaPregledDogadajaController implements Serializable {
         eventModelMyEvents = new DefaultScheduleModel();
 
         getListMyDogadaj();
-        for (DogadajDto dogadajDto : dogadajiMyList) {
-            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                    .title(dogadajDto.getNazivDogadaja())
-                    .startDate(dogadajDto.getVrijemeOd())
-                    .endDate(dogadajDto.getVrijemeDo())
-                    .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                    .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
-                    .overlapAllowed(true)
-                    .build();
-            eventModelMyEvents.addEvent(event);
+        if (dogadajiMyList != null && !dogadajiMyList.isEmpty()) {
+            for (DogadajDto dogadajDto : dogadajiMyList) {
+                DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                        .title(dogadajDto.getNazivDogadaja())
+                        .startDate(dogadajDto.getVrijemeOd())
+                        .endDate(dogadajDto.getVrijemeDo())
+                        .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
+                        .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                        .overlapAllowed(true)
+                        .build();
+                eventModelMyEvents.addEvent(event);
+            }
         }
     }
 
