@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS online_events.korisnik_dogadaj;
 DROP TABLE IF EXISTS online_events.dogadaj;
 DROP TABLE IF EXISTS online_events.grad;
 DROP TABLE IF EXISTS online_events.velicina_grada;
@@ -106,18 +107,20 @@ CREATE TABLE online_events.korisnik_dogadaj
     FOREIGN KEY (korisnik) REFERENCES online_events.korisnik (korisnicko_ime),
     FOREIGN KEY (dogadaj) REFERENCES online_events.dogadaj (sifra)
 );
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('rudek', 'Rudolf', 'Proskura', '00000000000', 'rudolf@gmail.com','admin');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('marina', 'Marina', 'Kovač', '12121212121', 'marina@gmail.com','admin');
 
 INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('bartol', 'Bartol', 'Proskura', '11111111111', 'bartol@gmail.com','organizer');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('helena', 'Helena', 'Boban', '11111111111', 'helena@gmail.com','organizer');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('iva', 'Iva', 'Šuker', '11111111111', 'iva@gmail.com','organizer');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('danijel', 'Danijel', 'Davidenko', '11111111111', 'danijel@gmail.com','organizer');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('helena', 'Helena', 'Boban', '22222222222', 'helena@gmail.com','organizer');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('iva', 'Iva', 'Šuker', '33333333333', 'iva@gmail.com','organizer');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('danijel', 'Danijel', 'Davidenko', '44444444444', 'danijel@gmail.com','organizer');
 
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tihana', 'Tihana', 'Medved', '11111111111', 'tihana@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('igor', 'Igor', 'Rakitić', '11111111111', 'igor@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('anita', 'Anita', 'Lovren', '11111111111', 'anita@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('boris', 'Boris', 'Srna', '11111111111', 'boris@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('ena', 'Ena', 'Rebić', '11111111111', 'ena@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tea', 'Tea', 'Majer', '11111111111', 'tea@gmail.com','user');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tihana', 'Tihana', 'Medved', '55555555555', 'tihana@gmail.com','user');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('igor', 'Igor', 'Rakitić', '66666666666', 'igor@gmail.com','user');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('anita', 'Anita', 'Lovren', '77777777777', 'anita@gmail.com','user');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('boris', 'Boris', 'Srna', '88888888888', 'boris@gmail.com','user');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('ena', 'Ena', 'Rebić', '99999999999', 'ena@gmail.com','user');
+INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tea', 'Tea', 'Majer', '10101010101', 'tea@gmail.com','user');
 
 INSERT INTO online_events.tip_organizacijske_jedinice(sifra, naziv, aktivan) VALUES (1, 'REGIJA', true);
 INSERT INTO online_events.tip_organizacijske_jedinice(sifra, naziv, aktivan) VALUES (2, 'ŽUPANIJA', true);
