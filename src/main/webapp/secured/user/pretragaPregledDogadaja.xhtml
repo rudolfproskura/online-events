@@ -65,6 +65,12 @@
                         rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer')}"
                         style="color: black; font-size:larger; font-weight:600"/>
 
+            <p:menuitem value="Korisnici"
+                        icon="pi pi-fw pi-users"
+                        url="http://localhost:9080/online-events/secured/super-admin/pregledKorisnika.xhtml"
+                        rendered="#{request.isUserInRole('admin')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
             <f:facet name="options">
                   <span class="ui-input-icon-left">
                     <i class="pi pi-user pi-user"/>

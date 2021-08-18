@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (securityContext.isCallerInRole("admin")) {
-            response.sendRedirect("/online-events/secured/admin/upravljanjeDogadajima.xhtml");
+            response.sendRedirect("/online-events/secured/super-admin/pregledKorisnika.xhtml");
         } else if (securityContext.isCallerInRole("organizer")) {
             response.sendRedirect("/online-events/secured/admin/upravljanjeDogadajima.xhtml");
         } else if (securityContext.isCallerInRole("user")) {
