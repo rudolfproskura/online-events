@@ -242,7 +242,7 @@
                                          styleClass="edit-button rounded-button ui-button-success"
                                          rendered="#{filterDogadajDto.korisnikDogadaj == null or !filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }"
                                          actionListener="#{pretragaPregledDogadajaController.dodajUKalendar(request.remoteUser, filterDogadajDto.sifraDogadaja)}"
-                                         update="growl"
+                                         update="mainForm"
                         >
                             <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite dodati događaj u vaš kalendar?" icon="pi pi-exclamation-triangle"/>
 
@@ -252,7 +252,7 @@
                         <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Izbriši iz mojeg kalendara"
                                          rendered="#{filterDogadajDto.korisnikDogadaj != null and filterDogadajDto.korisnikDogadaj.equals(request.remoteUser) }"
                                          actionListener="#{pretragaPregledDogadajaController.makniIzKalendara(request.remoteUser, filterDogadajDto.sifraDogadaja)}"
-                                         update="growl"
+                                         update="mainForm"
                         >
                             <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite izbrisati događaj iz vašeg kalendara?" icon="pi pi-info-circle"/>
                         </p:commandButton>
