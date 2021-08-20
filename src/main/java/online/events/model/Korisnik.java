@@ -24,7 +24,7 @@ public class Korisnik {
     @Column(name = "oib", nullable = false, length = 11)
     private String oib;
 
-    @Column(name = "email", nullable = false, length = 11)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
 
 
