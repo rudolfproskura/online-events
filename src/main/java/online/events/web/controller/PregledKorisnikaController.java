@@ -3,16 +3,17 @@ package online.events.web.controller;
 
 import online.events.bean.IKorisnikSessionBean;
 import online.events.dao.KorisnikDao;
-import online.events.dto.DogadajDto;
 import online.events.dto.KorisnikDto;
 import online.events.exception.DogadajAppRuleException;
 import online.events.util.DogadajAppConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -33,6 +34,7 @@ public class PregledKorisnikaController implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private KorisnikDto korisnikDto;
+    private KorisnikDto korisnikFilterDto;
 
     private List<KorisnikDto> korisnikDtoList;
     private List<SelectItem> tipKorisnikaSelectItems = new ArrayList<>();
@@ -57,8 +59,9 @@ public class PregledKorisnikaController implements Serializable {
         tipKorisnikaSelectItems.add(new SelectItem("admin", "admin"));
 
         korisnikDto = new KorisnikDto();
+        korisnikFilterDto = new KorisnikDto();
 
-        korisnikDtoList = korisnikDao.findAll();
+        korisnikDtoList = null;
     }
 
     /*
@@ -71,7 +74,19 @@ public class PregledKorisnikaController implements Serializable {
         getKorisnikDto().setOib(null);
         getKorisnikDto().setEmail(null);
         getKorisnikDto().setTipKorisnika(null);
+        resetFilterDto();
     }
+
+    public void resetFilterDto() {
+        getKorisnikFilterDto().setKorisnickoIme(null);
+        getKorisnikFilterDto().setIme(null);
+        getKorisnikFilterDto().setPrezime(null);
+        getKorisnikFilterDto().setOib(null);
+        getKorisnikFilterDto().setEmail(null);
+        getKorisnikFilterDto().setTipKorisnika(null);
+        korisnikDtoList = null;
+    }
+
 
     /*
      * save metoda za spremanje/ažuriranje događaja
@@ -96,6 +111,43 @@ public class PregledKorisnikaController implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             addMessage("Došlo je do greške prilikom kreiranja/ažuriranja korisnika.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+    /*
+     * Dohvati korisnike prema popunjenom filteru
+     */
+    public void getFilterListKorisnik() {
+        try {
+            korisnikDtoList = korisnikDao.getFilterList(korisnikFilterDto);
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom pretraživanja korisnika.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+    /*
+     * Odabirom retk u tablici popunjava se dogadajDto, odnosno popunjava input form
+     */
+    public void onTableRowSelect(AjaxBehaviorEvent event) {
+        try {
+            Object selected = ((SelectEvent) event).getObject();
+            if (selected instanceof KorisnikDto && ((KorisnikDto) selected).getKorisnickoIme() != null) {
+                KorisnikDto selectedKorisnikDto = (KorisnikDto) selected;
+                KorisnikDto korisnikFilterDto = new KorisnikDto();
+                korisnikFilterDto.setKorisnickoIme(selectedKorisnikDto.getKorisnickoIme());
+                korisnikDto = korisnikDao.getFilterList(korisnikFilterDto).get(0);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške odabira događaja.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
 
@@ -142,5 +194,13 @@ public class PregledKorisnikaController implements Serializable {
 
     public void setTipKorisnikaSelectItems(List<SelectItem> tipKorisnikaSelectItems) {
         this.tipKorisnikaSelectItems = tipKorisnikaSelectItems;
+    }
+
+    public KorisnikDto getKorisnikFilterDto() {
+        return korisnikFilterDto;
+    }
+
+    public void setKorisnikFilterDto(KorisnikDto korisnikFilterDto) {
+        this.korisnikFilterDto = korisnikFilterDto;
     }
 }
