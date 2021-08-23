@@ -68,27 +68,27 @@
             <h:panelGrid id="panelGridInputForm" columns="2">
                 <p:outputLabel for="korisnickoImeInput" value="Korisničko ime:   "/>
                 <p:inputText id="korisnickoImeInput"
-                             value="#{dogadajiController.dogadajDto.nazivDogadaja}"
+                             value="#{pregledKorisnikaController.korisnikDto.korisnickoIme}"
                              maxlength="20"
                              required="true"
                              requiredMessage="Korisničko ime je obavezan podatak!"/>
                 <p:outputLabel for="imeInput" value="Ime   :   "/>
                 <p:inputText id="imeInput"
-                             value="#{dogadajiController.dogadajDto.nazivDogadaja}"
+                             value="#{pregledKorisnikaController.korisnikDto.ime}"
                              maxlength="50"  size="50"
                              required="true"
                              requiredMessage="Ime korisnika je obavezan podatak!"/>
 
                 <p:outputLabel for="prezimeInput" value="Prezime   :   "/>
                 <p:inputText id="prezimeInput"
-                             value="#{dogadajiController.dogadajDto.nazivDogadaja}"
+                             value="#{pregledKorisnikaController.korisnikDto.prezime}"
                              maxlength="50"  size="50"
                              required="true"
                              requiredMessage="Prezime korisnika je obavezan podatak!"/>
 
                 <p:outputLabel for="oibInput" value="OIB   :   "/>
                 <p:inputMask id="oibInput"
-                             value="#{dogadajiController.dogadajDto.nazivDogadaja}"
+                             value="#{pregledKorisnikaController.korisnikDto.oib}"
                              maxlength="11"
                              required="true"
                              requiredMessage="OIB korisnika je obavezan podatak!"
@@ -96,24 +96,24 @@
 
                 <p:outputLabel for="emailInput" value="Email   :   "/>
                 <p:inputText id="emailInput"
-                             value="#{dogadajiController.dogadajDto.nazivDogadaja}"
+                             value="#{pregledKorisnikaController.korisnikDto.email}"
                              maxlength="50" size="50"
                              required="true"
                              requiredMessage="Email korisnika je obavezan podatak!"/>
 
                 <p:outputLabel for="tipKorsnikaInput" value="Uloga:   "/>
                 <p:selectOneMenu id="tipKorsnikaInput"
-                                 value="#{dogadajiController.dogadajDto.gradDogadajaDto.sifraGrada}"
+                                 value="#{pregledKorisnikaController.korisnikDto.tipKorisnika}"
                                  style="width:250px" required="true"
                                  requiredMessage="Uloga korisnika je obavezan podatak!">
-                    <f:selectItems value="#{dogadajiController.gradSelectItems}"/>
+                    <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaSelectItems}"/>
                 </p:selectOneMenu>
 
 
-                <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
+                <p:commandButton value="Novi" actionListener="#{pregledKorisnikaController.resetDto}" id="novizapis"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
                                  update="panelGridInputForm, filterAdvanced" icon="pi pi-replay"/>
-                <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"
+                <p:commandButton value="Spremi" actionListener="#{pregledKorisnikaController.save}" id="spremi"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
                                  update="panel_unos, filterAdvanced" icon="pi pi-save"/>
 
@@ -138,7 +138,7 @@
                              selectionMode="single"
                              rowKey="#{korisnikDogadajDto.korisnickoIme}"
                              allowUnsorting="true" sortMode="single"
-                             emptyMessage="Ne postoji niti jedan događaj">
+                             emptyMessage="Ne postoji niti jedan korisnik">
 
                     <p:column sortBy="#{korisnikDogadajDto.korisnickoIme}" headerText="Korisničko ime">
                         <h:outputText value="#{korisnikDogadajDto.korisnickoIme}"/>
