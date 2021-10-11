@@ -24,6 +24,9 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
     private static final int IDX_KORISNIK_EMAIL = 4;
     private static final int IDX_KORISNIK_TIP_KORISNIKA = 5;
 
+    private static final String  validator = "^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+"
+            + "(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{2,})$";
+
     @Override
     protected Korisnik formEntity(KorisnikDto dto) {
         Korisnik entity = null;
@@ -170,7 +173,7 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             hasError = true;
             messages.add("Korisničko ime mora imati minimalno 3 znaka, a maksimalno 20 znakova!");
         }
-        if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme()) && StringUtils.isWhitespace(korisnikDto.getKorisnickoIme())) {
+        if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme()) && korisnikDto.getKorisnickoIme().contains(" ")) {
             hasError = true;
             messages.add("Korisničko ime ne smije sadržavati razmak!");
         }
@@ -199,6 +202,10 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         if (StringUtils.isBlank(korisnikDto.getEmail())) {
             hasError = true;
             messages.add("Email je obavezan podatak!");
+        }
+        if (StringUtils.isNotBlank(korisnikDto.getEmail()) && !korisnikDto.getEmail().matches(validator)) {
+            hasError = true;
+            messages.add("Neispravan email!");
         }
         if (StringUtils.isBlank(korisnikDto.getTipKorisnika())) {
             hasError = true;
