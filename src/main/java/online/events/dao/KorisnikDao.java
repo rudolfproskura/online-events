@@ -24,8 +24,10 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
     private static final int IDX_KORISNIK_EMAIL = 4;
     private static final int IDX_KORISNIK_TIP_KORISNIKA = 5;
 
-    private static final String  validator = "^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+"
+    private static final String  mailValidator = "^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+"
             + "(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{2,})$";
+
+    private static final String  oibValidator = "^[0-9]{11}$";
 
     @Override
     protected Korisnik formEntity(KorisnikDto dto) {
@@ -182,28 +184,32 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             messages.add("Ime je obavezan podatak!");
         }
         if (StringUtils.isNotBlank(korisnikDto.getIme()) && (korisnikDto.getIme().length() < 2 ||
-                korisnikDto.getIme().length() > 20)) {
+                korisnikDto.getIme().length() > 50)) {
             hasError = true;
-            messages.add("Ime mora imati minimalno 2 znaka, a maksimalno 20 znakova!");
+            messages.add("Ime mora imati minimalno 2 znaka, a maksimalno 50 znakova!");
         }
         if (StringUtils.isBlank(korisnikDto.getPrezime())) {
             hasError = true;
             messages.add("Prezime je obavezan podatak!");
         }
         if (StringUtils.isNotBlank(korisnikDto.getPrezime()) && (korisnikDto.getPrezime().length() < 2 ||
-                korisnikDto.getPrezime().length() > 20)) {
+                korisnikDto.getPrezime().length() > 50)) {
             hasError = true;
-            messages.add("Prezime mora imati minimalno 2 znaka, a maksimalno 20 znakova!");
+            messages.add("Prezime mora imati minimalno 2 znaka, a maksimalno 50 znakova!");
         }
         if (StringUtils.isBlank(korisnikDto.getOib())) {
             hasError = true;
             messages.add("OIB je obavezan podatak!");
         }
+        if (StringUtils.isNotBlank(korisnikDto.getOib()) && !korisnikDto.getOib().matches(oibValidator) && korisnikDto.getOib().length() != 11) {
+            hasError = true;
+            messages.add("Neispravan OIB, mora sadržavati 11 brojeva!");
+        }
         if (StringUtils.isBlank(korisnikDto.getEmail())) {
             hasError = true;
             messages.add("Email je obavezan podatak!");
         }
-        if (StringUtils.isNotBlank(korisnikDto.getEmail()) && !korisnikDto.getEmail().matches(validator)) {
+        if (StringUtils.isNotBlank(korisnikDto.getEmail()) && !korisnikDto.getEmail().matches(mailValidator)) {
             hasError = true;
             messages.add("Neispravan email!");
         }
@@ -211,6 +217,20 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             hasError = true;
             messages.add("Korisnik nema popunjenu ulogu!");
         }
+        if (StringUtils.isBlank(korisnikDto.getLozinka())) {
+            hasError = true;
+            messages.add("Lozinka je obavezan podatak!");
+        }
+        if (StringUtils.isNotBlank(korisnikDto.getLozinka()) && (korisnikDto.getKorisnickoIme().length() < 5 ||
+                korisnikDto.getKorisnickoIme().length() > 20)) {
+            hasError = true;
+            messages.add("Lozinka mora imati minimalno 5 znakova, a maksimalno 20 znakova!");
+        }
+        if (StringUtils.isNotBlank(korisnikDto.getLozinka()) && korisnikDto.getLozinka().contains(" ")) {
+            hasError = true;
+            messages.add("Lozinka ne smije sadržavati razmak!");
+        }
+
         if (hasError && !messages.isEmpty()) {
             throw new DogadajAppRuleException(messages);
         }

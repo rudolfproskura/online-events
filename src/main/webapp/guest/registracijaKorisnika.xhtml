@@ -31,14 +31,13 @@
 <!--            </h:panelGrid>-->
 
 
-            <h:panelGrid id="panelGridInputForm" columns="3" cellpadding="5" style="margin : 0 auto" >
+            <h:panelGrid id="panelGridInputForm" columns="2" cellpadding="5" style="margin : 0 auto" >
 
                 <p:outputLabel for="korisnickoImeInput" value="Korisničko ime:   "/>
                 <p:inputText id="korisnickoImeInput"
                              value="#{pregledKorisnikaController.korisnikDto.korisnickoIme}"
                              maxlength="20"
                              required="false"/>
-                <p:message for="korisnickoImeInput"/>
 
                 <p:outputLabel for="imeInput" value="Ime   :   "/>
                 <p:inputText id="imeInput"
@@ -46,10 +45,7 @@
                              maxlength="50" size="50"
                              required="false">
                 </p:inputText>
-                <p:message for="imeInput"/>
 
-
-                <!--                             requiredMessage="Ime korisnika je obavezan podatak!"-->
 
                 <p:outputLabel for="prezimeInput" value="Prezime   :   "/>
                 <p:inputText id="prezimeInput"
@@ -57,16 +53,13 @@
                              maxlength="50" size="50"
                              required="false"
                              requiredMessage="Prezime korisnika je obavezan podatak!"/>
-                <p:message for="prezimeInput"/>
 
                 <p:outputLabel for="oibInput" value="OIB   :   "/>
-                <p:inputMask id="oibInput"
+                <p:inputText id="oibInput"
                              value="#{pregledKorisnikaController.korisnikDto.oib}"
                              maxlength="11"
                              required="false"
-                             requiredMessage="OIB korisnika je obavezan podatak!"
-                             mask="99999999999" validateMask="true"/>
-                <p:message for="oibInput"/>
+                />
 
 
                 <p:outputLabel for="emailInput" value="Email   :   "/>
@@ -76,16 +69,13 @@
                              required="false"
                 />
 
-                <p:message for="emailInput"/>
-
-
 
                 <p:outputLabel for="password" value="Lozinka:" style="font-size: large"/>
                 <p:password id="password"
                             required="false"
-                            value="#{pregledKorisnikaController.korisnikDto.lozinka}"/>
-                <p:message for="password"/>
-
+                            value="#{pregledKorisnikaController.korisnikDto.lozinka}"
+                            toggleMask="true" redisplay="true"/>
+                <p:tooltip for="password" value="Minimalno 5 znakova, bez razmaka" position="right"/>
 
                 <p:commandButton value="Registracija" actionListener="#{pregledKorisnikaController.save}" id="spremi"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
