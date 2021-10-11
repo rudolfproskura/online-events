@@ -115,6 +115,24 @@ public class PregledKorisnikaController implements Serializable {
         }
     }
 
+    public void checkUserName() {
+        try {
+            if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme())) {
+                korisnikDao.checkUserNameExsists(korisnikDto.getKorisnickoIme());
+            }
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            korisnikDto.setKorisnickoIme("");
+            addMessage("Došlo je do greške prilikom provjere korisničkog imena.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
 
 
     public void save1() {

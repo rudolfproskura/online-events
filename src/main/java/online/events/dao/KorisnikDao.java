@@ -130,6 +130,28 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         return resultList;
     }
 
+        public void checkUserNameExsists(String inputUsername) throws DogadajAppRuleException {
+            if (checkUserNamesExists(inputUsername)) {
+                throw new DogadajAppRuleException(Arrays.asList("Korisničko ime " + inputUsername + " već se koristi!"));
+            }
+        }
+
+        private Boolean checkUserNamesExists(String inputUsername) {
+        Boolean exists = Boolean.FALSE;
+
+        String sql = "select korisnicko_ime from online_events.korisnik where korisnicko_ime = :korisnickoIme ";
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter("korisnickoIme", inputUsername);
+
+        List<Object> resultList = query.getResultList();
+
+        if (resultList != null && !resultList.isEmpty()) {
+            exists = Boolean.TRUE;
+        }
+
+        return exists;
+    }
+
     /**
      * Create new dogadaj entity
      *
