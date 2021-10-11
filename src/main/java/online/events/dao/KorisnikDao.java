@@ -165,6 +165,15 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             hasError = true;
             messages.add("Korisnik nema popunjeno korisničko ime!");
         }
+        if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme()) && (korisnikDto.getKorisnickoIme().length() < 3 ||
+                korisnikDto.getKorisnickoIme().length() > 20 )) {
+            hasError = true;
+            messages.add("Korisničko ime mora imati minimalno 3 znaka, a maksimalno 20 znakova!");
+        }
+        if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme()) && StringUtils.isWhitespace(korisnikDto.getKorisnickoIme())) {
+            hasError = true;
+            messages.add("Korisničko ime ne smije sadržavati razmak!");
+        }
         if (StringUtils.isBlank(korisnikDto.getIme())) {
             hasError = true;
             messages.add("Korisnik nema popunjeno ime!");

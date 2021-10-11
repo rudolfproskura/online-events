@@ -10,6 +10,7 @@ public class KorisnikDto {
     private String oib;
     private String email;
     private String tipKorisnika;
+    private String lozinka;
 
     public KorisnikDto() {
     }
@@ -60,5 +61,13 @@ public class KorisnikDto {
 
     public void setTipKorisnika(String tipKorisnika) {
         this.tipKorisnika = tipKorisnika;
+    }
+
+    public String getLozinka() {
+        return lozinka;
+    }
+
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
     }
 }
