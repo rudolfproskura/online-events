@@ -8,16 +8,17 @@
       xml:lang="en" lang="en">
 
 <h:head>
-    <title>Login</title>
+    <title>Prijava @ ONLINE-EVENTS</title>
 </h:head>
 
 <h:body>
 <h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
     <div class="p-mb-3 p-text-center"
-         style="font-size:44px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Prijava na ONLINE EVENTS stranice!
+         style="font-size:44px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Prijava na ONLINE EVENTS stranice! Dobrodošli!
     </div>
+    <p:separator style="width:540px; text-align: center;"/>
 
-    <h:panelGroup layout="block" >
+    <h:panelGroup layout="block" style="padding-top: 20px;">
 <!--        <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"-->
 <!--                        style="text-align : center;"/>-->
         <h:panelGrid columns="2" cellpadding="5" style="margin : 0 auto" >
@@ -36,6 +37,14 @@
     <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
         <p:link id="home_CL" href="http://localhost:9080/online-events/welcome.xhtml">
             <p:graphicImage library="images" name="home_page.png"/>
+        </p:link>
+    </div>
+
+    <p:separator style="width:540px; text-align: center"/>
+
+    <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+        <p:link id="home_CL1" href="http://localhost:9080/online-events/guest/registracijaKorisnika.xhtml">
+            <p><b>Još niste korisnik - Registrirajte se!</b></p>
         </p:link>
     </div>
 

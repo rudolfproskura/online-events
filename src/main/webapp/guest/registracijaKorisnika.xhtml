@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
+
+
+<h:head>
+    <title>Registracija @ ONLINE - EVENTS</title>
+</h:head>
+
+<h:body>
+    <h:form id="register">
+        <div class="p-mb-3 p-text-center"
+             style="font-size:44px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Registracija na ONLINE EVENTS stranice! Dobrodošli!
+        </div>
+        <p:separator style="width:540px; text-align: center; "/>
+
+
+        <h:panelGroup layout="block" style="padding-top: 20px;">
+            <!--        <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"-->
+            <!--                        style="text-align : center;"/>-->
+            <h:panelGrid columns="2" cellpadding="5" style="margin : 0 auto" >
+                <p:outputLabel for="j_username" value="Korisničko ime:" style="font-size: large"/>
+                <p:inputText id="j_username"  name="j_username" required="true" label="username" />
+
+                <p:outputLabel for="j_password" value="Lozinka:" style="font-size: large"/>
+                <p:password id="j_password"  name="j_password" required="true" label="password"  autocomplete="false"/>
+
+                <f:facet name="footer">
+                    <p:commandButton id="submit" value="Login" ajax="false"/>
+                </f:facet>
+            </h:panelGrid>
+        </h:panelGroup>
+
+        <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+            <p:link id="home_CL" href="http://localhost:9080/online-events/welcome.xhtml">
+                <p:graphicImage library="images" name="home_page.png"/>
+            </p:link>
+        </div>
+
+        <p:separator style="width:540px; text-align: center"/>
+
+        <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+            <p:link id="home_CL1" href="http://localhost:9080/online-events/home">
+                <p><b>Već ste registirani - Prijavite se!</b></p>
+            </p:link>
+        </div>
+
+
+
+
+    </h:form>
+</h:body>
+</html>
