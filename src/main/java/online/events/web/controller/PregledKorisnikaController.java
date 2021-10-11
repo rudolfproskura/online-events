@@ -94,6 +94,32 @@ public class PregledKorisnikaController implements Serializable {
     public void save() {
         try {
             if (korisnikDto != null) {
+                korisnikDto.setTipKorisnika("user");
+                korisnikSessionBean.createEditKorisnik(korisnikDto);
+                addMessage(korisnikDto.getIme() + " " + korisnikDto.getPrezime() + " uspješno ste se registrirali.", DogadajAppConstants.SEVERITY_INFO);
+                korisnikDtoList = korisnikDao.getFilterList(korisnikDto);
+            } else {
+                addMessage("Korisnik je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
+
+            }
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom kreiranja/ažuriranja korisnika.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+
+
+    public void save1() {
+        try {
+            if (korisnikDto != null) {
                 korisnikSessionBean.createEditKorisnik(korisnikDto);
                 addMessage("Korisnik " + korisnikDto.getKorisnickoIme() + " je uspješno spremljen.", DogadajAppConstants.SEVERITY_INFO);
                 korisnikDtoList = korisnikDao.getFilterList(korisnikDto);
@@ -113,6 +139,7 @@ public class PregledKorisnikaController implements Serializable {
             addMessage("Došlo je do greške prilikom kreiranja/ažuriranja korisnika.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
+
 
     /*
      * Dohvati korisnike prema popunjenom filteru

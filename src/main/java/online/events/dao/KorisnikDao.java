@@ -163,10 +163,10 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         }
         if (StringUtils.isBlank(korisnikDto.getKorisnickoIme())) {
             hasError = true;
-            messages.add("Korisnik nema popunjeno korisničko ime!");
+            messages.add("Korisničko ime je obavezan podatak!");
         }
         if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme()) && (korisnikDto.getKorisnickoIme().length() < 3 ||
-                korisnikDto.getKorisnickoIme().length() > 20 )) {
+                korisnikDto.getKorisnickoIme().length() > 20)) {
             hasError = true;
             messages.add("Korisničko ime mora imati minimalno 3 znaka, a maksimalno 20 znakova!");
         }
@@ -176,19 +176,29 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         }
         if (StringUtils.isBlank(korisnikDto.getIme())) {
             hasError = true;
-            messages.add("Korisnik nema popunjeno ime!");
+            messages.add("Ime je obavezan podatak!");
+        }
+        if (StringUtils.isNotBlank(korisnikDto.getIme()) && (korisnikDto.getIme().length() < 2 ||
+                korisnikDto.getIme().length() > 20)) {
+            hasError = true;
+            messages.add("Ime mora imati minimalno 2 znaka, a maksimalno 20 znakova!");
         }
         if (StringUtils.isBlank(korisnikDto.getPrezime())) {
             hasError = true;
-            messages.add("Korisnik nema popunjeno prezime!");
+            messages.add("Prezime je obavezan podatak!");
+        }
+        if (StringUtils.isNotBlank(korisnikDto.getPrezime()) && (korisnikDto.getPrezime().length() < 2 ||
+                korisnikDto.getPrezime().length() > 20)) {
+            hasError = true;
+            messages.add("Prezime mora imati minimalno 2 znaka, a maksimalno 20 znakova!");
         }
         if (StringUtils.isBlank(korisnikDto.getOib())) {
             hasError = true;
-            messages.add("Korisnik nema popunjen oib!");
+            messages.add("OIB je obavezan podatak!");
         }
         if (StringUtils.isBlank(korisnikDto.getEmail())) {
             hasError = true;
-            messages.add("Korisnik nema popunjen email!");
+            messages.add("Email je obavezan podatak!");
         }
         if (StringUtils.isBlank(korisnikDto.getTipKorisnika())) {
             hasError = true;
