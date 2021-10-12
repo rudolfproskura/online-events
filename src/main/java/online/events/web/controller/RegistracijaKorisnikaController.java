@@ -65,7 +65,8 @@ public class RegistracijaKorisnikaController implements Serializable {
             if (korisnikDto != null) {
                 korisnikDto.setTipKorisnika("user");
                 korisnikSessionBean.createLDAPAndDBKorisnik(korisnikDto);
-                addMessage(korisnikDto.getIme() + " " + korisnikDto.getPrezime() + " uspješno ste se registrirali.", DogadajAppConstants.SEVERITY_INFO);
+                addMessage(korisnikDto.getIme() + " " + korisnikDto.getPrezime() + " uspješno ste se registrirali. Možete se prijaviti na stranice.", DogadajAppConstants.SEVERITY_INFO);
+                korisnikDto = new KorisnikDto();
             } else {
                 addMessage("Korisnik je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
 

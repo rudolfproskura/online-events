@@ -207,6 +207,10 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             hasError = true;
             messages.add("Korisničko ime ne smije sadržavati razmak!");
         }
+        if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme()) && checkUserNamesExists(korisnikDto.getKorisnickoIme())) {
+            hasError = true;
+            messages.add("Korisničko ime " + korisnikDto.getKorisnickoIme() + " već se koristi!");
+        }
         if (StringUtils.isBlank(korisnikDto.getIme())) {
             hasError = true;
             messages.add("Ime je obavezan podatak!");
