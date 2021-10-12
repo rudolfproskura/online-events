@@ -41,11 +41,11 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         if (dto != null) {
             entity = new Korisnik();
             entity.setKorisnicko_ime(dto.getKorisnickoIme());
-            entity.setIme(dto.getIme());
-            entity.setPrezime(dto.getPrezime());
-            entity.setOib(dto.getOib());
-            entity.setEmail(dto.getEmail());
-            entity.setTipKorisnika(dto.getTipKorisnika());
+//            entity.setIme(dto.getIme());
+//            entity.setPrezime(dto.getPrezime());
+//            entity.setOib(dto.getOib());
+//            entity.setEmail(dto.getEmail());
+//            entity.setTipKorisnika(dto.getTipKorisnika());
         }
         return entity;
     }
@@ -58,19 +58,19 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             if (o instanceof Korisnik) {
                 Korisnik korinikEntity = (Korisnik) o;
                 korisnikDto.setKorisnickoIme(korinikEntity.getKorisnicko_ime());
-                korisnikDto.setIme(korinikEntity.getIme());
-                korisnikDto.setPrezime(korinikEntity.getPrezime());
-                korisnikDto.setOib(korinikEntity.getOib());
-                korisnikDto.setEmail(korinikEntity.getEmail());
-                korisnikDto.setTipKorisnika(korinikEntity.getTipKorisnika());
+//                korisnikDto.setIme(korinikEntity.getIme());
+//                korisnikDto.setPrezime(korinikEntity.getPrezime());
+//                korisnikDto.setOib(korinikEntity.getOib());
+//                korisnikDto.setEmail(korinikEntity.getEmail());
+//                korisnikDto.setTipKorisnika(korinikEntity.getTipKorisnika());
             } else {
                 Object[] entity = (Object[]) o;
                 korisnikDto.setKorisnickoIme((String) entity[IDX_KORISNIKA_KORISNICKO_IME]);
-                korisnikDto.setIme((String) entity[IDX_KORISNIK_IME]);
-                korisnikDto.setPrezime((String) entity[IDX_KORISNIK_PREZIME]);
-                korisnikDto.setOib((String) entity[IDX_KORISNIK_OIB]);
-                korisnikDto.setEmail((String) entity[IDX_KORISNIK_EMAIL]);
-                korisnikDto.setTipKorisnika((String) entity[IDX_KORISNIK_TIP_KORISNIKA]);
+//                korisnikDto.setIme((String) entity[IDX_KORISNIK_IME]);
+//                korisnikDto.setPrezime((String) entity[IDX_KORISNIK_PREZIME]);
+//                korisnikDto.setOib((String) entity[IDX_KORISNIK_OIB]);
+//                korisnikDto.setEmail((String) entity[IDX_KORISNIK_EMAIL]);
+//                korisnikDto.setTipKorisnika((String) entity[IDX_KORISNIK_TIP_KORISNIKA]);
             }
         }
         return korisnikDto;
@@ -103,7 +103,7 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
     private List<Object[]> formAndExecuteFilterSql(KorisnikDto filterDto) {
         List<Object[]> resultList = null;
 
-        String sql = "select korisnicko_ime, ime, prezime, oib, email, tip_korisnika  from online_events.korisnik ";
+        String sql = "select korisnicko_ime from online_events.korisnik ";
         ;
         sql = sql + "where 1 = 1 ";
         //where dio

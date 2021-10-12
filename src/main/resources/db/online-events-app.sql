@@ -99,6 +99,12 @@ ALTER TABLE online_events.dogadaj
 
 ALTER TABLE online_events.korisnik MODIFY email VARCHAR(50) ;
 
+ALTER TABLE online_events.korisnik DROP COLUMN ime;
+ALTER TABLE online_events.korisnik DROP COLUMN prezime;
+ALTER TABLE online_events.korisnik DROP COLUMN oib;
+ALTER TABLE online_events.korisnik DROP COLUMN email;
+ALTER TABLE online_events.korisnik DROP COLUMN tip_korisnika;
+
 CREATE TABLE online_events.korisnik_dogadaj
 (
     korisnik     VARCHAR(20)     NOT NULL,
@@ -107,20 +113,20 @@ CREATE TABLE online_events.korisnik_dogadaj
     FOREIGN KEY (korisnik) REFERENCES online_events.korisnik (korisnicko_ime),
     FOREIGN KEY (dogadaj) REFERENCES online_events.dogadaj (sifra)
 );
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('rudek', 'Rudolf', 'Proskura', '00000000000', 'rudolf@gmail.com','admin');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('marina', 'Marina', 'Kovač', '12121212121', 'marina@gmail.com','admin');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('rudek', 'Rudolf', 'Proskura', '00000000000', 'rudolf@gmail.com','admin');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('marina', 'Marina', 'Kovač', '12121212121', 'marina@gmail.com','admin');
+#
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('bartol', 'Bartol', 'Proskura', '11111111111', 'bartol@gmail.com','organizer');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('helena', 'Helena', 'Boban', '22222222222', 'helena@gmail.com','organizer');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('iva', 'Iva', 'Šuker', '33333333333', 'iva@gmail.com','organizer');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('danijel', 'Danijel', 'Davidenko', '44444444444', 'danijel@gmail.com','organizer');
 
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('bartol', 'Bartol', 'Proskura', '11111111111', 'bartol@gmail.com','organizer');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('helena', 'Helena', 'Boban', '22222222222', 'helena@gmail.com','organizer');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('iva', 'Iva', 'Šuker', '33333333333', 'iva@gmail.com','organizer');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('danijel', 'Danijel', 'Davidenko', '44444444444', 'danijel@gmail.com','organizer');
-
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tihana', 'Tihana', 'Medved', '55555555555', 'tihana@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('igor', 'Igor', 'Rakitić', '66666666666', 'igor@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('anita', 'Anita', 'Lovren', '77777777777', 'anita@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('boris', 'Boris', 'Srna', '88888888888', 'boris@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('ena', 'Ena', 'Rebić', '99999999999', 'ena@gmail.com','user');
-INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tea', 'Tea', 'Majer', '10101010101', 'tea@gmail.com','user');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tihana', 'Tihana', 'Medved', '55555555555', 'tihana@gmail.com','user');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('igor', 'Igor', 'Rakitić', '66666666666', 'igor@gmail.com','user');
+# INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('anita', 'Anita', 'Lovren', '77777777777', 'anita@gmail.com','user');
+# # INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('boris', 'Boris', 'Srna', '88888888888', 'boris@gmail.com','user');
+# # INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('ena', 'Ena', 'Rebić', '99999999999', 'ena@gmail.com','user');
+# --INSERT INTO online_events.korisnik(korisnicko_ime, ime, prezime, oib, email, tip_korisnika) VALUES ('tea', 'Tea', 'Majer', '10101010101', 'tea@gmail.com','user');
 
 INSERT INTO online_events.tip_organizacijske_jedinice(sifra, naziv, aktivan) VALUES (1, 'REGIJA', true);
 INSERT INTO online_events.tip_organizacijske_jedinice(sifra, naziv, aktivan) VALUES (2, 'ŽUPANIJA', true);

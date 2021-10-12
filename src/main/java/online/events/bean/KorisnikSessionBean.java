@@ -51,7 +51,7 @@ public class KorisnikSessionBean implements IKorisnikSessionBean {
         //ldap create user
         korisnikDao.insertLDAPUser(korisnikDto);
 
-        //return korisnikDao.create(korisnikDto);
+        korisnikDao.create(korisnikDto);
         return korisnikDto;
     }
 
