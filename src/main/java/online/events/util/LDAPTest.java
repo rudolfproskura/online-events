@@ -74,6 +74,38 @@ public class LDAPTest {
         connection.setTimeOut(0);
         connection.bind("uid=admin,ou=system", "secret");
 
+        //form object
+        String dn = "uid=" + "eduard" + ",ou=users,dc=example,dc=com";
+        String objectClass = "ObjectClass:inetOrgPerson";
+        String cn = "cn:" + "Eduard";
+        String sn = "sn:" + "Damirovic";
+        String displayName = "displayName:" + "Damir" + " " + "Damirovic";
+        String mail = "mail:" + "damir@damir.hr";
+        String uid = "uid:" + "eduard";
+        String employeeNumber = "employeeNumber:" + "777777777";
+        String userPassword = "userPassword:" + "eduard";
+
+        //add user
+        connection.add(
+                new DefaultEntry(
+                        "uid=eduard" + ",ou=users,dc=example,dc=com", // The Dn
+                        "ObjectClass:inetOrgPerson",
+                        cn,
+                        sn,
+                        displayName,
+                        mail,
+                        uid,
+                        employeeNumber,
+                        userPassword
+                ));
+
+        SearchRequest request = new SearchRequestImpl();
+
+
+     /*   LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
 
         connection.add(
                 new DefaultEntry(
@@ -88,10 +120,10 @@ public class LDAPTest {
                         "uid: apiuser",
                         "userPassword: apiuserpwd") );
 
+*/
 
 
 
-        SearchRequest request = new SearchRequestImpl();
 
 //        request.setScope(SearchScope.SUBTREE);
 //        request.setTimeLimit(0);

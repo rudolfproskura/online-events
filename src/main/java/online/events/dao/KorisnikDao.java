@@ -5,6 +5,12 @@ import online.events.dto.KorisnikDto;
 import online.events.exception.DogadajAppRuleException;
 import online.events.model.Korisnik;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.directory.api.ldap.model.entry.DefaultEntry;
+import org.apache.directory.api.ldap.model.entry.DefaultModification;
+import org.apache.directory.api.ldap.model.entry.Modification;
+import org.apache.directory.api.ldap.model.entry.ModificationOperation;
+import org.apache.directory.ldap.client.api.LdapConnection;
+import org.apache.directory.ldap.client.api.LdapNetworkConnection;
 
 import javax.persistence.Query;
 import java.io.Serializable;
@@ -243,7 +249,7 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             hasError = true;
             messages.add("Lozinka je obavezan podatak!");
         }
-        if (StringUtils.isNotBlank(korisnikDto.getLozinka()) && (korisnikDto.getKorisnickoIme().length() < 5 ||
+        if (StringUtils.isNotBlank(korisnikDto.getLozinka()) && (korisnikDto.getLozinka().length() < 5 ||
                 korisnikDto.getKorisnickoIme().length() > 20)) {
             hasError = true;
             messages.add("Lozinka mora imati minimalno 5 znakova, a maksimalno 20 znakova!");
@@ -255,6 +261,50 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
 
         if (hasError && !messages.isEmpty()) {
             throw new DogadajAppRuleException(messages);
+        }
+    }
+
+    public void insertLDAPUser(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+        try {
+
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            //form object
+            String dn = "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com";
+            String objectClass = "ObjectClass:inetOrgPerson";
+            String cn = "cn:" + korisnikDto.getIme();
+            String sn = "sn:" + korisnikDto.getPrezime();
+            String displayName = "displayName:" + korisnikDto.getIme() + " " + korisnikDto.getPrezime();
+            String mail = "mail:" + korisnikDto.getEmail();
+            String uid = "uid:" + korisnikDto.getKorisnickoIme();
+            String userPassword = "userPassword:" + korisnikDto.getLozinka();
+            String employeeNumber = "employeeNumber:" + korisnikDto.getOib();
+
+            //add user
+            connection.add(
+                    new DefaultEntry(
+                            "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", // The Dn
+                            "ObjectClass:inetOrgPerson",
+                            cn,
+                            sn,
+                            displayName,
+                            mail,
+                            uid,
+                            employeeNumber,
+                            userPassword
+                    ));
+
+            //add user in group
+            Modification addUniqueMember = new DefaultModification( ModificationOperation.ADD_ATTRIBUTE, "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
+            connection.modify( "cn=registredUsers,ou=groups,dc=example,dc=com", addUniqueMember);
+
+            //close connection
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom registracije korisnika " + e.getMessage()));
         }
     }
 

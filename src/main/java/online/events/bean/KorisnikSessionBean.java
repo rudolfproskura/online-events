@@ -38,5 +38,22 @@ public class KorisnikSessionBean implements IKorisnikSessionBean {
         }
     }
 
+    /**
+     * <p>create korisnik</p>
+     *
+     * @param korisnikDto
+     * @return korisnikDto
+     * @throws DogadajAppRuleException
+     */
+    public KorisnikDto createLDAPAndDBKorisnik(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+        //validacija
+        korisnikDao.validateBeforeCreate(korisnikDto);
+        //ldap create user
+        korisnikDao.insertLDAPUser(korisnikDto);
+
+        //return korisnikDao.create(korisnikDto);
+        return korisnikDto;
+    }
+
 
 }
