@@ -64,10 +64,19 @@
                         toggleMask="true" redisplay="true"/>
             <p:tooltip for="passwordDialog" value="Minimalno 5 znakova, bez razmaka" position="right"/>
 
-            <p:commandButton value="Spremi" actionListener="#{pregledKorisnikaController.save}" id="spremiDialog"
+            <p:commandButton value="Spremi" action="#{korisnikInfoController.save}" id="spremiDialog"
                              style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
                               icon="pi pi-save"/>
-        </h:panelGrid>
 
+            <p:commandButton value="Spremi" actionListener="#{korisnikInfoController.save}" id="spremiDialog1"
+                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
+                             icon="pi pi-save"/>
+<!--            <p:commandButton value="Spremi" onclick="#{korisnikInfoController.save}" id="spremiDialog2"-->
+<!--                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"-->
+<!--                             icon="pi pi-save"/>-->
+<!--            <p:commandButton value="Spremi" oncomplete="#{korisnikInfoController.save}" id="spremiDialog3"-->
+<!--                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"-->
+<!--                             icon="pi pi-save"/>-->
+        </h:panelGrid>
 </h:body>
 </html>

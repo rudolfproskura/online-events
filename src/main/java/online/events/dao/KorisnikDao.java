@@ -331,5 +331,49 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         }
     }
 
+    public void modifyLDAPUser(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+        try {
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            //replace cn
+            Modification replaceCN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "cn",
+                    korisnikDto.getIme() );
+            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceCN );
+
+            //replace sn
+            Modification replaceSN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "sn",
+                    korisnikDto.getPrezime() );
+            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceSN );
+
+
+            //replace displayName
+            Modification replaceDisplayName = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "displayName",
+                    korisnikDto.getIme() + " " + korisnikDto.getPrezime());
+            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceDisplayName );
+
+            //replace displayName
+            Modification replaceMail = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "mail",
+                    korisnikDto.getEmail());
+            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceMail );
+
+            //replace OIB
+            Modification replaceEN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "employeenumber",
+                    korisnikDto.getOib());
+            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceEN );
+
+            //replace password
+            Modification replacePassword = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "userpassword",
+                    korisnikDto.getOib());
+            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replacePassword );
+
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom registracije korisnika " + e.getMessage()));
+        }
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package online.events.util;
 
 
+import online.events.dto.KorisnikDto;
 import org.apache.directory.api.ldap.model.cursor.EntryCursor;
 import org.apache.directory.api.ldap.model.cursor.SearchCursor;
 import org.apache.directory.api.ldap.model.entry.*;
@@ -12,6 +13,58 @@ import org.junit.jupiter.api.Test;
 
 
 public class LDAPTest {
+
+
+    @Test
+    public void testLDAPModifyUser() throws Exception {
+
+        KorisnikDto korisnikDto = new KorisnikDto();
+        korisnikDto.setKorisnickoIme("elvis");
+        korisnikDto.setIme("Elvis_new");
+        korisnikDto.setPrezime("Elvis_newSure");
+        korisnikDto.setEmail("elvis@new.hr");
+        korisnikDto.setOib("787878");
+        korisnikDto.setLozinka("elvispwd");
+
+
+        LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
+        //replace cn
+        Modification replaceCN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "cn",
+                korisnikDto.getIme() );
+        connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceCN );
+
+        //replace sn
+        Modification replaceSN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "sn",
+                korisnikDto.getPrezime() );
+        connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceSN );
+
+
+        //replace displayName
+        Modification replaceDisplayName = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "displayName",
+                korisnikDto.getIme() + " " + korisnikDto.getPrezime());
+        connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceDisplayName );
+
+        //replace displayName
+        Modification replaceMail = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "mail",
+                korisnikDto.getEmail());
+        connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceMail );
+
+        //replace OIB
+        Modification replaceEN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "employeenumber",
+                korisnikDto.getOib());
+        connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceEN );
+
+        //replace password
+        Modification replacePassword = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "userpassword",
+                korisnikDto.getOib());
+        connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replacePassword );
+
+        connection.close();
+    }
+
 
     @Test
     public void testLDAPConnenction() throws Exception {
