@@ -100,6 +100,25 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         return resultList;
     }
 
+    public List<KorisnikDto> getFilterListLDAP(KorisnikDto filterDto) throws DogadajAppRuleException {
+        List<KorisnikDto> resultList;
+
+        //provjera
+        if (filterDto == null) {
+            throw new DogadajAppRuleException(new ArrayList<>(Arrays.asList("Filter je prazan.")));
+        }
+        //formiranje sql upita i izvršavanje sql upita
+        List<Object[]> listKorisnikObjects = formAndExecuteFilterSql(filterDto);
+        //formiranje liste dogadaja
+        if (listKorisnikObjects != null && !listKorisnikObjects.isEmpty()) {
+            resultList = new ArrayList<>();
+            listKorisnikObjects.stream().forEach(p -> resultList.add(formDTO(p)));
+        } else {
+            resultList = null;
+        }
+        return resultList;
+    }
+
     private List<Object[]> formAndExecuteFilterSql(KorisnikDto filterDto) {
         List<Object[]> resultList = null;
 

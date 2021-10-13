@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
+
+
+<!--<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>-->
+
+<h:head>
+    <title>Podaci o korisniku</title>
+    <style type="text/css">
+        html {
+            font-size: 14px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+        <h:panelGrid id="panelGridInputForm1" columns="2" cellpadding="5" style="margin : 0 auto">
+
+            <p:outputLabel for="korisnickoImeInputDialog" value="Korisničko ime:   "/>
+            <p:inputText id="korisnickoImeInputDialog"
+                         value="#{korisnikInfoController.korisnikDto.korisnickoIme}"
+                         maxlength="20"
+                         disabled="true">
+            </p:inputText>
+
+            <p:outputLabel for="imeInputDialog" value="Ime   :   "/>
+            <p:inputText id="imeInputDialog"
+                         value="#{korisnikInfoController.korisnikDto.ime}"
+                         maxlength="50" size="50"
+                         required="false">
+            </p:inputText>
+
+
+            <p:outputLabel for="prezimeInputDialog" value="Prezime   :   "/>
+            <p:inputText id="prezimeInputDialog"
+                         value="#{korisnikInfoController.korisnikDto.prezime}"
+                         maxlength="50" size="50"
+                         required="false"
+                         requiredMessage="Prezime korisnika je obavezan podatak!"/>
+
+            <p:outputLabel for="oibInputDialog" value="OIB   :   "/>
+            <p:inputText id="oibInputDialog"
+                         value="#{korisnikInfoController.korisnikDto.oib}"
+                         maxlength="11"
+                         required="false"/>
+
+            <p:outputLabel for="emailInputDialog" value="Email   :   "/>
+            <p:inputText id="emailInputDialog"
+                         value="#{korisnikInfoController.korisnikDto.email}"
+                         maxlength="50" size="50"
+                         required="false"
+            />
+
+            <p:outputLabel for="passwordDialog" value="Lozinka:" style="font-size: large"/>
+            <p:password id="passwordDialog"
+                        required="false"
+                        value="#{korisnikInfoController.korisnikDto.lozinka}"
+                        toggleMask="true" redisplay="true"/>
+            <p:tooltip for="passwordDialog" value="Minimalno 5 znakova, bez razmaka" position="right"/>
+
+            <p:commandButton value="Spremi" actionListener="#{pregledKorisnikaController.save}" id="spremiDialog"
+                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
+                              icon="pi pi-save"/>
+        </h:panelGrid>
+
+</h:body>
+</html>

@@ -28,40 +28,31 @@ public class LDAPTest {
 //        request.setFilter("(uid=tomica)");
 
 
-
-     //   Dn systemDn = new Dn( "dc=example,dc=com" ); //nade sve
-     //   Dn systemDn = new Dn( "ou=users,dc=example,dc=com" ); //nade sve usere
+        //   Dn systemDn = new Dn( "dc=example,dc=com" ); //nade sve
+        //   Dn systemDn = new Dn( "ou=users,dc=example,dc=com" ); //nade sve usere
 /* FIND USER
         Dn systemDn = new Dn( "uid=tea,ou=users,dc=example,dc=com"); //nade odredenog usera
         EntryCursor cursor = connection.search( systemDn, "(objectclass=*)", SearchScope.OBJECT );
 */
-        Dn systemDn = new Dn( " cn=registredUsers,ou=groups,dc=example,dc=com"); //nade odredenog usera
-        EntryCursor cursor = connection.search( systemDn, "(objectclass=*)", SearchScope.OBJECT );
+        Dn systemDn = new Dn(" cn=registredUsers,ou=groups,dc=example,dc=com"); //nade odredenog usera
 
 
-        // Process the request
-//        SearchCursor searchCursor = connection.search( request );
-//
-//        while ( searchCursor.next() )
-//        {
-//            Response response = searchCursor.get();
-//
-//            // process the SearchResultEntry
-//            if ( response instanceof SearchResultEntry)
-//            {
-//                Entry resultEntry = ( ( SearchResultEntry ) response ).getEntry();
-//                System.out.println( resultEntry );
-//            }
-//        }
+        String korisnickoIme = "dijana";
+        //korisničko ime
+        Dn userNameDN = new Dn("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com"); //nade odredenog usera
+        EntryCursor cursor = connection.search(userNameDN, "(objectclass=*)", SearchScope.OBJECT);
 
-        for ( Entry entry : cursor )
-        {
-            System.out.println( entry );
+        //ime
 
-            System.out.println( entry );
+
+        for (Entry entry : cursor) {
+
+
+            System.out.println(entry);
+
+            System.out.println(entry);
         }
         cursor.close();
-
 
 
         connection.close();
@@ -123,8 +114,6 @@ public class LDAPTest {
 */
 
 
-
-
 //        request.setScope(SearchScope.SUBTREE);
 //        request.setTimeLimit(0);
 //        request.setBase(new Dn("dc=example,dc=com"));
@@ -132,23 +121,18 @@ public class LDAPTest {
 
         //   Dn systemDn = new Dn( "dc=example,dc=com" ); //nade sve
         //   Dn systemDn = new Dn( "ou=users,dc=example,dc=com" ); //nade sve usere
-        Dn systemDn = new Dn( "uid=apiuser,ou=users,dc=example,dc=com"); //nade odredenog usera
+        Dn systemDn = new Dn("uid=apiuser,ou=users,dc=example,dc=com"); //nade odredenog usera
 
 
-
-        EntryCursor cursor = connection.search( systemDn, "(objectclass=*)", SearchScope.OBJECT );
-
+        EntryCursor cursor = connection.search(systemDn, "(objectclass=*)", SearchScope.OBJECT);
 
 
+        for (Entry entry : cursor) {
+            System.out.println(entry);
 
-        for ( Entry entry : cursor )
-        {
-            System.out.println( entry );
-
-            System.out.println( entry );
+            System.out.println(entry);
         }
         cursor.close();
-
 
 
         connection.close();
@@ -162,30 +146,52 @@ public class LDAPTest {
         connection.bind("uid=admin,ou=system", "secret");
 
 
-
-        Modification addUniqueMember = new DefaultModification( ModificationOperation.ADD_ATTRIBUTE, "uniqueMember", "uid=apiuser,ou=users,dc=example,dc=com");
-        connection.modify( "cn=registredUsers,ou=groups,dc=example,dc=com", addUniqueMember );
-
+        Modification addUniqueMember = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE, "uniqueMember", "uid=apiuser,ou=users,dc=example,dc=com");
+        connection.modify("cn=registredUsers,ou=groups,dc=example,dc=com", addUniqueMember);
 
 
+        Dn systemDn = new Dn(" cn=registredUsers,ou=groups,dc=example,dc=com"); //nade odredenog usera
+        EntryCursor cursor = connection.search(systemDn, "(objectclass=*)", SearchScope.OBJECT);
 
 
+        for (Entry entry : cursor) {
+            System.out.println(entry);
 
-        Dn systemDn = new Dn( " cn=registredUsers,ou=groups,dc=example,dc=com"); //nade odredenog usera
-        EntryCursor cursor = connection.search( systemDn, "(objectclass=*)", SearchScope.OBJECT );
-
-
-
-        for ( Entry entry : cursor )
-        {
-            System.out.println( entry );
-
-            System.out.println( entry );
+            System.out.println(entry);
         }
         cursor.close();
 
 
+        connection.close();
+    }
 
+    @Test
+    public void testSearchWithSearchRequest() throws Exception {
+
+        LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
+        // Create the SearchRequest object
+        SearchRequest req = new SearchRequestImpl();
+        req.setScope(SearchScope.SUBTREE);
+        //req.addAttributes("*");
+        req.setTimeLimit(0);
+        req.setBase(new Dn("dc=example,dc=com"));
+        //req.setFilter("");
+
+        // Process the request
+        SearchCursor searchCursor = connection.search(req);
+
+        while (searchCursor.next()) {
+            Response response = searchCursor.get();
+
+            // process the SearchResultEntry
+            if (response instanceof SearchResultEntry) {
+                Entry resultEntry = ((SearchResultEntry) response).getEntry();
+                System.out.println(resultEntry);
+            }
+        }
         connection.close();
     }
 }

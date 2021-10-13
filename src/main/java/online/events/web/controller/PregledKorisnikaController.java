@@ -7,6 +7,7 @@ import online.events.dto.KorisnikDto;
 import online.events.exception.DogadajAppRuleException;
 import online.events.util.DogadajAppConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +21,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * Web managed bean za dogadaj
@@ -54,9 +57,9 @@ public class PregledKorisnikaController implements Serializable {
     @PostConstruct
     public void init() {
         tipKorisnikaSelectItems.add(new SelectItem(null, ""));
-        tipKorisnikaSelectItems.add(new SelectItem("user", "user"));
-        tipKorisnikaSelectItems.add(new SelectItem("organizer", "organizer"));
-        tipKorisnikaSelectItems.add(new SelectItem("admin", "admin"));
+        tipKorisnikaSelectItems.add(new SelectItem("user", "Registrirani korisnik"));
+        tipKorisnikaSelectItems.add(new SelectItem("organizer", "Organizator"));
+        tipKorisnikaSelectItems.add(new SelectItem("admin", "Administrator"));
 
         korisnikDto = new KorisnikDto();
         korisnikFilterDto = new KorisnikDto();
@@ -216,6 +219,16 @@ public class PregledKorisnikaController implements Serializable {
         }
     }
 
+    public void openUserDetailDialog() {
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('dlg3').show();");
+    }
+
+    public void openUserDialog() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("resizable", false);
+        PrimeFaces.current().dialog().openDynamic("welcome", options, null);
+    }
 
     public KorisnikDto getKorisnikDto() {
         return korisnikDto;

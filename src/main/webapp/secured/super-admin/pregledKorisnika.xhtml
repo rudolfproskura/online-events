@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xml:lang="en" lang="en">
 
 
@@ -42,14 +43,21 @@
                         style="color: black; font-size:larger; font-weight:600"/>
 
             <f:facet name="options">
-                  <span class="ui-input-icon-left">
-                    <i class="pi pi-user pi-user"/>
-                    <p:inputText value="#{request.remoteUser}" readonly="true"/>
+                <span class="ui-input-icon-left">
+                    <h:form id="userDialogForm">
+                     <p:commandButton value="#{request.remoteUser}"
+                                      icon="pi pi-fw pi-user-edit"
+                                      styleClass="rounded-button ui-button-info" ajax="true"
+                                      onclick="PF('includedDialog').show();"
+                     />
+
+                    </h:form>
                 </span>
                 <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
-                <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"
+                <p:button value="Odjava"
+                          icon="pi pi-fw pi-sign-out"
+                          styleClass="rounded-button ui-button-secondary"
                           onclick="document.getElementById('logout').submit()"/>
-                <!--                <a href="#" onclick="document.getElementById('logout').submit()">Logout</a>-->
             </f:facet>
 
         </p:menubar>
@@ -168,6 +176,9 @@
                             <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaSelectItems}"/>
                         </p:selectOneMenu>
 
+                        <!--                        <p:commandButton value="Novi" onclick="PF('dlg3').show();"-->
+
+
                         <p:commandButton value="Poništi filter" actionListener="#{pregledKorisnikaController.resetFilterDto}"
                                          id="filterreset" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
                                          ajax="true"
@@ -232,6 +243,84 @@
             </h:panelGrid>
         </p:panel>
 
+        <p:dialog header="Included page" widgetVar="dlg4" >
+
+        </p:dialog>
+
+        <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode"  height="500">
+            <h:outputText value="This dialog has nice effects." />
+            <h:form id="dialogForm">
+
+
+            <p:panel id="panel_unos1" header="Unos / ažuriranje korisnika" style="margin-top:5px; color: #dfefff"
+                     toggleable="false"
+                     toggleSpeed="500"
+                     toggleableHeader="false" widgetVar="widgetInput">
+                <h:panelGrid>
+                    <p:messages id="messages1" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </h:panelGrid>
+                <h:panelGrid id="panelGridInputForm1" columns="2">
+                    <p:outputLabel for="korisnickoImeInput1" value="Korisničko ime:   "/>
+                    <p:inputText id="korisnickoImeInput1"
+                                 value="#{pregledKorisnikaController.korisnikDto.korisnickoIme}"
+                                 maxlength="20"
+                                 required="false    "/>
+                    <!--                             requiredMessage="Korisničko ime je obavezan podatak!"-->
+
+                    <p:outputLabel for="imeInput1" value="Ime   :   "/>
+                    <p:inputText id="imeInput1"
+                                 value="#{pregledKorisnikaController.korisnikDto.ime}"
+                                 maxlength="50" size="50"
+                                 required="false"/>
+                    <!--                             requiredMessage="Ime korisnika je obavezan podatak!"-->
+
+                    <p:outputLabel for="prezimeInput1" value="Prezime   :   "/>
+                    <p:inputText id="prezimeInput1"
+                                 value="#{pregledKorisnikaController.korisnikDto.prezime}"
+                                 maxlength="50" size="50"
+                                 required="false"
+                                 requiredMessage="Prezime korisnika je obavezan podatak!"/>
+
+                    <p:outputLabel for="oibInput1" value="OIB   :   "/>
+                    <p:inputMask id="oibInput1"
+                                 value="#{pregledKorisnikaController.korisnikDto.oib}"
+                                 maxlength="11"
+                                 required="false"
+                                 requiredMessage="OIB korisnika je obavezan podatak!"
+                                 mask="99999999999" validateMask="true"/>
+
+                    <p:outputLabel for="emailInput1" value="Email   :   "/>
+                    <p:inputText id="emailInput1"
+                                 value="#{pregledKorisnikaController.korisnikDto.email}"
+                                 maxlength="50" size="50"
+                                 required="false"
+                                 requiredMessage="Email korisnika je obavezan podatak!"/>
+
+                    <p:outputLabel for="tipKorsnikaInput1" value="Uloga:   "/>
+                    <p:selectOneMenu id="tipKorsnikaInput1"
+                                     value="#{pregledKorisnikaController.korisnikDto.tipKorisnika}"
+                                     style="width:250px" required="false"
+                                     requiredMessage="Uloga korisnika je obavezan podatak!">
+                        <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaSelectItems}"/>
+                    </p:selectOneMenu>
+
+
+
+                    <p:commandButton value="Spremi" actionListener="#{pregledKorisnikaController.save}" id="spremi1"
+                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
+                                     update="panel_unos1" icon="pi pi-save"/>
+
+                </h:panelGrid>
+            </p:panel>
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog global="true" id="test" widgetVar="includedDialog" header="Korisnički podaci" >
+            <ui:include src="korisnikInfo.xhtml" />
+        </p:dialog>
 
     </h:form>
 </h:body>
