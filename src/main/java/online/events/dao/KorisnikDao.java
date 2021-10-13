@@ -5,10 +5,10 @@ import online.events.dto.KorisnikDto;
 import online.events.exception.DogadajAppRuleException;
 import online.events.model.Korisnik;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.directory.api.ldap.model.entry.DefaultEntry;
-import org.apache.directory.api.ldap.model.entry.DefaultModification;
-import org.apache.directory.api.ldap.model.entry.Modification;
-import org.apache.directory.api.ldap.model.entry.ModificationOperation;
+import org.apache.directory.api.ldap.model.cursor.EntryCursor;
+import org.apache.directory.api.ldap.model.entry.*;
+import org.apache.directory.api.ldap.model.message.SearchScope;
+import org.apache.directory.api.ldap.model.name.Dn;
 import org.apache.directory.ldap.client.api.LdapConnection;
 import org.apache.directory.ldap.client.api.LdapNetworkConnection;
 
@@ -30,10 +30,10 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
     private static final int IDX_KORISNIK_EMAIL = 4;
     private static final int IDX_KORISNIK_TIP_KORISNIKA = 5;
 
-    private static final String  mailValidator = "^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+"
+    private static final String mailValidator = "^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+"
             + "(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{2,})$";
 
-    private static final String  oibValidator = "^[0-9]{11}$";
+    private static final String oibValidator = "^[0-9]{11}$";
 
     @Override
     protected Korisnik formEntity(KorisnikDto dto) {
@@ -155,13 +155,13 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         return resultList;
     }
 
-        public void checkUserNameExsists(String inputUsername) throws DogadajAppRuleException {
-            if (checkUserNamesExists(inputUsername)) {
-                throw new DogadajAppRuleException(Arrays.asList("Korisničko ime " + inputUsername + " već se koristi!"));
-            }
+    public void checkUserNameExsists(String inputUsername) throws DogadajAppRuleException {
+        if (checkUserNamesExists(inputUsername)) {
+            throw new DogadajAppRuleException(Arrays.asList("Korisničko ime " + inputUsername + " već se koristi!"));
         }
+    }
 
-        private Boolean checkUserNamesExists(String inputUsername) {
+    private Boolean checkUserNamesExists(String inputUsername) {
         Boolean exists = Boolean.FALSE;
 
         String sql = "select korisnicko_ime from online_events.korisnik where korisnicko_ime = :korisnickoIme ";
@@ -320,8 +320,8 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
                     ));
 
             //add user in group
-            Modification addUniqueMember = new DefaultModification( ModificationOperation.ADD_ATTRIBUTE, "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
-            connection.modify( "cn=registredUsers,ou=groups,dc=example,dc=com", addUniqueMember);
+            Modification addUniqueMember = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE, "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
+            connection.modify("cn=registredUsers,ou=groups,dc=example,dc=com", addUniqueMember);
 
             //close connection
             connection.close();
@@ -338,42 +338,71 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             connection.bind("uid=admin,ou=system", "secret");
 
             //replace cn
-            Modification replaceCN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "cn",
-                    korisnikDto.getIme() );
-            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceCN );
+            Modification replaceCN = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, "cn",
+                    korisnikDto.getIme());
+            connection.modify("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceCN);
 
             //replace sn
-            Modification replaceSN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "sn",
-                    korisnikDto.getPrezime() );
-            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceSN );
+            Modification replaceSN = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, "sn",
+                    korisnikDto.getPrezime());
+            connection.modify("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceSN);
 
 
             //replace displayName
-            Modification replaceDisplayName = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "displayName",
+            Modification replaceDisplayName = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, "displayName",
                     korisnikDto.getIme() + " " + korisnikDto.getPrezime());
-            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceDisplayName );
+            connection.modify("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceDisplayName);
 
             //replace displayName
-            Modification replaceMail = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "mail",
+            Modification replaceMail = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, "mail",
                     korisnikDto.getEmail());
-            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceMail );
+            connection.modify("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceMail);
 
             //replace OIB
-            Modification replaceEN = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "employeenumber",
+            Modification replaceEN = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, "employeenumber",
                     korisnikDto.getOib());
-            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceEN );
+            connection.modify("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replaceEN);
 
             //replace password
-            Modification replacePassword = new DefaultModification( ModificationOperation.REPLACE_ATTRIBUTE, "userpassword",
-                    korisnikDto.getOib());
-            connection.modify( "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replacePassword );
+            Modification replacePassword = new DefaultModification(ModificationOperation.REPLACE_ATTRIBUTE, "userpassword",
+                    korisnikDto.getLozinka());
+            connection.modify("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com", replacePassword);
 
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom registracije korisnika " + e.getMessage()));
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promejen korisničkih podataka " + e.getMessage()));
         }
     }
 
+    public void modifyLDAPUserGroup(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+        try {
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            String postojecaGrupa = "registredUsers";
+            String novaGrupa = "admin";
+
+            if (!StringUtils.equals(postojecaGrupa, novaGrupa)) {
+                //add to new group
+
+                Modification addUniqueMember = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE,
+                        "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + "ou=users,dc=example,dc=com");
+                connection.modify("cn=" + novaGrupa + ",ou=groups,dc=example,dc=com", addUniqueMember);
+
+                //remove from current group
+                Modification removeUniqueMember = new DefaultModification(ModificationOperation.REMOVE_ATTRIBUTE,
+                        "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + "ou=users,dc=example,dc=com");
+                connection.modify("cn=" + postojecaGrupa + ",ou=groups,dc=example,dc=com", removeUniqueMember);
+            }
+
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promjene uloge korisnika " + e.getMessage()));
+        }
+    }
 
 }
