@@ -388,12 +388,12 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
                 //add to new group
 
                 Modification addUniqueMember = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE,
-                        "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + "ou=users,dc=example,dc=com");
+                        "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
                 connection.modify("cn=" + novaGrupa + ",ou=groups,dc=example,dc=com", addUniqueMember);
 
                 //remove from current group
                 Modification removeUniqueMember = new DefaultModification(ModificationOperation.REMOVE_ATTRIBUTE,
-                        "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + "ou=users,dc=example,dc=com");
+                        "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
                 connection.modify("cn=" + postojecaGrupa + ",ou=groups,dc=example,dc=com", removeUniqueMember);
             }
 

@@ -16,6 +16,92 @@ import org.junit.jupiter.api.Test;
 public class LDAPTest {
 
     @Test
+    public void testLDAPGetUserGroup() throws Exception {
+
+        KorisnikDto korisnikDto = null;
+
+        LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
+        String korisnickoIme = "elvis1";
+        Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+        EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com")) {
+                //set admin
+            }
+        }
+
+
+
+        cursor.close();
+
+
+        connection.close();
+    }
+
+    @Test
+    public void testLDAPGetUserDetail() throws Exception {
+
+        KorisnikDto korisnikDto = null;
+
+        LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
+        String korisnickoIme = "natalija";
+        Dn userNameDN = new Dn("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com"); //nade odredenog usera
+        EntryCursor cursor = connection.search(userNameDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            korisnikDto = new KorisnikDto();
+            korisnikDto.setKorisnickoIme(korisnickoIme);
+            korisnikDto.setIme(entry.get("cn").get().toString());
+            korisnikDto.setPrezime(entry.get("sn").get().toString());
+            korisnikDto.setEmail(entry.get("mail").get().toString());
+            korisnikDto.setOib(entry.get("employeenumber").get().toString());
+            System.out.println(entry);
+        }
+        //grupe
+        Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                korisnikDto.setTipKorisnika("admin");
+            }
+        }
+
+        groupDN = new Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                korisnikDto.setTipKorisnika("organizer");
+            }
+        }
+
+        groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                korisnikDto.setTipKorisnika("registredUsers");
+            }
+        }
+
+        System.out.println(korisnikDto);
+
+        cursor.close();
+
+
+        connection.close();
+    }
+
+
+    @Test
     public void testLDAPChangeGroupUser() throws Exception {
 
         KorisnikDto korisnikDto = new KorisnikDto();
