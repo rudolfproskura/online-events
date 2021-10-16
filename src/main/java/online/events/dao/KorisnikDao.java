@@ -405,4 +405,65 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         }
     }
 
+    public KorisnikDto getKorisnikInfo(String userName) throws DogadajAppRuleException {
+        KorisnikDto korisnikDto = null;
+
+        try {
+
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            Dn userNameDN = new Dn("uid=" + userName + ",ou=users,dc=example,dc=com"); //nade odredenog usera
+            EntryCursor cursor = connection.search(userNameDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                korisnikDto = new KorisnikDto();
+                korisnikDto.setKorisnickoIme(userName);
+                korisnikDto.setIme(entry.get("cn").get().toString());
+                korisnikDto.setPrezime(entry.get("sn").get().toString());
+                korisnikDto.setEmail(entry.get("mail").get().toString());
+                korisnikDto.setOib(entry.get("employeenumber").get().toString());
+                korisnikDto.setLozinka((entry.get("userpassword").get().toString()));
+            //    System.out.println(entry);
+            }
+            //grupe
+            Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                    korisnikDto.setTipKorisnika("admin");
+                }
+            }
+
+            groupDN = new Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                    korisnikDto.setTipKorisnika("organizer");
+                }
+            }
+
+            groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                    korisnikDto.setTipKorisnika("registredUsers");
+                }
+            }
+
+            cursor.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promjene uloge korisnika " + e.getMessage()));
+        }
+        return korisnikDto;
+    }
+
+
 }

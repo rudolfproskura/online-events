@@ -50,12 +50,26 @@ public class KorisnikInfoController implements Serializable {
 
     @PostConstruct
     public void init() {
+        getUserInfo(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+    }
 
-        korisnikDto = new KorisnikDto();
-        korisnikDto.setKorisnickoIme("tomica");
-        korisnikDto.setIme("Tomica");
-
-        korisnikDtoList = null;
+    /*
+     * save metoda za spremanje/ažuriranje događaja
+     */
+    public void getUserInfo(String userName) {
+        try {
+            korisnikDto = korisnikDao.getKorisnikInfo(userName);
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom dohvaćanja podataka o korisniku.", DogadajAppConstants.SEVERITY_ERR);
+        }
     }
 
 

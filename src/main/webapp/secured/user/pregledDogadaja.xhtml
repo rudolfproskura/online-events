@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xml:lang="en" lang="en">
 
 <h:head>
@@ -49,14 +50,20 @@
                         url="http://localhost:9080/online-events/guest/pretragaDogadaja.xhtml"/>
             <f:facet name="options">
                 <span class="ui-input-icon-left">
-                    <i class="pi pi-user pi-user" />
-                    <p:inputText value="#{request.remoteUser}" readonly="true"/>
+                    <h:form id="userDialogForm">
+                     <p:commandButton value="#{request.remoteUser}"
+                                      icon="pi pi-fw pi-user-edit"
+                                      styleClass="rounded-button ui-button-info" ajax="true"
+                                      onclick="PF('includedDialog').show();"
+                     />
+
+                    </h:form>
                 </span>
-<!--                <p:inputText value="#{request.remoteUser}" disabled="true"/>-->
                 <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
-                <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"
+                <p:button value="Odjava"
+                          icon="pi pi-fw pi-sign-out"
+                          styleClass="rounded-button ui-button-secondary"
                           onclick="document.getElementById('logout').submit()"/>
-                <!--                <a href="#" onclick="document.getElementById('logout').submit()">Logout</a>-->
             </f:facet>
 
         </p:menubar>
@@ -253,6 +260,12 @@
             </p:dialog>
 
         </p:panel>
+        <p:dialog global="true" id="test" widgetVar="includedDialog" header="Moji podaci"  showEffect="explode" >
+
+            <ui:include src="/secured/user/korisnikInfo.xhtml" />
+
+        </p:dialog>
+
     </h:form>
 </h:body>
 

@@ -18,7 +18,6 @@
     </style>
 </h:head>
 
-<h:body>
 
         <h:panelGrid id="panelGridInputForm1" columns="2" cellpadding="5" style="margin : 0 auto">
 
@@ -57,26 +56,19 @@
                          required="false"
             />
 
-            <p:outputLabel for="passwordDialog" value="Lozinka:" style="font-size: large"/>
-            <p:password id="passwordDialog"
-                        required="false"
-                        value="#{korisnikInfoController.korisnikDto.lozinka}"
-                        toggleMask="true" redisplay="true"/>
-            <p:tooltip for="passwordDialog" value="Minimalno 5 znakova, bez razmaka" position="right"/>
+<!--            <p:outputLabel for="passwordDialog" value="Lozinka:" style="font-size: large"/>-->
+<!--            <p:password id="passwordDialog"-->
+<!--                        required="false"-->
+<!--                        value="#{korisnikInfoController.korisnikDto.lozinka}"-->
+<!--                        toggleMask="true" redisplay="true"/>-->
+<!--            <p:tooltip for="passwordDialog" value="Minimalno 5 znakova, bez razmaka" position="right"/>-->
+
 
             <p:commandButton value="Spremi" action="#{korisnikInfoController.save}" id="spremiDialog"
                              style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                              icon="pi pi-save"/>
+                              icon="pi pi-save" process="@this"/>
 
-            <p:commandButton value="Spremi" actionListener="#{korisnikInfoController.save}" id="spremiDialog1"
-                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                             icon="pi pi-save"/>
-<!--            <p:commandButton value="Spremi" onclick="#{korisnikInfoController.save}" id="spremiDialog2"-->
-<!--                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"-->
-<!--                             icon="pi pi-save"/>-->
-<!--            <p:commandButton value="Spremi" oncomplete="#{korisnikInfoController.save}" id="spremiDialog3"-->
-<!--                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"-->
-<!--                             icon="pi pi-save"/>-->
+
         </h:panelGrid>
-</h:body>
+
 </html>
