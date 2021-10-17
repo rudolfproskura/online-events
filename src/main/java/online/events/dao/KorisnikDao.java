@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Serializable {
@@ -507,7 +508,7 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
                 korisnikDto.setEmail(entry.get("mail").get().toString());
                 korisnikDto.setOib(entry.get("employeenumber").get().toString());
                 korisnikDto.setLozinka((entry.get("userpassword").get().toString()));
-            //    System.out.println(entry);
+                //    System.out.println(entry);
             }
             //grupe
             Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
@@ -545,6 +546,132 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promjene uloge korisnika " + e.getMessage()));
         }
         return korisnikDto;
+    }
+
+    public List<KorisnikDto> getFilterUsers(KorisnikDto korisnikFilterDto) throws DogadajAppRuleException {
+        List<KorisnikDto> korisnikFilterList = new ArrayList<>();
+
+        try {
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            //get all users
+            ArrayList<KorisnikDto> listaSvihKorisnika = new ArrayList<>();
+
+            Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+            EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                String[] users = entry.get("uniqueMember").toString().split("\\R");
+                for (String user : users) {
+                    KorisnikDto korisnikDto = new KorisnikDto();
+                    korisnikDto.setKorisnickoIme(StringUtils.substringBetween(user, "uniqueMember: uid=", ",ou=users,dc=example,dc=com"));
+                    korisnikDto.setKorisnickoImeLDAP(StringUtils.substringAfter(user, "uniqueMember: "));
+                    korisnikDto.setTipKorisnika("admin");
+                    listaSvihKorisnika.add(korisnikDto);
+                }
+            }
+
+            groupDN = new
+
+                    Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                String[] users = entry.get("uniqueMember").toString().split("\\R");
+                for (String user : users) {
+                    KorisnikDto korisnikDto = new KorisnikDto();
+                    korisnikDto.setKorisnickoIme(StringUtils.substringBetween(user, "uniqueMember: uid=", ",ou=users,dc=example,dc=com"));
+                    korisnikDto.setKorisnickoImeLDAP(StringUtils.substringAfter(user, "uniqueMember: "));
+                    korisnikDto.setTipKorisnika("organizer");
+                    listaSvihKorisnika.add(korisnikDto);
+                }
+            }
+
+            groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                String[] users = entry.get("uniqueMember").toString().split("\\R");
+                for (String user : users) {
+                    KorisnikDto korisnikDto = new KorisnikDto();
+                    korisnikDto.setKorisnickoIme(StringUtils.substringBetween(user, "uniqueMember: uid=", ",ou=users,dc=example,dc=com"));
+                    korisnikDto.setKorisnickoImeLDAP(StringUtils.substringAfter(user, "uniqueMember: "));
+                    korisnikDto.setTipKorisnika("registredUsers");
+                    listaSvihKorisnika.add(korisnikDto);
+                }
+            }
+
+            for (KorisnikDto korisnikDto : listaSvihKorisnika) {
+                groupDN = new Dn(korisnikDto.getKorisnickoImeLDAP()); //nade odredenog usera
+                cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+                for (Entry entry : cursor) {
+                    korisnikDto.setIme(entry.get("cn").get().toString());
+                    korisnikDto.setPrezime(entry.get("sn").get().toString());
+                    korisnikDto.setEmail(entry.get("mail").get().toString());
+                    korisnikDto.setOib(entry.get("employeenumber").get().toString());
+                }
+            }
+
+
+            //filter list
+            if (korisnikFilterDto != null) {
+                //korisnicko ime
+                if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme())) {
+                    korisnikFilterList = listaSvihKorisnika.stream()
+                            .filter(korisnik ->
+                                    StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme()))
+                            .collect(Collectors.toList());
+                    //ime
+                } else if (StringUtils.isNotBlank(korisnikFilterDto.getIme())) {
+                    korisnikFilterList = listaSvihKorisnika.stream()
+                            .filter(korisnik ->
+                                    StringUtils.equals(korisnik.getIme(), korisnikFilterDto.getIme()))
+                            .collect(Collectors.toList());
+                } else if (StringUtils.isNotBlank(korisnikFilterDto.getPrezime())) {
+                    korisnikFilterList = listaSvihKorisnika.stream()
+                            .filter(korisnik ->
+                                    StringUtils.equals(korisnik.getPrezime(), korisnikFilterDto.getPrezime()))
+                            .collect(Collectors.toList());
+                    //oib
+                } else if (StringUtils.isNotBlank(korisnikFilterDto.getOib())) {
+                    korisnikFilterList = listaSvihKorisnika.stream()
+                            .filter(korisnik ->
+                                    StringUtils.equals(korisnik.getOib(), korisnikFilterDto.getOib()))
+                            .collect(Collectors.toList());
+                    //email
+                } else if (StringUtils.isNotBlank(korisnikFilterDto.getEmail())) {
+                    korisnikFilterList = listaSvihKorisnika.stream()
+                            .filter(korisnik ->
+                                    StringUtils.equals(korisnik.getEmail(), korisnikFilterDto.getEmail()))
+                            .collect(Collectors.toList());
+                    //tip korisnika
+                } else if (StringUtils.isNotBlank(korisnikFilterDto.getTipKorisnika())) {
+                    korisnikFilterList = listaSvihKorisnika.stream()
+                            .filter(korisnik ->
+                                    StringUtils.equals(korisnik.getTipKorisnika(), korisnikFilterDto.getTipKorisnika()))
+                            .collect(Collectors.toList());
+                } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+                    korisnikFilterList = listaSvihKorisnika;
+                }
+
+            } else {
+                korisnikFilterList = listaSvihKorisnika;
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promjene uloge korisnika " + e.getMessage()));
+        }
+
+        return korisnikFilterList;
+
     }
 
 

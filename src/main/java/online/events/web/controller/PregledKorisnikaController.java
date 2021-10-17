@@ -211,7 +211,7 @@ public class PregledKorisnikaController implements Serializable {
      */
     public void getFilterListKorisnik() {
         try {
-            korisnikDtoList = korisnikDao.getFilterList(korisnikFilterDto);
+            korisnikDtoList = korisnikDao.getFilterUsers(korisnikFilterDto);
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
                 for (String message : eventEx.getMessages()) {

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 public class KorisnikDto {
 
     private String korisnickoIme;
+    private String korisnickoImeLDAP;
     private String ime;
     private String prezime;
     private String oib;
@@ -89,5 +90,13 @@ public class KorisnikDto {
 
     public void setTipKorisnikaOpis(String tipKorisnikaOpis) {
         this.tipKorisnikaOpis = tipKorisnikaOpis;
+    }
+
+    public String getKorisnickoImeLDAP() {
+        return korisnickoImeLDAP;
+    }
+
+    public void setKorisnickoImeLDAP(String korisnickoImeLDAP) {
+        this.korisnickoImeLDAP = korisnickoImeLDAP;
     }
 }

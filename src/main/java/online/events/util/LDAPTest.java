@@ -12,8 +12,221 @@ import org.apache.directory.ldap.client.api.LdapConnection;
 import org.apache.directory.ldap.client.api.LdapNetworkConnection;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 public class LDAPTest {
+
+    @Test
+    public void testLDAPGetAllUser() throws Exception {
+
+        KorisnikDto korisnikFilterDto = new KorisnikDto();
+        korisnikFilterDto.setKorisnickoIme("rudek");
+
+
+        LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
+        //get all users
+        ArrayList<KorisnikDto> listaSvihKorisnika = new ArrayList<>();
+
+        Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+        EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            String[] users = entry.get("uniqueMember").toString().split("\\R");
+            for (String user : users) {
+                KorisnikDto korisnikDto = new KorisnikDto();
+                korisnikDto.setKorisnickoIme(StringUtils.substringBetween(user, "uniqueMember: uid=", ",ou=users,dc=example,dc=com"));
+                korisnikDto.setKorisnickoImeLDAP(StringUtils.substringAfter(user, "uniqueMember: "));
+                korisnikDto.setTipKorisnika("admin");
+                listaSvihKorisnika.add(korisnikDto);
+            }
+        }
+
+        groupDN = new
+
+                Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            String[] users = entry.get("uniqueMember").toString().split("\\R");
+            for (String user : users) {
+                KorisnikDto korisnikDto = new KorisnikDto();
+                korisnikDto.setKorisnickoIme(StringUtils.substringBetween(user, "uniqueMember: uid=", ",ou=users,dc=example,dc=com"));
+                korisnikDto.setKorisnickoImeLDAP(StringUtils.substringAfter(user, "uniqueMember: "));
+                korisnikDto.setTipKorisnika("organizer");
+                listaSvihKorisnika.add(korisnikDto);
+            }
+        }
+
+        groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            String[] users = entry.get("uniqueMember").toString().split("\\R");
+            for (String user : users) {
+                KorisnikDto korisnikDto = new KorisnikDto();
+                korisnikDto.setKorisnickoIme(StringUtils.substringBetween(user, "uniqueMember: uid=", ",ou=users,dc=example,dc=com"));
+                korisnikDto.setKorisnickoImeLDAP(StringUtils.substringAfter(user, "uniqueMember: "));
+                korisnikDto.setTipKorisnika("registredUsers");
+                listaSvihKorisnika.add(korisnikDto);
+            }
+        }
+
+        for (KorisnikDto korisnikDto : listaSvihKorisnika) {
+            groupDN = new Dn(korisnikDto.getKorisnickoImeLDAP()); //nade odredenog usera
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                korisnikDto.setIme(entry.get("cn").get().toString());
+                korisnikDto.setPrezime(entry.get("sn").get().toString());
+                korisnikDto.setEmail(entry.get("mail").get().toString());
+                korisnikDto.setOib(entry.get("employeenumber").get().toString());
+            }
+        }
+
+
+        //filter list
+        List<KorisnikDto> korisnikFilterList = new ArrayList<>();
+        if (korisnikFilterDto != null) {
+            //korisnicko ime
+            if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme())) {
+                korisnikFilterList = listaSvihKorisnika.stream()
+                        .filter(korisnik ->
+                                StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme()))
+                        .collect(Collectors.toList());
+              //ime
+            } else if (StringUtils.isNotBlank(korisnikFilterDto.getIme())) {
+                korisnikFilterList = listaSvihKorisnika.stream()
+                        .filter(korisnik ->
+                                StringUtils.equals(korisnik.getIme(), korisnikFilterDto.getIme()))
+                        .collect(Collectors.toList());
+            } else if (StringUtils.isNotBlank(korisnikFilterDto.getPrezime())) {
+                korisnikFilterList = listaSvihKorisnika.stream()
+                        .filter(korisnik ->
+                                StringUtils.equals(korisnik.getPrezime(), korisnikFilterDto.getPrezime()))
+                        .collect(Collectors.toList());
+              //oib
+            } else if (StringUtils.isNotBlank(korisnikFilterDto.getOib())) {
+            korisnikFilterList = listaSvihKorisnika.stream()
+                    .filter(korisnik ->
+                            StringUtils.equals(korisnik.getOib(), korisnikFilterDto.getOib()))
+                    .collect(Collectors.toList());
+             //email
+            } else if (StringUtils.isNotBlank(korisnikFilterDto.getEmail())) {
+                korisnikFilterList = listaSvihKorisnika.stream()
+                        .filter(korisnik ->
+                                StringUtils.equals(korisnik.getEmail(), korisnikFilterDto.getEmail()))
+                        .collect(Collectors.toList());
+                //tip korisnika
+            } else if (StringUtils.isNotBlank(korisnikFilterDto.getTipKorisnika())) {
+                korisnikFilterList = listaSvihKorisnika.stream()
+                        .filter(korisnik ->
+                                StringUtils.equals(korisnik.getTipKorisnika(), korisnikFilterDto.getTipKorisnika()))
+                        .collect(Collectors.toList());
+            } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+                    korisnikFilterList = listaSvihKorisnika;
+//              //korisnicko ime i ime
+//            } else if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isNotBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+//                    && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                korisnikFilterList = listaSvihKorisnika.stream()
+//                        .filter(korisnik ->
+//                                StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme())
+//                                && StringUtils.equals(korisnik.getIme(), korisnikFilterDto.getIme()))
+//                        .collect(Collectors.toList());
+//                //korisnicko ime i prezime
+//            } else if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isNotBlank(korisnikFilterDto.getPrezime())
+//                    && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                korisnikFilterList = listaSvihKorisnika.stream()
+//                        .filter(korisnik ->
+//                                StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme())
+//                                        && StringUtils.equals(korisnik.getPrezime(), korisnikFilterDto.getPrezime()))
+//                        .collect(Collectors.toList());
+//
+//            } else if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isNotBlank(korisnikFilterDto.getPrezime())
+//                    && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                korisnikFilterList = listaSvihKorisnika.stream()
+//                        .filter(korisnik ->
+//                                StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme())
+//                                        && StringUtils.equals(korisnik.getPrezime(), korisnikFilterDto.getPrezime()))
+//                        .collect(Collectors.toList());
+
+//                //korisnicko ime
+//                if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+//                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                    korisnikFilterList = listaSvihKorisnika.stream()
+//                            .filter(korisnik ->
+//                                    StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme()))
+//                            .collect(Collectors.toList());
+//                    //ime
+//                } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isNotBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+//                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                    korisnikFilterList = listaSvihKorisnika.stream()
+//                            .filter(korisnik ->
+//                                    StringUtils.equals(korisnik.getIme(), korisnikFilterDto.getIme()))
+//                            .collect(Collectors.toList());
+//                    //prezime
+//                } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isNotBlank(korisnikFilterDto.getPrezime())
+//                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                    korisnikFilterList = listaSvihKorisnika.stream()
+//                            .filter(korisnik ->
+//                                    StringUtils.equals(korisnik.getPrezime(), korisnikFilterDto.getPrezime()))
+//                            .collect(Collectors.toList());
+//                    //oib
+//                } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+//                        && StringUtils.isNotBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                    korisnikFilterList = listaSvihKorisnika.stream()
+//                            .filter(korisnik ->
+//                                    StringUtils.equals(korisnik.getOib(), korisnikFilterDto.getOib()))
+//                            .collect(Collectors.toList());
+//                    //email
+//                } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+//                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isNotBlank(korisnikFilterDto.getEmail()) && StringUtils.isBlank(korisnikFilterDto.getTipKorisnika())) {
+//                    korisnikFilterList = listaSvihKorisnika.stream()
+//                            .filter(korisnik ->
+//                                    StringUtils.equals(korisnik.getEmail(), korisnikFilterDto.getEmail()))
+//                            .collect(Collectors.toList());
+//                    //tip korisnika
+//                } else if (StringUtils.isBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isBlank(korisnikFilterDto.getIme()) && StringUtils.isBlank(korisnikFilterDto.getPrezime())
+//                        && StringUtils.isBlank(korisnikFilterDto.getOib()) && StringUtils.isBlank(korisnikFilterDto.getEmail()) && StringUtils.isNotBlank(korisnikFilterDto.getTipKorisnika())) {
+//                    korisnikFilterList = listaSvihKorisnika.stream()
+//                            .filter(korisnik ->
+//                                    StringUtils.equals(korisnik.getTipKorisnika(), korisnikFilterDto.getTipKorisnika()))
+//                            .collect(Collectors.toList());
+
+
+//                if (StringUtils.isNotBlank(korisnikFilterDto.getKorisnickoIme()) && StringUtils.isNotBlank(korisnikFilterDto.getIme()) && StringUtils.isNotBlank(korisnikFilterDto.getPrezime())
+//                    && StringUtils.isNotBlank(korisnikFilterDto.getOib()) && StringUtils.isNotBlank(korisnikFilterDto.getEmail()) && StringUtils.isNotBlank(korisnikFilterDto.getTipKorisnika())) {
+//                korisnikFilterList = listaSvihKorisnika.stream()
+//                        .filter(korisnik ->
+//                                StringUtils.equals(korisnik.getKorisnickoIme(), korisnikFilterDto.getKorisnickoIme())
+//                                && (StringUtils.equals(korisnik.getIme(), korisnikFilterDto.getIme()))
+//                                && (StringUtils.equals(korisnik.getPrezime(), korisnikFilterDto.getPrezime()))
+//                                && (StringUtils.equals(korisnik.getOib(), korisnikFilterDto.getOib()))
+//                                && (StringUtils.equals(korisnik.getEmail(), korisnikFilterDto.getEmail()))
+//                                && (StringUtils.equals(korisnik.getTipKorisnika(), korisnikFilterDto.getTipKorisnika())))
+//                        .collect(Collectors.toList());
+            }
+
+        } else {
+            korisnikFilterList = listaSvihKorisnika;
+        }
+
+
+        System.out.println("test");
+
+        cursor.close();
+
+    }
+
 
     @Test
     public void testLDAPGetUserGroup() throws Exception {
@@ -33,7 +246,6 @@ public class LDAPTest {
                 //set admin
             }
         }
-
 
 
         cursor.close();
