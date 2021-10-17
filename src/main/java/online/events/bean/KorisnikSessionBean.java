@@ -55,5 +55,17 @@ public class KorisnikSessionBean implements IKorisnikSessionBean {
         return korisnikDto;
     }
 
+    /**
+     * <p>create dogadaj</p>
+     *
+     * @param korisnikDto
+     * @return korisnikDto
+     * @throws DogadajAppRuleException
+     */
+    public void editLDAPKorisnik(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+        korisnikDao.validateBeforeEditLDAPUser(korisnikDto);
+        korisnikDao.modifyLDAPUser(korisnikDto);
+    }
+
 
 }

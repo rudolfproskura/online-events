@@ -8,29 +8,28 @@
 
 
 <!--<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>-->
-
-<h:head>
-    <title>Podaci o korisniku</title>
-    <style type="text/css">
-        html {
-            font-size: 14px;
-        }
-    </style>
-</h:head>
+        <h:panelGrid id="messagePanel" >
+            <p:messages id="messagesDialog" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+        </h:panelGrid>
 
 
-        <h:panelGrid id="panelGridInputForm1" columns="2" cellpadding="5" style="margin : 0 auto">
+        <h:panelGrid id="panelGridInputForm1" columns="2" cellpadding="5" style="margin : 0 auto;">
 
-            <p:outputLabel for="korisnickoImeInputDialog" value="Korisničko ime:   "/>
+
+
+            <p:outputLabel for="korisnickoImeInputDialog" value="Korisničko ime:   " />
             <p:inputText id="korisnickoImeInputDialog"
-                         value="#{korisnikInfoController.korisnikDto.korisnickoIme}"
+                         value="#{pregledKorisnikaController.korisnikInfoDto.korisnickoIme}"
                          maxlength="20"
-                         disabled="true">
+                         disabled="true"
+            >
             </p:inputText>
 
             <p:outputLabel for="imeInputDialog" value="Ime   :   "/>
             <p:inputText id="imeInputDialog"
-                         value="#{korisnikInfoController.korisnikDto.ime}"
+                         value="#{pregledKorisnikaController.korisnikInfoDto.ime}"
                          maxlength="50" size="50"
                          required="false">
             </p:inputText>
@@ -38,24 +37,29 @@
 
             <p:outputLabel for="prezimeInputDialog" value="Prezime   :   "/>
             <p:inputText id="prezimeInputDialog"
-                         value="#{korisnikInfoController.korisnikDto.prezime}"
+                         value="#{pregledKorisnikaController.korisnikInfoDto.prezime}"
                          maxlength="50" size="50"
                          required="false"
                          requiredMessage="Prezime korisnika je obavezan podatak!"/>
 
             <p:outputLabel for="oibInputDialog" value="OIB   :   "/>
             <p:inputText id="oibInputDialog"
-                         value="#{korisnikInfoController.korisnikDto.oib}"
+                         value="#{pregledKorisnikaController.korisnikInfoDto.oib}"
                          maxlength="11"
                          required="false"/>
 
             <p:outputLabel for="emailInputDialog" value="Email   :   "/>
             <p:inputText id="emailInputDialog"
-                         value="#{korisnikInfoController.korisnikDto.email}"
+                         value="#{pregledKorisnikaController.korisnikInfoDto.email}"
                          maxlength="50" size="50"
                          required="false"
             />
-
+            <p:outputLabel for="tipKorisnikaDialog" value="Uloga korisnika:   "/>
+            <p:inputText id="tipKorisnikaDialog"
+                         value="#{pregledKorisnikaController.korisnikInfoDto.tipKorisnikaOpis}"
+                         maxlength="20"
+                         disabled="true">
+            </p:inputText>
 <!--            <p:outputLabel for="passwordDialog" value="Lozinka:" style="font-size: large"/>-->
 <!--            <p:password id="passwordDialog"-->
 <!--                        required="false"-->
@@ -64,9 +68,9 @@
 <!--            <p:tooltip for="passwordDialog" value="Minimalno 5 znakova, bez razmaka" position="right"/>-->
 
 
-            <p:commandButton value="Spremi" action="#{korisnikInfoController.save}" id="spremiDialog"
+            <p:commandButton value="Promijeni" action="#{pregledKorisnikaController.editUser}" id="spremiDialog"
                              style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                              icon="pi pi-save" process="@this"/>
+                              icon="pi pi-save"  update="messagePanel"/>
 
 
         </h:panelGrid>

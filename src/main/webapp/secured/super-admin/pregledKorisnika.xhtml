@@ -48,9 +48,10 @@
                      <p:commandButton value="#{request.remoteUser}"
                                       icon="pi pi-fw pi-user-edit"
                                       styleClass="rounded-button ui-button-info" ajax="true"
-                                      onclick="PF('includedDialog').show();"
+                                      onclick="openAndFillDialogNew()"
+                                      update="@form"
                      />
-
+<!-- onclick="callRemoteMethod();PF('includedDialog').show();"-->
                     </h:form>
                 </span>
                 <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
@@ -65,10 +66,11 @@
 
 
     <h:form id="mainForm">
-
+        <p:remoteCommand name="callRemoteMethod"
+                         actionListener="#{pregledKorisnikaController.getUserInfo(request.remoteUser)}" />
         <h:panelGrid>
             <p:messages id="messages" showDetail="true" closable="true">
-                <p:autoUpdate/>
+
             </p:messages>
         </h:panelGrid>
         <h:panelGrid id="panel_unos_pretraga" header="Unos / ažuriranje / pretraga korisnika"
@@ -133,7 +135,7 @@
                                          update="panelGridInputForm, filterAdvanced" icon="pi pi-replay"/>
                         <p:commandButton value="Spremi" actionListener="#{pregledKorisnikaController.save}" id="spremi"
                                          style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
-                                         update="panel_unos, filterAdvanced" icon="pi pi-save"/>
+                                         update="panel_unos, filterAdvanced, messages" icon="pi pi-save"/>
 
                     </h:panelGrid>
                 </p:panel>
@@ -186,7 +188,7 @@
                                          update="panel_filter2 panel_filter1" icon="pi pi-replay"/>
                         <p:commandButton value="Pretraži" actionListener="#{pregledKorisnikaController.getFilterListKorisnik}"
                                          id="filter" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                                         ajax="true" update="filterAdvanced"
+                                         ajax="true" update="filterAdvanced, messages"
                                          icon="pi pi-search"/>
 
                     </h:panelGrid>
@@ -253,4 +255,35 @@
 
     </h:form>
 </h:body>
+
+<script type="application/javascript">
+    function openAndFillDialog(){
+        fillDialogData();
+        PF('includedDialog').show();
+    }
+
+    function openDialog() {
+        PF('includedDialog').show();
+    }
+
+    function fillDialogData() {
+        callRemoteMethod();
+    }
+
+    function openAndFillDialogNew(){
+        fillDialogDataPromise().then(function () {
+            openDialog();
+        });
+    }
+
+    function fillDialogDataPromise() {
+        return new Promise(function (resolve, reject) {
+            callRemoteMethod();
+            resolve();
+        })
+    }
+
+
+
+</script>
 </html>

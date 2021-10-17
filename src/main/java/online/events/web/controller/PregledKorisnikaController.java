@@ -42,6 +42,8 @@ public class PregledKorisnikaController implements Serializable {
     private List<KorisnikDto> korisnikDtoList;
     private List<SelectItem> tipKorisnikaSelectItems = new ArrayList<>();
 
+    private KorisnikDto korisnikInfoDto;
+
 
     //CDI
     @Inject
@@ -65,6 +67,7 @@ public class PregledKorisnikaController implements Serializable {
         korisnikFilterDto = new KorisnikDto();
 
         korisnikDtoList = null;
+        getUserInfo(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
     }
 
     /*
@@ -88,6 +91,22 @@ public class PregledKorisnikaController implements Serializable {
         getKorisnikFilterDto().setEmail(null);
         getKorisnikFilterDto().setTipKorisnika(null);
         korisnikDtoList = null;
+    }
+
+    public void getUserInfo(String userName) {
+        try {
+            korisnikInfoDto = korisnikDao.getKorisnikInfo(userName);
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom dohvaćanja podataka o korisniku.", DogadajAppConstants.SEVERITY_ERR);
+        }
     }
 
 
@@ -115,6 +134,31 @@ public class PregledKorisnikaController implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             addMessage("Došlo je do greške prilikom kreiranja/ažuriranja korisnika.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
+    /*
+     * save metoda za spremanje/ažuriranje događaja
+     */
+    public void editUser() {
+        try {
+            if (korisnikInfoDto != null) {
+                korisnikSessionBean.editLDAPKorisnik(korisnikInfoDto);
+                addMessage("Vaši podaci su promijenjeni", DogadajAppConstants.SEVERITY_INFO);
+            } else {
+                addMessage("Popunite Vaše podatke.", DogadajAppConstants.SEVERITY_WARN);
+
+            }
+        } catch (DogadajAppRuleException eventEx) {
+            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
+                for (String message : eventEx.getMessages()) {
+                    eventEx.printStackTrace();
+                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom promijene Vaših podataka.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
 
@@ -260,5 +304,13 @@ public class PregledKorisnikaController implements Serializable {
 
     public void setKorisnikFilterDto(KorisnikDto korisnikFilterDto) {
         this.korisnikFilterDto = korisnikFilterDto;
+    }
+
+    public KorisnikDto getKorisnikInfoDto() {
+        return korisnikInfoDto;
+    }
+
+    public void setKorisnikInfoDto(KorisnikDto korisnikInfoDto) {
+        this.korisnikInfoDto = korisnikInfoDto;
     }
 }

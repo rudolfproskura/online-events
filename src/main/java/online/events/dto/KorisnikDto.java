@@ -1,6 +1,6 @@
 package online.events.dto;
 
-import online.events.model.TipKorisnika;
+import org.apache.commons.lang3.StringUtils;
 
 public class KorisnikDto {
 
@@ -10,6 +10,7 @@ public class KorisnikDto {
     private String oib;
     private String email;
     private String tipKorisnika;
+    private String tipKorisnikaOpis;
     private String lozinka;
 
     public KorisnikDto() {
@@ -69,5 +70,24 @@ public class KorisnikDto {
 
     public void setLozinka(String lozinka) {
         this.lozinka = lozinka;
+    }
+
+    public String getTipKorisnikaOpis() {
+        if (StringUtils.isNoneBlank(tipKorisnika)) {
+            if (tipKorisnika.equals("admin")) {
+                tipKorisnikaOpis = "Administrator";
+            }
+            if (tipKorisnika.equals("organizer")) {
+                tipKorisnikaOpis = "Organizator";
+            }
+            if (tipKorisnika.equals("registredUsers")) {
+                tipKorisnikaOpis = "Korisnik";
+            }
+        }
+        return tipKorisnikaOpis;
+    }
+
+    public void setTipKorisnikaOpis(String tipKorisnikaOpis) {
+        this.tipKorisnikaOpis = tipKorisnikaOpis;
     }
 }

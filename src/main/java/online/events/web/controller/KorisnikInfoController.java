@@ -31,7 +31,7 @@ public class KorisnikInfoController implements Serializable {
     //fields
     private static final long serialVersionUID = 1L;
 
-    private KorisnikDto korisnikDto;
+    private KorisnikDto korisnikInfoDto;
 
     private List<KorisnikDto> korisnikDtoList;
     private List<SelectItem> tipKorisnikaSelectItems = new ArrayList<>();
@@ -58,7 +58,7 @@ public class KorisnikInfoController implements Serializable {
      */
     public void getUserInfo(String userName) {
         try {
-            korisnikDto = korisnikDao.getKorisnikInfo(userName);
+            korisnikInfoDto = korisnikDao.getKorisnikInfo(userName);
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
                 for (String message : eventEx.getMessages()) {
@@ -76,15 +76,13 @@ public class KorisnikInfoController implements Serializable {
     /*
      * save metoda za spremanje/ažuriranje događaja
      */
-    public void save() {
+    public void editUser() {
         try {
-            if (korisnikDto != null) {
-                korisnikDto.setTipKorisnika("user");
-                korisnikSessionBean.createLDAPAndDBKorisnik(korisnikDto);
-                addMessage(korisnikDto.getIme() + " " + korisnikDto.getPrezime() + " uspješno ste se registrirali. Možete se prijaviti na stranice.", DogadajAppConstants.SEVERITY_INFO);
-                korisnikDto = new KorisnikDto();
+            if (korisnikInfoDto != null) {
+                korisnikSessionBean.editLDAPKorisnik(korisnikInfoDto);
+                addMessage("Vaši podaci su promijenjeni", DogadajAppConstants.SEVERITY_INFO);
             } else {
-                addMessage("Korisnik je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
+                addMessage("Popunite Vaše podatke.", DogadajAppConstants.SEVERITY_WARN);
 
             }
         } catch (DogadajAppRuleException eventEx) {
@@ -96,29 +94,9 @@ public class KorisnikInfoController implements Serializable {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            addMessage("Došlo je do greške prilikom registracije korisnika.", DogadajAppConstants.SEVERITY_ERR);
+            addMessage("Došlo je do greške prilikom promijene Vaših podataka.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
-
-    public void checkUserName() {
-        try {
-            if (StringUtils.isNotBlank(korisnikDto.getKorisnickoIme())) {
-                korisnikDao.checkUserNameExsists(korisnikDto.getKorisnickoIme());
-            }
-        } catch (DogadajAppRuleException eventEx) {
-            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
-                for (String message : eventEx.getMessages()) {
-                    eventEx.printStackTrace();
-                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            korisnikDto.setKorisnickoIme("");
-            addMessage("Došlo je do greške prilikom provjere korisničkog imena.", DogadajAppConstants.SEVERITY_ERR);
-        }
-    }
-
 
     public void addMessage(String summary, String severity) {
         if (StringUtils.isNotBlank(summary) && StringUtils.isNotBlank(severity)) {
@@ -141,12 +119,12 @@ public class KorisnikInfoController implements Serializable {
     }
 
 
-    public KorisnikDto getKorisnikDto() {
-        return korisnikDto;
+    public KorisnikDto getKorisnikInfoDto() {
+        return korisnikInfoDto;
     }
 
-    public void setKorisnikDto(KorisnikDto korisnikDto) {
-        this.korisnikDto = korisnikDto;
+    public void setKorisnikInfoDto(KorisnikDto korisnikInfoDto) {
+        this.korisnikInfoDto = korisnikInfoDto;
     }
 
     public List<KorisnikDto> getKorisnikDtoList() {

@@ -19,6 +19,9 @@ public interface IKorisnikSessionBean {
 
 	public KorisnikDto createLDAPAndDBKorisnik(KorisnikDto korisnikDto) throws DogadajAppRuleException;
 
+	public void editLDAPKorisnik(KorisnikDto korisnikDto) throws DogadajAppRuleException;
+
+
 
 
 	}
