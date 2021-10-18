@@ -59,12 +59,12 @@ public class PregledKorisnikaController implements Serializable {
 
     @PostConstruct
     public void init() {
-        tipKorisnikaSelectItems.add(new SelectItem("registredUsers", "Registrirani korisnik"));
+        tipKorisnikaSelectItems.add(new SelectItem("registredUsers", "Korisnik"));
         tipKorisnikaSelectItems.add(new SelectItem("organizer", "Organizator"));
         tipKorisnikaSelectItems.add(new SelectItem("admin", "Administrator"));
 
         tipKorisnikaFilterSelectItems.add(new SelectItem(null, ""));
-        tipKorisnikaFilterSelectItems.add(new SelectItem("registredUsers", "Registrirani korisnik"));
+        tipKorisnikaFilterSelectItems.add(new SelectItem("registredUsers", "Korisnik"));
         tipKorisnikaFilterSelectItems.add(new SelectItem("organizer", "Organizator"));
         tipKorisnikaFilterSelectItems.add(new SelectItem("admin", "Administrator"));
 
