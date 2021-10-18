@@ -21,6 +21,9 @@ public interface IKorisnikSessionBean {
 
 	public void editLDAPKorisnik(KorisnikDto korisnikDto) throws DogadajAppRuleException;
 
+	public void changeLDAPUserGroup(KorisnikDto korisnikDto) throws DogadajAppRuleException;
+
+
 
 
 

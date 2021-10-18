@@ -458,21 +458,49 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
         }
     }
 
-    public void modifyLDAPUserGroup(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+    public void changeLDAPUserGroup(KorisnikDto korisnikDto) throws DogadajAppRuleException {
         try {
             LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
             connection.setTimeOut(0);
             connection.bind("uid=admin,ou=system", "secret");
 
-            String postojecaGrupa = "registredUsers";
-            String novaGrupa = "admin";
+            String postojecaGrupa = null;
 
-            if (!StringUtils.equals(postojecaGrupa, novaGrupa)) {
+            //grupe
+            Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+            EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "admin";
+                }
+            }
+
+            groupDN = new Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "organizer";
+                }
+            }
+
+            groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "registredUsers";
+                }
+            }
+
+
+            if (!StringUtils.equals(postojecaGrupa, korisnikDto.getTipKorisnika())) {
                 //add to new group
 
                 Modification addUniqueMember = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE,
                         "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
-                connection.modify("cn=" + novaGrupa + ",ou=groups,dc=example,dc=com", addUniqueMember);
+                connection.modify("cn=" + korisnikDto.getTipKorisnika() + ",ou=groups,dc=example,dc=com", addUniqueMember);
 
                 //remove from current group
                 Modification removeUniqueMember = new DefaultModification(ModificationOperation.REMOVE_ATTRIBUTE,

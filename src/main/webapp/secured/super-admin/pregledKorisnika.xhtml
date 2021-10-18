@@ -73,72 +73,11 @@
 
             </p:messages>
         </h:panelGrid>
-        <h:panelGrid id="panel_unos_pretraga" header="Unos / ažuriranje / pretraga korisnika"
+        <h:panelGrid id="panel_unos_pretraga" header="Ažuriranje / pretraga korisnika"
                      style="margin-top:10px; color: #dfefff" toggleable="true"
                      toggleSpeed="500"
                      toggleableHeader="true" widgetVar="widgetInputPretraga">
             <h:panelGrid columns="2" id="allPanelGrid">
-
-                <!--                <p:panel id="panel_unos" header="Unos / ažuriranje korisnika" style="margin-top:5px; color: #dfefff"-->
-                <!--                         toggleable="false"-->
-                <!--                         toggleSpeed="500"-->
-                <!--                         toggleableHeader="false" widgetVar="widgetInput">-->
-                <!--                    <h:panelGrid id="panelGridInputForm" columns="2">-->
-                <!--                        <p:outputLabel for="korisnickoImeInput" value="Korisničko ime:   "/>-->
-                <!--                        <p:inputText id="korisnickoImeInput"-->
-                <!--                                     value="#{pregledKorisnikaController.korisnikDto.korisnickoIme}"-->
-                <!--                                     maxlength="20"-->
-                <!--                                     required="false    "/>-->
-                <!--                        &lt;!&ndash;                             requiredMessage="Korisničko ime je obavezan podatak!"&ndash;&gt;-->
-
-                <!--                        <p:outputLabel for="imeInput" value="Ime   :   "/>-->
-                <!--                        <p:inputText id="imeInput"-->
-                <!--                                     value="#{pregledKorisnikaController.korisnikDto.ime}"-->
-                <!--                                     maxlength="50" size="50"-->
-                <!--                                     required="false"/>-->
-                <!--                        &lt;!&ndash;                             requiredMessage="Ime korisnika je obavezan podatak!"&ndash;&gt;-->
-
-                <!--                        <p:outputLabel for="prezimeInput" value="Prezime   :   "/>-->
-                <!--                        <p:inputText id="prezimeInput"-->
-                <!--                                     value="#{pregledKorisnikaController.korisnikDto.prezime}"-->
-                <!--                                     maxlength="50" size="50"-->
-                <!--                                     required="false"-->
-                <!--                                     requiredMessage="Prezime korisnika je obavezan podatak!"/>-->
-
-                <!--                        <p:outputLabel for="oibInput" value="OIB   :   "/>-->
-                <!--                        <p:inputMask id="oibInput"-->
-                <!--                                     value="#{pregledKorisnikaController.korisnikDto.oib}"-->
-                <!--                                     maxlength="11"-->
-                <!--                                     required="false"-->
-                <!--                                     requiredMessage="OIB korisnika je obavezan podatak!"-->
-                <!--                                     mask="99999999999" validateMask="true"/>-->
-
-                <!--                        <p:outputLabel for="emailInput" value="Email   :   "/>-->
-                <!--                        <p:inputText id="emailInput"-->
-                <!--                                     value="#{pregledKorisnikaController.korisnikDto.email}"-->
-                <!--                                     maxlength="50" size="50"-->
-                <!--                                     required="false"-->
-                <!--                                     requiredMessage="Email korisnika je obavezan podatak!"/>-->
-
-                <!--                        <p:outputLabel for="tipKorsnikaInput" value="Uloga:   "/>-->
-                <!--                        <p:selectOneMenu id="tipKorsnikaInput"-->
-                <!--                                         value="#{pregledKorisnikaController.korisnikDto.tipKorisnika}"-->
-                <!--                                         style="width:250px" required="false"-->
-                <!--                                         requiredMessage="Uloga korisnika je obavezan podatak!">-->
-                <!--                            <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaSelectItems}"/>-->
-                <!--                        </p:selectOneMenu>-->
-
-
-                <!--                        <p:commandButton value="Novi" actionListener="#{pregledKorisnikaController.resetDto}"-->
-                <!--                                         id="novizapis"-->
-                <!--                                         style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"-->
-                <!--                                         update="panelGridInputForm, filterAdvanced" icon="pi pi-replay"/>-->
-                <!--                        <p:commandButton value="Spremi" actionListener="#{pregledKorisnikaController.save}" id="spremi"-->
-                <!--                                         style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"-->
-                <!--                                         update="panel_unos, filterAdvanced, messages" icon="pi pi-save"/>-->
-
-                <!--                    </h:panelGrid>-->
-                <!--                </p:panel>-->
 
                 <p:panel id="panel_filter1" header="Pretraga korisnika aplikacije"
                          style="margin-top:5px; color: #dfefff"
@@ -164,10 +103,10 @@
                                      maxlength="50" size="50"/>
 
                         <p:outputLabel for="oibFilter" value="OIB   :   "/>
-                        <p:inputMask id="oibFilter"
+                        <p:inputText id="oibFilter"
                                      value="#{pregledKorisnikaController.korisnikFilterDto.oib}"
                                      maxlength="11"
-                                     mask="99999999999" validateMask="true"/>
+                                     />
 
                         <p:outputLabel for="emailFilter" value="Email   :   "/>
                         <p:inputText id="emailFilter"
@@ -178,7 +117,7 @@
                         <p:selectOneMenu id="tipKorsnikaFilter"
                                          value="#{pregledKorisnikaController.korisnikFilterDto.tipKorisnika}"
                                          style="width:250px">
-                            <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaSelectItems}"/>
+                            <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaFilterSelectItems}"/>
                         </p:selectOneMenu>
 
                         <!--                        <p:commandButton value="Novi" onclick="PF('dlg3').show();"-->
@@ -200,6 +139,68 @@
 
                 </p:panel>
 
+                <p:panel id="panel_unos" header="Promjena uloge korisnika" style="margin-top:5px; color: #dfefff"
+                         toggleable="false"
+                         toggleSpeed="500"
+                         toggleableHeader="false" widgetVar="widgetInput">
+                    <h:panelGrid id="panelGridInputForm" columns="2">
+                        <p:outputLabel for="korisnickoImeInput" value="Korisničko ime:   "/>
+                        <p:inputText id="korisnickoImeInput"
+                                     value="#{pregledKorisnikaController.korisnikDto.korisnickoIme}"
+                                     maxlength="20"
+                                     readonly="true"
+                                     disabled="true"/>
+                        <!--                             requiredMessage="Korisničko ime je obavezan podatak!"-->
+
+                        <p:outputLabel for="imeInput" value="Ime   :   "/>
+                        <p:inputText id="imeInput"
+                                     value="#{pregledKorisnikaController.korisnikDto.ime}"
+                                     maxlength="50" size="50"
+                                     readonly="true"
+                                     disabled="true"
+                        />
+                        <!--                             requiredMessage="Ime korisnika je obavezan podatak!"-->
+
+                        <p:outputLabel for="prezimeInput" value="Prezime   :   "/>
+                        <p:inputText id="prezimeInput"
+                                     value="#{pregledKorisnikaController.korisnikDto.prezime}"
+                                     maxlength="50" size="50"
+                                     readonly="true"
+                                     disabled="true"/>
+
+                        <p:outputLabel for="oibInput" value="OIB   :   "/>
+                        <p:inputText id="oibInput"
+                                     value="#{pregledKorisnikaController.korisnikDto.oib}"
+                                     maxlength="11"
+                                     readonly="true"
+                                     disabled="true"
+                        />
+
+                        <p:outputLabel for="emailInput" value="Email   :   "/>
+                        <p:inputText id="emailInput"
+                                     value="#{pregledKorisnikaController.korisnikDto.email}"
+                                     maxlength="50" size="50"
+                                     readonly="true"
+                                     disabled="true"/>
+
+                        <p:outputLabel for="tipKorsnikaInput" value="Uloga:   "/>
+                        <p:selectOneMenu id="tipKorsnikaInput"
+                                         value="#{pregledKorisnikaController.korisnikDto.tipKorisnika}"
+                                         style="width:250px" required="false"
+                                         requiredMessage="Uloga korisnika je obavezan podatak!">
+                            <f:selectItems value="#{pregledKorisnikaController.tipKorisnikaSelectItems}"/>
+                        </p:selectOneMenu>
+
+<!--                        <p:commandButton value="Novi" actionListener="#{pregledKorisnikaController.resetDto}"-->
+<!--                                         id="novizapis"-->
+<!--                                         style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"-->
+<!--                                         update="panelGridInputForm, filterAdvanced" icon="pi pi-replay"/>-->
+                        <p:commandButton value="Promijeni" actionListener="#{pregledKorisnikaController.chageUserGroup}" id="spremi"
+                                         style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
+                                         update="panel_unos, filterAdvanced, messages" icon="pi pi-save"/>
+
+                    </h:panelGrid>
+                </p:panel>
 
             </h:panelGrid>
         </h:panelGrid>
@@ -224,7 +225,7 @@
                              allowUnsorting="true" sortMode="single"
                              emptyMessage="Ne postoji niti jedan korisnik">
                     <p:ajax event="rowSelect" listener="#{pregledKorisnikaController.onTableRowSelect}"
-                            update="mainForm:panel_filter2"/>
+                            update="mainForm:panel_unos"/>
 
                     <p:column sortBy="#{korisnikDogadajDto.korisnickoIme}" headerText="Korisničko ime">
                         <h:outputText value="#{korisnikDogadajDto.korisnickoIme}"/>
@@ -241,8 +242,8 @@
                     <p:column sortBy="#{korisnikDogadajDto.email}" headerText="Email">
                         <h:outputText value="#{korisnikDogadajDto.email}"/>
                     </p:column>
-                    <p:column sortBy="#{korisnikDogadajDto.tipKorisnika}" headerText="Uloga">
-                        <h:outputText value="#{korisnikDogadajDto.tipKorisnika}"/>
+                    <p:column sortBy="#{korisnikDogadajDto.tipKorisnikaOpis}" headerText="Uloga">
+                        <h:outputText value="#{korisnikDogadajDto.tipKorisnikaOpis}"/>
                     </p:column>
                 </p:dataTable>
             </h:panelGrid>

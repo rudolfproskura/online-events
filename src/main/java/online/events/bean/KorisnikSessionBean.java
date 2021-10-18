@@ -67,5 +67,8 @@ public class KorisnikSessionBean implements IKorisnikSessionBean {
         korisnikDao.modifyLDAPUser(korisnikDto);
     }
 
+    public void changeLDAPUserGroup(KorisnikDto korisnikDto) throws DogadajAppRuleException {
+        korisnikDao.changeLDAPUserGroup(korisnikDto);
+    }
 
 }

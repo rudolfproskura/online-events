@@ -21,6 +21,67 @@ import java.util.stream.Stream;
 public class LDAPTest {
 
     @Test
+    public void changeUserGroup() throws Exception {
+
+        KorisnikDto korisnikDto = new KorisnikDto();
+
+        LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+        connection.setTimeOut(0);
+        connection.bind("uid=admin,ou=system", "secret");
+
+        String postojecaGrupa = null;
+
+        //grupe
+        Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+        EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                postojecaGrupa = "admin";
+            }
+        }
+
+        groupDN = new Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                postojecaGrupa = "organizer";
+            }
+        }
+
+        groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+        cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+        for (Entry entry : cursor) {
+            if (entry.get("uniqueMember").contains("uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com")) {
+                postojecaGrupa = "registredUsers";
+            }
+        }
+
+
+
+
+        if (!StringUtils.equals(postojecaGrupa, korisnikDto.getTipKorisnika())) {
+            //add to new group
+
+            Modification addUniqueMember = new DefaultModification(ModificationOperation.ADD_ATTRIBUTE,
+                    "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
+            connection.modify("cn=" + korisnikDto.getTipKorisnika() + ",ou=groups,dc=example,dc=com", addUniqueMember);
+
+            //remove from current group
+            Modification removeUniqueMember = new DefaultModification(ModificationOperation.REMOVE_ATTRIBUTE,
+                    "uniqueMember", "uid=" + korisnikDto.getKorisnickoIme() + ",ou=users,dc=example,dc=com");
+            connection.modify("cn=" + postojecaGrupa + ",ou=groups,dc=example,dc=com", removeUniqueMember);
+        }
+
+        connection.close();
+
+
+
+    }
+
+    @Test
     public void testLDAPGetAllUser() throws Exception {
 
         KorisnikDto korisnikFilterDto = new KorisnikDto();
@@ -30,6 +91,9 @@ public class LDAPTest {
         LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
         connection.setTimeOut(0);
         connection.bind("uid=admin,ou=system", "secret");
+
+
+
 
         //get all users
         ArrayList<KorisnikDto> listaSvihKorisnika = new ArrayList<>();
@@ -237,13 +301,14 @@ public class LDAPTest {
         connection.setTimeOut(0);
         connection.bind("uid=admin,ou=system", "secret");
 
-        String korisnickoIme = "elvis1";
+        String korisnickoIme = "anica";
         Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
         EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
 
         for (Entry entry : cursor) {
             if (entry.get("uniqueMember").contains("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com")) {
                 //set admin
+                System.out.println(entry);
             }
         }
 

@@ -41,6 +41,7 @@ public class PregledKorisnikaController implements Serializable {
 
     private List<KorisnikDto> korisnikDtoList;
     private List<SelectItem> tipKorisnikaSelectItems = new ArrayList<>();
+    private List<SelectItem> tipKorisnikaFilterSelectItems = new ArrayList<>();
 
     private KorisnikDto korisnikInfoDto;
 
@@ -58,10 +59,14 @@ public class PregledKorisnikaController implements Serializable {
 
     @PostConstruct
     public void init() {
-        tipKorisnikaSelectItems.add(new SelectItem(null, ""));
-        tipKorisnikaSelectItems.add(new SelectItem("user", "Registrirani korisnik"));
+        tipKorisnikaSelectItems.add(new SelectItem("registredUsers", "Registrirani korisnik"));
         tipKorisnikaSelectItems.add(new SelectItem("organizer", "Organizator"));
         tipKorisnikaSelectItems.add(new SelectItem("admin", "Administrator"));
+
+        tipKorisnikaFilterSelectItems.add(new SelectItem(null, ""));
+        tipKorisnikaFilterSelectItems.add(new SelectItem("registredUsers", "Registrirani korisnik"));
+        tipKorisnikaFilterSelectItems.add(new SelectItem("organizer", "Organizator"));
+        tipKorisnikaFilterSelectItems.add(new SelectItem("admin", "Administrator"));
 
         korisnikDto = new KorisnikDto();
         korisnikFilterDto = new KorisnikDto();
@@ -91,6 +96,7 @@ public class PregledKorisnikaController implements Serializable {
         getKorisnikFilterDto().setEmail(null);
         getKorisnikFilterDto().setTipKorisnika(null);
         korisnikDtoList = null;
+        resetDto();
     }
 
     public void getUserInfo(String userName) {
@@ -112,14 +118,16 @@ public class PregledKorisnikaController implements Serializable {
 
     /*
      * save metoda za spremanje/ažuriranje događaja
+     *
      */
-    public void save() {
+    public void chageUserGroup() {
         try {
             if (korisnikDto != null) {
-                korisnikDto.setTipKorisnika("user");
-                korisnikSessionBean.createEditKorisnik(korisnikDto);
-                addMessage(korisnikDto.getIme() + " " + korisnikDto.getPrezime() + " uspješno ste se registrirali.", DogadajAppConstants.SEVERITY_INFO);
-                korisnikDtoList = korisnikDao.getFilterList(korisnikDto);
+                korisnikSessionBean.changeLDAPUserGroup(korisnikDto);
+                addMessage("Uspješno ste promijenili ulogu korisnika " + korisnikDto.getIme() + " " + korisnikDto.getPrezime() + ".", DogadajAppConstants.SEVERITY_INFO);
+                KorisnikDto korisnikDto1 = korisnikDao.getKorisnikInfo(korisnikDto.getKorisnickoIme());
+                korisnikDtoList.clear();
+                korisnikDtoList.add(korisnikDto1);
             } else {
                 addMessage("Korisnik je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
 
@@ -233,9 +241,7 @@ public class PregledKorisnikaController implements Serializable {
             Object selected = ((SelectEvent) event).getObject();
             if (selected instanceof KorisnikDto && ((KorisnikDto) selected).getKorisnickoIme() != null) {
                 KorisnikDto selectedKorisnikDto = (KorisnikDto) selected;
-                KorisnikDto korisnikFilterDto = new KorisnikDto();
-                korisnikFilterDto.setKorisnickoIme(selectedKorisnikDto.getKorisnickoIme());
-                korisnikDto = korisnikDao.getFilterList(korisnikFilterDto).get(0);
+                korisnikDto = korisnikDao.getKorisnikInfo(selectedKorisnikDto.getKorisnickoIme());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -312,5 +318,13 @@ public class PregledKorisnikaController implements Serializable {
 
     public void setKorisnikInfoDto(KorisnikDto korisnikInfoDto) {
         this.korisnikInfoDto = korisnikInfoDto;
+    }
+
+    public List<SelectItem> getTipKorisnikaFilterSelectItems() {
+        return tipKorisnikaFilterSelectItems;
+    }
+
+    public void setTipKorisnikaFilterSelectItems(List<SelectItem> tipKorisnikaFilterSelectItems) {
+        this.tipKorisnikaFilterSelectItems = tipKorisnikaFilterSelectItems;
     }
 }
