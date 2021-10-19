@@ -70,7 +70,6 @@
                  toggleableHeader="true" widgetVar="widgetInput">
             <h:panelGrid>
                 <p:messages id="messages" showDetail="true" closable="true">
-                    <p:autoUpdate/>
                 </p:messages>
             </h:panelGrid>
             <h:panelGrid id="panelGridInputForm" columns="2">
@@ -121,10 +120,10 @@
                              readonly="true" disabled="true"/>
                 <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
-                                 update="panelGridInputForm, filterAdvanced" icon="pi pi-replay"/>
+                                 update="panelGridInputForm, filterAdvanced, messages" icon="pi pi-replay"/>
                 <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
-                                 update="panel_unos, filterAdvanced" icon="pi pi-save"/>
+                                 update="panel_unos, filterAdvanced, messages" icon="pi pi-save"/>
 
             </h:panelGrid>
         </p:panel>
