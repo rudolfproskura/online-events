@@ -15,9 +15,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serializable {
@@ -322,11 +320,49 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 }
                 resultList.removeAll(toRemove2);
             }
+            //logika za sve dogadaje - izbaciti duple
+            if (StringUtils.isBlank(filterDto.getDodaniUKalendar())) {
+                Set<Integer> setDogadaja = new HashSet();
+                for (DogadajDto dogadajDto : resultList) {
+                    setDogadaja.add(dogadajDto.getSifraDogadaja());
+                }
+                List<DogadajDto> setResultList = new ArrayList<>();
+                for (Integer sifraDogadaja : setDogadaja) {
+                    Boolean korisnikIsLoggedUser = Boolean.TRUE;
+                    for (DogadajDto dogadajDto : resultList) {
+                        if (sifraDogadaja.equals(dogadajDto.getSifraDogadaja())) {
+                            if (StringUtils.isBlank(dogadajDto.getKorisnikDogadaj())) {
+                                setResultList.add(dogadajDto);
+                            } else {
+                                if (StringUtils.equals(dogadajDto.getKorisnikDogadaj(), filterDto.getLoggedUser())){
+                                    setResultList.add(dogadajDto);
+                                    korisnikIsLoggedUser = Boolean.TRUE;
+                                    break;
+                                } else {
+                                    korisnikIsLoggedUser = Boolean.FALSE;
+                                }
+                            }
+                        }
+                    }
+                    if (!korisnikIsLoggedUser) {
+                        for (DogadajDto dogadajDto : resultList) {
+                            if (sifraDogadaja.equals(dogadajDto.getSifraDogadaja())) {
+                                setResultList.add(dogadajDto);
+                                break;
+                            }
+                        }
+                    }
+                }
+                resultList.clear();
+                resultList.addAll(setResultList);
+            }
         } else {
             resultList = null;
         }
         return resultList;
     }
+
+
 
     private List<Object[]> formAndExecuteFilterSql(DogadajFilterDto filterDto) {
         List<Object[]> resultList = null;
