@@ -551,11 +551,11 @@ public class LDAPTest {
         connection.bind("uid=admin,ou=system", "secret");
 
         //form object
-        String dn = "uid=" + "eduard" + ",ou=users,dc=example,dc=com";
+        String dn = "uid=" + "eduard4" + ",ou=users,dc=example,dc=com";
         String objectClass = "ObjectClass:inetOrgPerson";
         String cn = "cn:" + "Eduard";
         String sn = "sn:" + "Damirovic";
-        String displayName = "displayName:" + "Damir" + " " + "Damirovic";
+        String displayName = "displayName:" + "Damir" + " " + "Damirović";
         String mail = "mail:" + "damir@damir.hr";
         String uid = "uid:" + "eduard";
         String employeeNumber = "employeeNumber:" + "777777777";

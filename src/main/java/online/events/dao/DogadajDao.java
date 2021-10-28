@@ -311,6 +311,16 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                     }
                 }
                 resultList.removeAll(toRemove);
+                //dodatni remove onih koji imaju istu sifru a drugog korisnika
+                List<DogadajDto> toRemove2 = new ArrayList<>();
+                for (DogadajDto dogadajDto : resultList) {
+                    for (DogadajDto dogadajDtoRemoved: toRemove) {
+                        if (dogadajDto.getSifraDogadaja().equals(dogadajDtoRemoved.getSifraDogadaja())) {
+                            toRemove2.add(dogadajDto);
+                        }
+                    }
+                }
+                resultList.removeAll(toRemove2);
             }
         } else {
             resultList = null;
