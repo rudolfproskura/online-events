@@ -48,6 +48,9 @@ public class DogadajiController implements Serializable {
     //input form select items
     private List<SelectItem> gradSelectItems = new ArrayList<>();
 
+    //tip dogadaja
+    private List<SelectItem> tipDogadajaSelectItems = new ArrayList<>();
+
     //filter select items
     private List<SelectItem> slobodanUlazFilterSelectItems = new ArrayList<>();
     private List<SelectItem> regijaFilterSelectItems = new ArrayList<>();
@@ -191,6 +194,7 @@ public class DogadajiController implements Serializable {
         KorisnikDto kreatorDogadaja = new KorisnikDto();
         kreatorDogadaja.setKorisnickoIme(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         getDogadajDto().setKreatorDogadaja(kreatorDogadaja);
+        getDogadajDto().setTipDogadaja(null);
         resetFilterDto();
     }
 
@@ -287,6 +291,15 @@ public class DogadajiController implements Serializable {
         //kretor- filter
         kreatorFilterSelectItems.add(new SelectItem(logedUser, "ja"));
         kreatorFilterSelectItems.add(new SelectItem(null, "svi"));
+
+        //tip dogadaja
+        tipDogadajaSelectItems.add(new SelectItem(null, "svi"));
+        tipDogadajaSelectItems.add(new SelectItem(1, "Glazbeni (Koncert, Festival, DJ Party, Plesnjak)"));
+        tipDogadajaSelectItems.add(new SelectItem(2, "Kulturni (Izložba, Film, Predstava, Stand-up komedija)"));
+        tipDogadajaSelectItems.add(new SelectItem(3, "Sportski (Turnir, Utakmica, Sportske edukacije)"));
+        tipDogadajaSelectItems.add(new SelectItem(4, "Poslovni (Seminar, Konferencija, Radionica)"));
+        tipDogadajaSelectItems.add(new SelectItem(10, "Ostalo"));
+
     }
 
     public void addMessage(String summary, String severity) {
@@ -421,5 +434,13 @@ public class DogadajiController implements Serializable {
 
     public void setKreatorFilterSelectItems(List<SelectItem> kreatorFilterSelectItems) {
         this.kreatorFilterSelectItems = kreatorFilterSelectItems;
+    }
+
+    public List<SelectItem> getTipDogadajaSelectItems() {
+        return tipDogadajaSelectItems;
+    }
+
+    public void setTipDogadajaSelectItems(List<SelectItem> tipDogadajaSelectItems) {
+        this.tipDogadajaSelectItems = tipDogadajaSelectItems;
     }
 }

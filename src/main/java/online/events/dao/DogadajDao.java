@@ -35,6 +35,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
     private static final int IDX_GRAD_SIFRA = 9;
     private static final int IDX_KREATOR_USERNAME = 10;
     private static final int IDX_KORISNIK_DOGADAJ_USERNAME = 11;
+    private static final int IDX_DOGADAJ_TIP_DOGADAJA = 12;
 
 
     @Override
@@ -61,6 +62,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 korisnik.setKorisnicko_ime(dto.getKreatorDogadaja().getKorisnickoIme());
                 entity.setKreator(korisnik);
             }
+            entity.setTipDogadaja(dto.getTipDogadaja());
         }
         return entity;
     }
@@ -77,6 +79,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 dogadajDto.setVrijemeOd(dogadajEntity.getVrijemeOd());
                 dogadajDto.setVrijemeDo(dogadajEntity.getVrijemeDo());
                 dogadajDto.setSlobodanUlaz(dogadajEntity.getSlobodanUlaz());
+                dogadajDto.setTipDogadaja(dogadajEntity.getTipDogadaja());
                 if (StringUtils.equals(dogadajDto.getSlobodanUlaz(), DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA)) {
                     dogadajDto.setSlobodanUlazBoolen(true);
                 } else {
@@ -157,6 +160,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
                 dogadajDto.setKreatorDogadaja(kreatorDogadajaDto);
                 //korisnik dogadaj
                 dogadajDto.setKorisnikDogadaj(entity[IDX_KORISNIK_DOGADAJ_USERNAME] != null ? (String) entity[IDX_KORISNIK_DOGADAJ_USERNAME] : null);
+                //tip dogadaja
+                dogadajDto.setTipDogadaja(entity[IDX_DOGADAJ_TIP_DOGADAJA] != null ? (Integer)entity[IDX_DOGADAJ_TIP_DOGADAJA] : null);
             }
         }
         return dogadajDto;
@@ -174,6 +179,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (dogadajDto == null) {
             hasError = true;
             messages.add("Događaj nema podatke!");
+        }
+        if (dogadajDto.getTipDogadaja() == null) {
+            hasError = true;
+            messages.add("Događaj nama odabran tip!");
         }
         if (StringUtils.isBlank(dogadajDto.getNazivDogadaja())) {
             hasError = true;
@@ -219,6 +228,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (dogadajDto.getSifraDogadaja() == null) {
             hasError = true;
             messages.add("Događaj nema šifra - pokušavate ažurirati nepostojeći događaj!");
+        }
+        if (dogadajDto.getTipDogadaja() == null) {
+            hasError = true;
+            messages.add("Događaj nama odabran tip!");
         }
         if (StringUtils.isBlank(dogadajDto.getNazivDogadaja())) {
             hasError = true;
@@ -367,7 +380,9 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
     private List<Object[]> formAndExecuteFilterSql(DogadajFilterDto filterDto) {
         List<Object[]> resultList = null;
 
-        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag, dog.kreator as kreator, korisnik_dogadaj.korisnik as korisnikd from online_events.dogadaj dog " +
+        String sql = "select dog.sifra, dog.naziv, dog.vrijeme_od, dog.vrijeme_do, dog.slobodan_ulaz, grad.naziv as nazivg, vel_gr.naziv velicinag , " +
+                "org_jed.naziv nazivz, nad_org_jed.naziv nazivr, grad.sifra as sifrag, dog.kreator as kreator, " +
+                "korisnik_dogadaj.korisnik as korisnikd, dog.tip_dogadaja from online_events.dogadaj dog " +
                 "join online_events.grad grad on grad.sifra = dog.grad " +
                 "join online_events.velicina_grada vel_gr on vel_gr.sifra = grad.velicina " +
                 "join online_events.organizacijska_jedinica org_jed on org_jed.sifra = grad.org_jedinica " +

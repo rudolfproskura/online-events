@@ -40,6 +40,9 @@ public class Dogadaj {
     @ManyToOne
     private Korisnik kreator;
 
+    @Column(name = "tip_dogadaja", nullable = false)
+    private Integer tipDogadaja;
+
     //constructors
     public Dogadaj() {
         super();
@@ -100,5 +103,13 @@ public class Dogadaj {
 
     public void setKreator(Korisnik kreator) {
         this.kreator = kreator;
+    }
+
+    public Integer getTipDogadaja() {
+        return tipDogadaja;
+    }
+
+    public void setTipDogadaja(Integer tipDogadaja) {
+        this.tipDogadaja = tipDogadaja;
     }
 }

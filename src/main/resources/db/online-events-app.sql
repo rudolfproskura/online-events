@@ -95,6 +95,9 @@ ALTER TABLE online_events.dogadaj
     ADD kreator VARCHAR(20);
 
 ALTER TABLE online_events.dogadaj
+    ADD tip_dogadaja INTEGER;
+
+ALTER TABLE online_events.dogadaj
     ADD FOREIGN KEY (kreator) REFERENCES online_events.korisnik(korisnicko_ime);
 
 ALTER TABLE online_events.korisnik MODIFY email VARCHAR(50) ;

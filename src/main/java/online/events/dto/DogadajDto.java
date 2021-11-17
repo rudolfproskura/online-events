@@ -6,9 +6,8 @@ import java.time.LocalDateTime;
 /*
  * Data transfer object za entitet dogadaj
  */
-public class DogadajDto implements Serializable {
+public class DogadajDto {
 
-    private static final long serialVersionUID = 1L;
     // fields
     private Integer sifraDogadaja;
     private String nazivDogadaja;
@@ -19,6 +18,7 @@ public class DogadajDto implements Serializable {
     private Boolean slobodanUlazBoolen;
     private KorisnikDto kreatorDogadaja;
     private String korisnikDogadaj;
+    private Integer tipDogadaja;
 
     // constructors
     public DogadajDto() {
@@ -96,5 +96,13 @@ public class DogadajDto implements Serializable {
 
     public void setKorisnikDogadaj(String korisnikDogadaj) {
         this.korisnikDogadaj = korisnikDogadaj;
+    }
+
+    public Integer getTipDogadaja() {
+        return tipDogadaja;
+    }
+
+    public void setTipDogadaja(Integer tipDogadaja) {
+        this.tipDogadaja = tipDogadaja;
     }
 }

@@ -77,6 +77,13 @@
                 <p:inputText id="sifraDogadajaInput"
                              value="#{dogadajiController.dogadajDto.sifraDogadaja}"
                              readonly="true" disabled="true"/>
+
+                <p:outputLabel for="tipDogadaja" value="Tip događaja:   "/>
+                <p:selectOneMenu id="tipDogadaja"
+                                 value="#{dogadajiController.dogadajDto.tipDogadaja}" >
+                    <f:selectItems value="#{dogadajiController.tipDogadajaSelectItems}"/>
+                </p:selectOneMenu>
+
                 <p:outputLabel for="nazivDogadaja" value="Naziv događaja   :   "/>
                 <p:inputTextarea id="nazivDogadaja"
                                  value="#{dogadajiController.dogadajDto.nazivDogadaja}" rows="3"
