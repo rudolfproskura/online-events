@@ -293,7 +293,7 @@ public class DogadajiController implements Serializable {
         kreatorFilterSelectItems.add(new SelectItem(null, "svi"));
 
         //tip dogadaja
-        tipDogadajaSelectItems.add(new SelectItem(null, "svi"));
+        tipDogadajaSelectItems.add(new SelectItem(null, "Odaberite"));
         tipDogadajaSelectItems.add(new SelectItem(1, "Glazbeni (Koncert, Festival, DJ Party, Plesnjak)"));
         tipDogadajaSelectItems.add(new SelectItem(2, "Kulturni (Izložba, Film, Predstava, Stand-up komedija)"));
         tipDogadajaSelectItems.add(new SelectItem(3, "Sportski (Turnir, Utakmica, Sportske edukacije)"));
