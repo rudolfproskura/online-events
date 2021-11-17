@@ -56,6 +56,7 @@ public class DogadajiController implements Serializable {
     private List<SelectItem> regijaFilterSelectItems = new ArrayList<>();
     private List<SelectItem> velicinaGradaFilterSelectItems = new ArrayList<>();
     private List<SelectItem> kreatorFilterSelectItems = new ArrayList<>();
+    private List<SelectItem> tipDogadajaFilterSelectItems = new ArrayList<>();
 
     //pune se kod inita
     private List<OrganizacijskaJedinicaDto> organizacijskaJedinicaDtoList;
@@ -170,12 +171,14 @@ public class DogadajiController implements Serializable {
         dogadajFilterDto.setVrijemeOdKraj(null);
         dogadajFilterDto.setGradovi(new ArrayList<>());
         dogadajFilterDto.setSifraGrada(null);
+        dogadajFilterDto.setTipoviDogadaja(new ArrayList<>());
         dogadajFilterDto.setRegije(new ArrayList<>());
         dogadajFilterDto.setSlobodanUlaz(null);
         dogadajFilterDto.setVelicinaGrada(null);
         dogadajFilterDto.setZupanije(null);
         dogadajFilterDto.setOdabraneRegije(null);
         dogadajFilterDto.setOdabraneVelicineGrada(null);
+        dogadajFilterDto.setOdabraneTipoviDogadaja(null);
         dogadajFilterDto.setOdabraniGradovi(null);
         dogadajFilterDto.setOdabraneZupanije(null);
         dogadajiFilterList = null;
@@ -299,6 +302,12 @@ public class DogadajiController implements Serializable {
         tipDogadajaSelectItems.add(new SelectItem(3, "Sportski (Turnir, Utakmica, Sportske edukacije)"));
         tipDogadajaSelectItems.add(new SelectItem(4, "Poslovni (Seminar, Konferencija, Radionica)"));
         tipDogadajaSelectItems.add(new SelectItem(10, "Ostalo"));
+
+        tipDogadajaFilterSelectItems.add(new SelectItem(1, "Glazbeni"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(2, "Kulturni"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(3, "Sportski"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(4, "Poslovni"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(10, "Ostalo"));
 
     }
 
@@ -442,5 +451,13 @@ public class DogadajiController implements Serializable {
 
     public void setTipDogadajaSelectItems(List<SelectItem> tipDogadajaSelectItems) {
         this.tipDogadajaSelectItems = tipDogadajaSelectItems;
+    }
+
+    public List<SelectItem> getTipDogadajaFilterSelectItems() {
+        return tipDogadajaFilterSelectItems;
+    }
+
+    public void setTipDogadajaFilterSelectItems(List<SelectItem> tipDogadajaFilterSelectItems) {
+        this.tipDogadajaFilterSelectItems = tipDogadajaFilterSelectItems;
     }
 }

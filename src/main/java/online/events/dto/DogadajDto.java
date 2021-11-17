@@ -19,6 +19,7 @@ public class DogadajDto {
     private KorisnikDto kreatorDogadaja;
     private String korisnikDogadaj;
     private Integer tipDogadaja;
+    private String tipDogadajaNaziv;
 
     // constructors
     public DogadajDto() {
@@ -104,5 +105,26 @@ public class DogadajDto {
 
     public void setTipDogadaja(Integer tipDogadaja) {
         this.tipDogadaja = tipDogadaja;
+    }
+
+    public String getTipDogadajaNaziv() {
+        if (tipDogadaja != null) {
+            if (tipDogadaja.equals(new Integer(1))) {
+                tipDogadajaNaziv = "Glazbeni";
+            } else if (tipDogadaja.equals(new Integer(2))) {
+                tipDogadajaNaziv = "Kulturni";
+            } else if (tipDogadaja.equals(new Integer(3))) {
+                tipDogadajaNaziv = "Sportski";
+            } else if (tipDogadaja.equals(new Integer(4))) {
+                tipDogadajaNaziv = "Poslovni";
+            } else if (tipDogadaja.equals(new Integer(5))) {
+                tipDogadajaNaziv = "Ostalo";
+            }
+        }
+        return tipDogadajaNaziv;
+    }
+
+    public void setTipDogadajaNaziv(String tipDogadajaNaziv) {
+        this.tipDogadajaNaziv = tipDogadajaNaziv;
     }
 }

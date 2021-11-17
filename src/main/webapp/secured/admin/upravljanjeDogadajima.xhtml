@@ -140,43 +140,55 @@
 
             <h:panelGrid columns="2" id="inputFormPanelGrid">
                 <h:panelGrid columns="2">
+                    <h:outputLabel for="sifraFilter" value="Šifra događaja:"/>
+                    <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}"/>
+
                     <p:outputLabel for="nazivDogadajaFilter" value="Naziv događaja:   "/>
                     <p:inputTextarea id="nazivDogadajaFilter"
                                      value="#{dogadajiController.dogadajFilterDto.nazivDogadaja}"
                                      rows="3" cols="40"
                                      maxlength="250" autoResize="false" required="false"/>
 
-                    <p:outputLabel for="vrijemeOdPocetakFilter" value="Vrijeme od (početak)  :"/>
-                    <p:calendar id="vrijemeOdPocetakFilter"
-                                value="#{dogadajiController.dogadajFilterDto.vrijemeOdPocetak}"
-                                locale="de" pattern="dd.MM.yyyy HH:mm">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </p:calendar>
-                    <p:outputLabel for="vrijemeDoPocetakFilter" value="Vrijeme do (početak)  :"/>
-                    <p:calendar id="vrijemeDoPocetakFilter"
-                                value="#{dogadajiController.dogadajFilterDto.vrijemeDoPocetak}"
-                                locale="de" pattern="dd.MM.yyyy HH:mm">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </p:calendar>
-                    <p:outputLabel for="vrijemeOdKrajFilter" value="Vrijeme od (kraj)  :"/>
-                    <p:calendar id="vrijemeOdKrajFilter" value="#{dogadajiController.dogadajFilterDto.vrijemeOdKraj}"
-                                locale="de" pattern="dd.MM.yyyy HH:mm">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </p:calendar>
-                    <p:outputLabel for="vrijemeDoKrajFilter" value="Vrijeme do (početak)  :"/>
-                    <p:calendar id="vrijemeDoKrajFilter" value="#{dogadajiController.dogadajFilterDto.vrijemeDoKraj}"
-                                locale="de" pattern="dd.MM.yyyy HH:mm">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </p:calendar>
                     <p:outputLabel for="ulazSlobodanFilter" value="Slobodan ulaz:   "/>
                     <p:selectOneMenu id="ulazSlobodanFilter" value="#{dogadajiController.dogadajFilterDto.slobodanUlaz}"
                                      filter="false" style="width:100px">
                         <f:selectItems value="#{dogadajiController.slobodanUlazFilterSelectItems}"/>
                     </p:selectOneMenu>
+
+                    <h:outputLabel for="tipDogadajaFilter" value="Tip:"/>
+                    <p:selectCheckboxMenu id="tipDogadajaFilter"
+                                          value="#{dogadajiController.dogadajFilterDto.odabraneTipoviDogadaja}"
+                                          label="Tip događaja" multiple="true"
+                                          panelStyle="width:250px">
+                        <f:selectItems value="#{dogadajiController.tipDogadajaFilterSelectItems}"/>
+                    </p:selectCheckboxMenu>
+
+<!--                    <p:outputLabel for="vrijemeOdPocetakFilter" value="Vrijeme od (početak)  :"/>-->
+<!--                    <p:calendar id="vrijemeOdPocetakFilter"-->
+<!--                                value="#{dogadajiController.dogadajFilterDto.vrijemeOdPocetak}"-->
+<!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
+<!--                        <f:converter converterId="LocalDateConverter"/>-->
+<!--                    </p:calendar>-->
+<!--                    <p:outputLabel for="vrijemeDoPocetakFilter" value="Vrijeme do (početak)  :"/>-->
+<!--                    <p:calendar id="vrijemeDoPocetakFilter"-->
+<!--                                value="#{dogadajiController.dogadajFilterDto.vrijemeDoPocetak}"-->
+<!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
+<!--                        <f:converter converterId="LocalDateConverter"/>-->
+<!--                    </p:calendar>-->
+<!--                    <p:outputLabel for="vrijemeOdKrajFilter" value="Vrijeme od (kraj)  :"/>-->
+<!--                    <p:calendar id="vrijemeOdKrajFilter" value="#{dogadajiController.dogadajFilterDto.vrijemeOdKraj}"-->
+<!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
+<!--                        <f:converter converterId="LocalDateConverter"/>-->
+<!--                    </p:calendar>-->
+<!--                    <p:outputLabel for="vrijemeDoKrajFilter" value="Vrijeme do (početak)  :"/>-->
+<!--                    <p:calendar id="vrijemeDoKrajFilter" value="#{dogadajiController.dogadajFilterDto.vrijemeDoKraj}"-->
+<!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
+<!--                        <f:converter converterId="LocalDateConverter"/>-->
+<!--                    </p:calendar>-->
+
                 </h:panelGrid>
                 <h:panelGrid columns="2">
-                    <h:outputLabel for="sifraFilter" value="Šifra događaja:"/>
-                    <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}"/>
+
 
                     <h:outputLabel for="regijaFilter" value="Regija:"/>
                     <p:selectCheckboxMenu id="regijaFilter"
@@ -254,6 +266,9 @@
                     <p:column headerText="Naziv">
                         <h:outputText value="#{filterDogadajDto.nazivDogadaja}"/>
                     </p:column>
+                    <p:column headerText="Tip">
+                        <h:outputText value="#{filterDogadajDto.tipDogadajaNaziv}"/>
+                    </p:column>
                     <p:column headerText="Vrijeme od">
                         <h:outputText value="#{filterDogadajDto.vrijemeOd}">
                             <f:converter converterId="LocalDateConverter"/>
@@ -269,17 +284,17 @@
                     <p:column headerText="Grad">
                         <h:outputText value="#{filterDogadajDto.gradDogadajaDto.nazivGrada}"/>
                     </p:column>
-                    <p:column headerText="Veličina grada">
-                        <h:outputText value="#{filterDogadajDto.gradDogadajaDto.velicinaGradaDto.nazivVelicineGrada}"/>
-                    </p:column>
+<!--                    <p:column headerText="Veličina grada">-->
+<!--                        <h:outputText value="#{filterDogadajDto.gradDogadajaDto.velicinaGradaDto.nazivVelicineGrada}"/>-->
+<!--                    </p:column>-->
                     <p:column headerText="Županija">
                         <h:outputText
                                 value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nazivOrgJedinice}"/>
                     </p:column>
-                    <p:column headerText="Regija">
-                        <h:outputText
-                                value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nadredenaOrganizacijeDto.nazivOrgJedinice}"/>
-                    </p:column>
+<!--                    <p:column headerText="Regija">-->
+<!--                        <h:outputText-->
+<!--                                value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nadredenaOrganizacijeDto.nazivOrgJedinice}"/>-->
+<!--                    </p:column>-->
                     <p:column headerText="Kreator">
                         <h:outputText
                                 value="#{filterDogadajDto.kreatorDogadaja.korisnickoIme}"/>

@@ -11,14 +11,23 @@
 
 <h:body>
 
+
     <h:form id="login">
+
+
     <div class="p-mb-3 p-text-center"
              style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!
         </div>
 
         <h:panelGroup layout="block" style="text-align : center;">
-            <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"
-                            style="text-align : center;"/>
+            <p:imageSwitch effect="zoom" style="text-align : center;">
+                <p:graphicImage library="welcome-images" name="business1.jpg" style="text-align : center;" />
+                <p:graphicImage library="welcome-images" name="cinema1.jpg"  style="text-align : center;"/>
+                <p:graphicImage library="welcome-images" name="concert1.jpg" style="text-align : center;" />
+                <p:graphicImage library="welcome-images" name="sport1.jpg"  style="text-align : center;"/>
+            </p:imageSwitch>
+<!--            <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"-->
+<!--                            style="text-align : center;"/>-->
         </h:panelGroup>
 
         <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
@@ -29,11 +38,15 @@
             <p:link id="login_CL" href="http://localhost:9080/online-events/home">
                 <p:graphicImage library="images" name="login_home.png"/>
             </p:link>
+        </div>
 
-<!--            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">-->
-<!--                <p:graphicImage library="images" name="login_home.png" />-->
-<!--            </h:outputLink>-->
-
+        <div >
+            <p:imageSwitch effect="shuffle">
+                <p:graphicImage library="welcome-images" name="business1.jpg" style="text-align : center;" />
+                <p:graphicImage library="welcome-images" name="cinema1.jpg"  style="text-align : center;"/>
+                <p:graphicImage library="welcome-images" name="concert1.jpg" style="text-align : center;" />
+                <p:graphicImage library="welcome-images" name="sport1.jpg"  style="text-align : center;"/>
+            </p:imageSwitch>
         </div>
 
 <!--        <p:growl id="growl" sticky="true" showDetail="true" life="3000000" />-->

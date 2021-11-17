@@ -405,6 +405,8 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             sql = sql + "and vel_gr.sifra in :velicineGrada ";
         if (filterDto.getOdabraniGradovi() != null && filterDto.getOdabraniGradovi().length > 0)
             sql = sql + "and grad.sifra in :gradovi ";
+        if (filterDto.getOdabraneTipoviDogadaja() != null && filterDto.getOdabraneTipoviDogadaja().length > 0)
+            sql = sql + "and dog.tip_dogadaja in :tipoviDogadaja ";
         if (StringUtils.isNotBlank(filterDto.getDodaniUKalendar()) && StringUtils.equals(filterDto.getDodaniUKalendar(), "ADDED_TO_CAL"))
             sql = sql + "and korisnik_dogadaj.korisnik = :korisnik ";
         if (StringUtils.isNotBlank(filterDto.getKreator()))
@@ -435,6 +437,9 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             queryDogadaj.setParameter("velicineGrada", DogadajAppUtil.getIntegerFromStringList(filterDto.getOdabraneVelicineGrada()));
         if (filterDto.getOdabraniGradovi() != null && filterDto.getOdabraniGradovi().length > 0)
             queryDogadaj.setParameter("gradovi", DogadajAppUtil.getIntegerFromStringList(filterDto.getOdabraniGradovi()));
+
+        if (filterDto.getOdabraneTipoviDogadaja() != null && filterDto.getOdabraneTipoviDogadaja().length > 0)
+            queryDogadaj.setParameter("tipoviDogadaja", DogadajAppUtil.getIntegerFromStringList(filterDto.getOdabraneTipoviDogadaja()));
 
         //aktivni (pretposatvio da se smatra da je grad aktivan ako mu je velicina aktivna
         if (filterDto.getSifraDogadaja() == null && (filterDto.getOdabraneRegije() == null || filterDto.getOdabraneRegije().length == 0) && (filterDto.getOdabraneZupanije() == null || filterDto.getOdabraneZupanije().length == 0) && (filterDto.getOdabraniGradovi() == null || filterDto.getOdabraniGradovi().length == 0)) {

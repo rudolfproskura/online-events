@@ -33,11 +33,13 @@ public class DogadajFilterDto implements Serializable {
     private List<Integer> zupanije = new ArrayList<>();
     private List<Integer> regije = new ArrayList<>();
     private List<Integer> gradovi = new ArrayList<>();
+    private List<Integer> tipoviDogadaja = new ArrayList<>();
 
     private String[] odabraniGradovi;
     private String[] odabraneRegije;
     private String[] odabraneZupanije;
     private String[] odabraneVelicineGrada;
+    private String[] odabraneTipoviDogadaja;
 
 
     // constructors
@@ -208,5 +210,21 @@ public class DogadajFilterDto implements Serializable {
 
     public void setLoggedUser(String loggedUser) {
         this.loggedUser = loggedUser;
+    }
+
+    public List<Integer> getTipoviDogadaja() {
+        return tipoviDogadaja;
+    }
+
+    public void setTipoviDogadaja(List<Integer> tipoviDogadaja) {
+        this.tipoviDogadaja = tipoviDogadaja;
+    }
+
+    public String[] getOdabraneTipoviDogadaja() {
+        return odabraneTipoviDogadaja;
+    }
+
+    public void setOdabraneTipoviDogadaja(String[] odabraneTipoviDogadaja) {
+        this.odabraneTipoviDogadaja = odabraneTipoviDogadaja;
     }
 }

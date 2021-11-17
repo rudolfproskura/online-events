@@ -229,8 +229,11 @@ public class PretragaPregledDogadajaController implements Serializable {
                         .startDate(dogadajDto.getVrijemeOd())
                         .endDate(dogadajDto.getVrijemeDo())
                         .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                        .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                        //.borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
                         .overlapAllowed(true)
+                        .backgroundColor("#0dec33")
+                        .borderColor("RED !important")
+                        .textColor("#fffbfb")
                         .build();
                 eventModelAllEvents.addEvent(event);
             }
