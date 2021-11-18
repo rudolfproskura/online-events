@@ -57,6 +57,8 @@ public class PretragaPregledDogadajaController implements Serializable {
     private List<SelectItem> velicinaGradaFilterSelectItems = new ArrayList<>();
     private List<SelectItem> kreatorFilterSelectItems = new ArrayList<>();
     private List<SelectItem> kalendarFilterSelectItems = new ArrayList<>();
+    private List<SelectItem> tipDogadajaFilterSelectItems = new ArrayList<>();
+
 
     //pune se kod inita
     private List<OrganizacijskaJedinicaDto> organizacijskaJedinicaDtoList;
@@ -331,6 +333,8 @@ public class PretragaPregledDogadajaController implements Serializable {
         dogadajFilterDto.setOdabraniGradovi(null);
         dogadajFilterDto.setOdabraneZupanije(null);
         dogadajFilterDto.setDodaniUKalendar(null);
+        dogadajFilterDto.setTipoviDogadaja(new ArrayList<>());
+        dogadajFilterDto.setOdabraneTipoviDogadaja(null);
         dogadajiFilterList = null;
     }
 
@@ -447,6 +451,12 @@ public class PretragaPregledDogadajaController implements Serializable {
         kalendarFilterSelectItems.add(new SelectItem(null, "svi"));
         kalendarFilterSelectItems.add(new SelectItem("ADDED_TO_CAL", "dodani u moj kalendar"));
         kalendarFilterSelectItems.add(new SelectItem("NOT_ADDED_TO_CAL", "nisu dodani u moj kalendar"));
+
+        tipDogadajaFilterSelectItems.add(new SelectItem(1, "Glazbeni"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(2, "Kulturni"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(3, "Sportski"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(4, "Poslovni"));
+        tipDogadajaFilterSelectItems.add(new SelectItem(10, "Ostalo"));
     }
 
     public void addMessage(String summary, String severity) {
@@ -655,5 +665,13 @@ public class PretragaPregledDogadajaController implements Serializable {
 
     public void setEventModelAllEvents(ScheduleModel eventModelAllEvents) {
         this.eventModelAllEvents = eventModelAllEvents;
+    }
+
+    public List<SelectItem> getTipDogadajaFilterSelectItems() {
+        return tipDogadajaFilterSelectItems;
+    }
+
+    public void setTipDogadajaFilterSelectItems(List<SelectItem> tipDogadajaFilterSelectItems) {
+        this.tipDogadajaFilterSelectItems = tipDogadajaFilterSelectItems;
     }
 }
