@@ -442,9 +442,9 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             queryDogadaj.setParameter("tipoviDogadaja", DogadajAppUtil.getIntegerFromStringList(filterDto.getOdabraneTipoviDogadaja()));
 
         //aktivni (pretposatvio da se smatra da je grad aktivan ako mu je velicina aktivna
-        if (filterDto.getSifraDogadaja() == null && (filterDto.getOdabraneRegije() == null || filterDto.getOdabraneRegije().length == 0) && (filterDto.getOdabraneZupanije() == null || filterDto.getOdabraneZupanije().length == 0) && (filterDto.getOdabraniGradovi() == null || filterDto.getOdabraniGradovi().length == 0)) {
-            sql = sql + " and vel_gr.aktivan = true ";
-        }
+//        if (filterDto.getSifraDogadaja() == null && (filterDto.getOdabraneRegije() == null || filterDto.getOdabraneRegije().length == 0) && (filterDto.getOdabraneZupanije() == null || filterDto.getOdabraneZupanije().length == 0) && (filterDto.getOdabraniGradovi() == null || filterDto.getOdabraniGradovi().length == 0)) {
+//            sql = sql + " and vel_gr.aktivan = true ";
+//        }
         if (StringUtils.isNotBlank(filterDto.getDodaniUKalendar()) && StringUtils.equals(filterDto.getDodaniUKalendar(), "ADDED_TO_CAL"))
             queryDogadaj.setParameter("korisnik", filterDto.getLoggedUser());
         if (StringUtils.isNotBlank(filterDto.getKreator()))
