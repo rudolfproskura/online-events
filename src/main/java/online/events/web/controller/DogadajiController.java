@@ -43,7 +43,7 @@ public class DogadajiController implements Serializable {
     private DogadajDto dogadajDto;
     private DogadajFilterDto dogadajFilterDto;
 
-    private List<DogadajDto> dogadajiFilterList;
+    private List<DogadajDto> dogadajiFilterList ;
 
     //input form select items
     private List<SelectItem> gradSelectItems = new ArrayList<>();
@@ -90,6 +90,8 @@ public class DogadajiController implements Serializable {
         getSelectItems();
         //initialization
         dogadajFilterDto = new DogadajFilterDto();
+
+        dogadajiFilterList = new ArrayList<>();
     }
 
     /*
@@ -460,4 +462,6 @@ public class DogadajiController implements Serializable {
     public void setTipDogadajaFilterSelectItems(List<SelectItem> tipDogadajaFilterSelectItems) {
         this.tipDogadajaFilterSelectItems = tipDogadajaFilterSelectItems;
     }
+
+
 }

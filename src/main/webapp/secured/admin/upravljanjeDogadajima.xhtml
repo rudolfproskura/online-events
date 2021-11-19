@@ -66,21 +66,23 @@
 
     <h:form id="mainForm">
 
+        <p:panel id="panel_all" header="Unos/Ažuriranje događaja"   style="margin-top:10px; color: #ff4d4d">
 
-        <h:panelGrid id="panel_unos_pretraga"
-                     style="margin-top:10px; color: #dfefff" toggleable="true"
-                     toggleSpeed="500"
-                     toggleableHeader="true" widgetVar="widgetInputPretraga">
-            <h:panelGrid columns="2" id="allPanelGrid">
+            <h:panelGrid>
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
+            </h:panelGrid>
 
-                <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-top:10px; color: #dfefff" toggleable="false"
+
+            <h:panelGrid columns="2" id="panel_grid_unos_pretraga">
+
+                <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-top:10px; color: #dfefff"
+                         toggleable="false"
                          toggleSpeed="500"
                          toggleableHeader="false" widgetVar="widgetInput">
-                    <h:panelGrid>
-                        <p:messages id="messages" showDetail="true" closable="true">
-                        </p:messages>
-                    </h:panelGrid>
-                    <h:panelGrid id="panelGridInputForm" columns="2">
+
+                    <h:panelGrid id="panel_grid_unos" columns="2">
                         <p:outputLabel for="sifraDogadajaInput" value="Šifra događaja:   "/>
                         <p:inputText id="sifraDogadajaInput"
                                      value="#{dogadajiController.dogadajDto.sifraDogadaja}"
@@ -88,7 +90,7 @@
 
                         <p:outputLabel for="tipDogadaja" value="Tip događaja:   "/>
                         <p:selectOneMenu id="tipDogadaja"
-                                         value="#{dogadajiController.dogadajDto.tipDogadaja}" >
+                                         value="#{dogadajiController.dogadajDto.tipDogadaja}">
                             <f:selectItems value="#{dogadajiController.tipDogadajaSelectItems}"/>
                         </p:selectOneMenu>
 
@@ -135,18 +137,26 @@
                                      readonly="true" disabled="true"/>
                         <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
                                          style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
-                                         update="panelGridInputForm, filterAdvanced, messages" icon="pi pi-replay"/>
+
+                                         update="panel_all"
+                                         icon="pi pi-replay"/>
                         <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"
                                          style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
-                                         update="panel_unos, filterAdvanced, messages" icon="pi pi-save"/>
+                                         update="panel_all"
+
+                                         icon="pi pi-save"/>
+
+                        <!--                                         update="panelGridInputForm, filterAdvanced, messages" -->
 
                     </h:panelGrid>
                 </p:panel>
 
-                <p:panel id="panel_filter2" header="Pretraga događaja" style="margin-top:5px; color: #dfefff" toggleable="false"
-                         toggleSpeed="500" closeSpeed="500" toggleableHeader="false" collapsed="false" widgetVar="widgetFilter">
+                <p:panel id="panel_filter" header="Pretraga događaja" style="margin-top:5px; color: #dfefff"
+                         toggleable="false"
+                         toggleSpeed="500" closeSpeed="500" toggleableHeader="false" collapsed="false"
+                         widgetVar="widgetFilter">
 
-                    <h:panelGrid columns="2" id="inputFormPanelGrid">
+                    <h:panelGrid columns="2" id="panel_grid_filter">
                         <h:panelGrid columns="2">
                             <h:outputLabel for="sifraFilter" value="Šifra događaja:"/>
                             <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}"/>
@@ -158,7 +168,8 @@
                                              maxlength="250" autoResize="false" required="false"/>
 
                             <p:outputLabel for="ulazSlobodanFilter" value="Slobodan ulaz:   "/>
-                            <p:selectOneMenu id="ulazSlobodanFilter" value="#{dogadajiController.dogadajFilterDto.slobodanUlaz}"
+                            <p:selectOneMenu id="ulazSlobodanFilter"
+                                             value="#{dogadajiController.dogadajFilterDto.slobodanUlaz}"
                                              filter="false" style="width:100px">
                                 <f:selectItems value="#{dogadajiController.slobodanUlazFilterSelectItems}"/>
                             </p:selectOneMenu>
@@ -229,7 +240,8 @@
                             </p:selectCheckboxMenu>
 
                             <h:outputLabel for="gradFilter" value="Grad:"/>
-                            <p:selectCheckboxMenu id="gradFilter" value="#{dogadajiController.dogadajFilterDto.odabraniGradovi}"
+                            <p:selectCheckboxMenu id="gradFilter"
+                                                  value="#{dogadajiController.dogadajFilterDto.odabraniGradovi}"
                                                   label="Grad" multiple="true"
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
                                 <f:selectItems
@@ -241,13 +253,16 @@
                                 <f:selectItems value="#{dogadajiController.kreatorFilterSelectItems}"/>
                             </p:selectOneMenu>
 
-                            <p:commandButton value="Poništi filter" actionListener="#{dogadajiController.resetFilterDto}"
-                                             id="filterreset" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
+                            <p:commandButton value="Poništi filter"
+                                             actionListener="#{dogadajiController.resetFilterDto}"
+                                             id="filterreset"
+                                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
                                              ajax="true"
-                                             update="panel_filter2, filterAdvanced" icon="pi pi-replay"/>
-                            <p:commandButton value="Pretraži" actionListener="#{dogadajiController.getFilterListDogadaj}"
+                                             update="panel_all" icon="pi pi-replay"/>
+                            <p:commandButton value="Pretraži"
+                                             actionListener="#{dogadajiController.getFilterListDogadaj}"
                                              id="filter" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                                             ajax="true" update="filterAdvanced"
+                                             ajax="true" update="panel_all"
                                              icon="pi pi-search"/>
 
                         </h:panelGrid>
@@ -256,25 +271,25 @@
                 </p:panel>
 
             </h:panelGrid>
-        </h:panelGrid>
 
-        <p:panel id="panel_filter3" header="Rezultati pretrage" style="margin-top:5px; color: #dfefff"
-                 toggleable="true"
-                 toggleSpeed="500" closeSpeed="500" toggleableHeader="true" collapsed="false" widgetVar="widgetFilter">
-            <h:panelGrid columns="2">
-                <p:dataTable id="filterAdvanced" var="filterDogadajDto"
+
+            <h:panelGrid columns="2" id="panelGrid_data_table" title="Rezultati pretrage">
+                <p:dataTable id="data_table_rezultati" var="filterDogadajDto"
                              rows="10"
-                             paginator="true"
+                             paginator="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                              rowsPerPageTemplate="5,10,15"
                              value="#{dogadajiController.dogadajiFilterList}"
-                             selectionMode="bottom"
+                             selectionMode="single"
                              rowKey="#{filterDogadajDto.sifraDogadaja}"
                              emptyMessage="Nije pronađen niti jedan događaj">
-<!--                    <f:facet name="header">-->
-<!--                        Rezultati pretrage-->
-<!--                    </f:facet>-->
+                    <!--                    <f:facet name="header">-->
+                    <!--                        Rezultati pretrage-->
+                    <!--                    </f:facet>-->
+                    <f:facet name="header">
+                        Rezultati pretrage
+                    </f:facet>
                     <p:ajax event="rowSelect" listener="#{dogadajiController.onTableRowSelect}"
                             update="mainForm:panel_unos"/>
                     <p:column headerText="Šifra">
@@ -323,8 +338,8 @@
         </p:panel>
 
 
-        <p:dialog global="true" id="test" widgetVar="includedDialog" header="Moji podaci"  showEffect="explode" >
-            <ui:include src="/secured/user/korisnikInfo.xhtml" />
+        <p:dialog global="true" id="test" widgetVar="includedDialog" header="Moji podaci" showEffect="explode">
+            <ui:include src="/secured/user/korisnikInfo.xhtml"/>
         </p:dialog>
 
     </h:form>
