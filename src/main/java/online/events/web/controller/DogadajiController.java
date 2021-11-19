@@ -350,6 +350,17 @@ public class DogadajiController implements Serializable {
         }
     }
 
+    public void deleteDogadaj(String korisnik, Integer dogadaj) {
+        try {
+            dogadajSessionBean.deleteDogadaj(korisnik, dogadaj);
+            getFilterListDogadaj();
+            addMessage("Događaj je izbrisan (id događaja " + dogadaj + ").", DogadajAppConstants.SEVERITY_INFO);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom brisanja događaja.", DogadajAppConstants.SEVERITY_ERR);
+        }
+    }
+
     //getters & setters
     public List<DogadajDto> getDogadajiFilterList() {
         return dogadajiFilterList;

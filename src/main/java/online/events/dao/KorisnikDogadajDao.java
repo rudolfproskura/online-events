@@ -108,5 +108,24 @@ public class KorisnikDogadajDao extends GenericDao<Object, KorisnikDogadajDto> i
         query.executeUpdate();
     }
 
+    public void deleteKorisnikDogadaj(Integer dogadaj) throws DogadajAppRuleException {
+        String sql = "delete from online_events.korisnik_dogadaj where dogadaj=:dogadaj";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter("dogadaj", dogadaj);
+        query.executeUpdate();
+    }
+
+    public void deleteDogadaj(String korisnik, Integer dogadaj) throws DogadajAppRuleException {
+
+        deleteKorisnikDogadaj(dogadaj);
+
+        String sql = "delete from online_events.dogadaj where sifra = :dogadaj";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter("dogadaj", dogadaj);
+        query.executeUpdate();
+    }
+
 
 }

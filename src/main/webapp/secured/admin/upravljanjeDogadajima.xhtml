@@ -331,6 +331,22 @@
                         <h:outputText
                                 value="#{filterDogadajDto.kreatorDogadaja.korisnickoIme}"/>
                     </p:column>
+                    <p:column headerText="Akcija" exportable="false">
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Izbriši događaj"
+                                         rendered="#{filterDogadajDto.kreatorDogadaja != null and filterDogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
+                                         actionListener="#{dogadajiController.deleteDogadaj(request.remoteUser, filterDogadajDto.sifraDogadaja)}"
+                                         update="mainForm"
+                        >
+                            <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite izbrisati događaj?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                        <p:confirmPopup global="true">
+                            <p:commandButton value="Ne" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                            <p:commandButton value="Da" type="button" styleClass="ui-confirm-popup-yes" />
+                        </p:confirmPopup>
+                    </p:column>
+
+
+
                 </p:dataTable>
             </h:panelGrid>
 
