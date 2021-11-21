@@ -32,4 +32,6 @@ public interface IDogadajSessionBean {
 
 	public void deleteDogadaj(String korisnik, Integer dogadaj) throws DogadajAppRuleException;
 
+	public void deleteKorisnik(String korisnik) throws DogadajAppRuleException;
+
 	}

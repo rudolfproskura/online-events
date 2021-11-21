@@ -702,5 +702,120 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
 
     }
 
+    public void deleteKorisnik(String korisnik) throws DogadajAppRuleException {
+        String sql = "delete from online_events.korisnik where korisnicko_ime = :korisnik";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter("korisnik", korisnik);
+        query.executeUpdate();
+    }
+
+    public void deleteLDAPuser(String korisnik) throws DogadajAppRuleException {
+        try {
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            String postojecaGrupa = null;
+
+            //grupe
+            Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+            EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnik + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "admin";
+                }
+            }
+
+            groupDN = new Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnik + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "organizer";
+                }
+            }
+
+            groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnik + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "registredUsers";
+                }
+            }
+
+            //remove from current group
+            Modification removeUniqueMember = new DefaultModification(ModificationOperation.REMOVE_ATTRIBUTE,
+                    "uniqueMember", "uid=" + korisnik + ",ou=users,dc=example,dc=com");
+            connection.modify("cn=" + postojecaGrupa + ",ou=groups,dc=example,dc=com", removeUniqueMember);
+
+            //
+
+
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promjene uloge korisnika " + e.getMessage()));
+        }
+    }
+
+    public void deleteUserFromLDAP(String korisnickoIme) throws DogadajAppRuleException {
+
+        try {
+
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            String postojecaGrupa = null;
+
+            //grupe
+            Dn groupDN = new Dn("cn=admin,ou=groups,dc=example,dc=com"); //
+            EntryCursor cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "admin";
+                }
+            }
+
+            groupDN = new Dn("cn=organizer,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "organizer";
+                }
+            }
+
+            groupDN = new Dn("cn=registredUsers,ou=groups,dc=example,dc=com"); //
+            cursor = connection.search(groupDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            for (Entry entry : cursor) {
+                if (entry.get("uniqueMember").contains("uid=" + korisnickoIme + ",ou=users,dc=example,dc=com")) {
+                    postojecaGrupa = "registredUsers";
+                }
+            }
+
+            //remove from current group
+            Modification removeUniqueMember = new DefaultModification(ModificationOperation.REMOVE_ATTRIBUTE,
+                    "uniqueMember", "uid=" + korisnickoIme + ",ou=users,dc=example,dc=com");
+            connection.modify("cn=" + postojecaGrupa + ",ou=groups,dc=example,dc=com", removeUniqueMember);
+
+
+            connection.delete( "uid=" + korisnickoIme + ",ou=users,dc=example,dc=com" );
+            //connection.delete( "uid=admir,ou=users,dc=example,dc=com" )
+
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DogadajAppRuleException(Arrays.asList("Dogodila se greška prilikom promjene bisanja korisnika iz LDAP-a." + e.getMessage()));
+        }
+
+    }
+
 
 }

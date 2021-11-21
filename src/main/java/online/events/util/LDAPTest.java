@@ -2,6 +2,7 @@ package online.events.util;
 
 
 import online.events.dto.KorisnikDto;
+import online.events.exception.DogadajAppRuleException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.directory.api.ldap.model.cursor.EntryCursor;
 import org.apache.directory.api.ldap.model.cursor.SearchCursor;
@@ -13,12 +14,40 @@ import org.apache.directory.ldap.client.api.LdapNetworkConnection;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class LDAPTest {
+
+
+    @Test
+    public void deleteUser() throws Exception {
+
+        try {
+            String korisnik = "leona";
+            LdapConnection connection = new LdapNetworkConnection("localhost", 10389);
+            connection.setTimeOut(0);
+            connection.bind("uid=admin,ou=system", "secret");
+
+            //grupe
+            Dn userDN = new Dn("ou=users,dc=example,dc=com"); //
+            EntryCursor cursor = connection.search(userDN, "(objectclass=*)", SearchScope.OBJECT);
+
+            connection.delete( "uid=" + korisnik + ",ou=users,dc=example,dc=com" );
+            //connection.delete( "uid=admir,ou=users,dc=example,dc=com" )
+
+
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
 
     @Test
     public void changeUserGroup() throws Exception {

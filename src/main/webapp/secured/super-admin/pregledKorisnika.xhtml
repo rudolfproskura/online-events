@@ -245,6 +245,18 @@
                     <p:column sortBy="#{korisnikDogadajDto.tipKorisnikaOpis}" headerText="Uloga">
                         <h:outputText value="#{korisnikDogadajDto.tipKorisnikaOpis}"/>
                     </p:column>
+                    <p:column headerText="Akcija" exportable="false">
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Izbriši događaj"
+                                         actionListener="#{pregledKorisnikaController.deleteKorisnik(korisnikDogadajDto.korisnickoIme)}"
+                                         update="mainForm"
+                        >
+                            <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite izbrisati korisnika?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                        <p:confirmPopup global="true">
+                            <p:commandButton value="Ne" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                            <p:commandButton value="Da" type="button" styleClass="ui-confirm-popup-yes" />
+                        </p:confirmPopup>
+                    </p:column>
                 </p:dataTable>
             </h:panelGrid>
         </p:panel>

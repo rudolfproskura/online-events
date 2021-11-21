@@ -1,6 +1,7 @@
 package online.events.web.controller;
 
 
+import online.events.bean.IDogadajSessionBean;
 import online.events.bean.IKorisnikSessionBean;
 import online.events.dao.KorisnikDao;
 import online.events.dto.KorisnikDto;
@@ -52,6 +53,9 @@ public class PregledKorisnikaController implements Serializable {
 
     @EJB
     private IKorisnikSessionBean korisnikSessionBean;
+
+    @EJB
+    private IDogadajSessionBean dogadajSessionBean;
 
     public PregledKorisnikaController() {
         super();
@@ -122,7 +126,7 @@ public class PregledKorisnikaController implements Serializable {
      */
     public void chageUserGroup() {
         try {
-            if (korisnikDto != null) {
+            if (korisnikDto != null || StringUtils.isNotBlank(korisnikDto.getKorisnickoIme())) {
                 korisnikSessionBean.changeLDAPUserGroup(korisnikDto);
                 addMessage("Uspješno ste promijenili ulogu korisnika " + korisnikDto.getIme() + " " + korisnikDto.getPrezime() + ".", DogadajAppConstants.SEVERITY_INFO);
                 KorisnikDto korisnikDto1 = korisnikDao.getKorisnikInfo(korisnikDto.getKorisnickoIme());
@@ -266,6 +270,17 @@ public class PregledKorisnikaController implements Serializable {
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
             }
             FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+    public void deleteKorisnik(String korisnik) {
+        try {
+            dogadajSessionBean.deleteKorisnik(korisnik);
+            getFilterListKorisnik();
+            addMessage("Korisnik je izbrisan (korisničko ime: " + korisnik + ").", DogadajAppConstants.SEVERITY_INFO);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            addMessage("Došlo je do greške prilikom brisanja događaja.", DogadajAppConstants.SEVERITY_ERR);
         }
     }
 
