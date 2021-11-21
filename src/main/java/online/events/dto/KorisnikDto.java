@@ -13,6 +13,7 @@ public class KorisnikDto {
     private String tipKorisnika;
     private String tipKorisnikaOpis;
     private String lozinka;
+    private String lozinka1;
 
     public KorisnikDto() {
     }
@@ -98,5 +99,13 @@ public class KorisnikDto {
 
     public void setKorisnickoImeLDAP(String korisnickoImeLDAP) {
         this.korisnickoImeLDAP = korisnickoImeLDAP;
+    }
+
+    public String getLozinka1() {
+        return lozinka1;
+    }
+
+    public void setLozinka1(String lozinka1) {
+        this.lozinka1 = lozinka1;
     }
 }

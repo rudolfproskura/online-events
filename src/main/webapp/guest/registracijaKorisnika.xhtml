@@ -72,8 +72,16 @@
                 <p:password id="password"
                             required="false"
                             value="#{registracijaKorisnikaController.korisnikDto.lozinka}"
+                            toggleMask="true" redisplay="true"
+                            />
+<!--                <p:tooltip for="password" value="Minimalno 5 znakova, bez razmaka" position="right"/>-->
+
+                <p:outputLabel for="password1" value="Ponovite lozinku:" style="font-size: large"/>
+                <p:password id="password1"
+                            required="false"
+                            value="#{registracijaKorisnikaController.korisnikDto.lozinka1}"
                             toggleMask="true" redisplay="true"/>
-                <p:tooltip for="password" value="Minimalno 5 znakova, bez razmaka" position="right"/>
+<!--                <p:tooltip for="password1" value="Minimalno 5 znakova, bez razmaka" position="right"/>-->
 
                 <p:commandButton value="Registracija" actionListener="#{registracijaKorisnikaController.save}" id="spremi"
                                  style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"

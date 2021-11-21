@@ -126,14 +126,14 @@ public class PregledKorisnikaController implements Serializable {
      */
     public void chageUserGroup() {
         try {
-            if (korisnikDto != null || StringUtils.isNotBlank(korisnikDto.getKorisnickoIme())) {
+            if (korisnikDto != null && StringUtils.isNotBlank(korisnikDto.getKorisnickoIme())) {
                 korisnikSessionBean.changeLDAPUserGroup(korisnikDto);
                 addMessage("Uspješno ste promijenili ulogu korisnika " + korisnikDto.getIme() + " " + korisnikDto.getPrezime() + ".", DogadajAppConstants.SEVERITY_INFO);
                 KorisnikDto korisnikDto1 = korisnikDao.getKorisnikInfo(korisnikDto.getKorisnickoIme());
                 korisnikDtoList.clear();
                 korisnikDtoList.add(korisnikDto1);
             } else {
-                addMessage("Korisnik je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
+                addMessage("Morate odabrati korisnika kojem želite promijeniti ulogu.", DogadajAppConstants.SEVERITY_WARN);
 
             }
         } catch (DogadajAppRuleException eventEx) {

@@ -278,6 +278,11 @@ public class KorisnikDao extends GenericDao<Object, KorisnikDto> implements Seri
             hasError = true;
             messages.add("Lozinka mora imati minimalno 5 znakova, a maksimalno 20 znakova!");
         }
+        if (StringUtils.isNotBlank(korisnikDto.getLozinka()) && (StringUtils.isBlank(korisnikDto.getLozinka1())
+        || !StringUtils.equals(korisnikDto.getLozinka(), korisnikDto.getLozinka1()))) {
+            hasError = true;
+            messages.add("Lozinke se ne podudaraju!");
+        }
         if (StringUtils.isNotBlank(korisnikDto.getLozinka()) && korisnikDto.getLozinka().contains(" ")) {
             hasError = true;
             messages.add("Lozinka ne smije sadržavati razmak!");
