@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<title>Online events</title>
+
+<h:head>
+
+</h:head>
+
+<h:body>
+
+    <h:form id="login">
+    <div class="p-mb-3 p-text-center"
+             style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!
+        </div>
+
+        <h:panelGroup layout="block" style="text-align : center;">
+            <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"
+                            style="text-align : center;"/>
+        </h:panelGroup>
+
+        <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+            <p:link id="calendar_CL" href="http://localhost:9080/online-events/guest/kalendarDogadaja.xhtml">
+                <p:graphicImage library="images" name="events_calendar.jpg"/>
+            </p:link>
+            <p:graphicImage library="images" name="blank.png"/>
+            <p:link id="login_CL" href="http://localhost:9080/online-events/home">
+                <p:graphicImage library="images" name="login_home.png"/>
+            </p:link>
+
+<!--            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">-->
+<!--                <p:graphicImage library="images" name="login_home.png" />-->
+<!--            </h:outputLink>-->
+
+        </div>
+
+<!--        <p:growl id="growl" sticky="true" showDetail="true" life="3000000" />-->
+
+        <p:dialog header="Login" widgetVar="dlg" resizable="false" >
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="j_username" value="Korisničko ime:" />
+                <p:inputText id="j_username" name="j_username" />
+
+                <h:outputLabel for="j_password" value="Lozinka:" />
+                <p:password id="j_password" name="j_password" autocomplete="false"/>
+
+                <f:facet name="footer">
+                    <p:commandButton id="submit" value="Login" ajax="false"/>
+                </f:facet>
+            </h:panelGrid>
+        </p:dialog>
+
+
+    </h:form>
+
+    <script type="text/javascript">
+        // Force safari to refresh the page
+        // if a cached copy was loaded
+        // from the browser back-forward cache.
+        window.onpageshow = function(e) {
+            if (e.persisted) {
+                window.location.reload();
+            }
+        }
+    </script>
+
+</h:body>
+</html>

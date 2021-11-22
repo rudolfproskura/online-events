@@ -1,70 +1,332 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
 
-<title>Online events</title>
+<!DOCTYPE html>
+<html>
 
-<h:head>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="resources/diamond-layout/images/favicon.ico" type="image/x-icon"></link>
+    <link rel="icon" href="/resources/diamond-layout/images/favicon.ico" type="image/x-icon"></link>
+    <title>Online events</title>
+    <link rel="stylesheet" href="resources/diamond/diamond-layout/css/primeicons.css"/>
+    <link rel="stylesheet" href="resources/diamond/diamond-layout/css/landing.css"/>
+    <link rel="stylesheet" href="resources/diamond/diamond-layout/css/primeflex.min.css"/>
+</head>
 
-</h:head>
+<body class="landing-body">
+<div class="landing-wrapper">
+    <div id="home" class="landing-header">
+        <div class="landing-topbar">
+            <a href="#home" class="logo">
+                <img src="resources/diamond/diamond-layout/images/logo-white.svg"/>
+                <h1>ONLINE EVENTS</h1>
+            </a>
 
-<h:body>
+            <ul class="landing-menu">
+                <li>
+                    <a onclick="closeMenu()" id="landing-menu-close" tabindex="0">
+                        <i class="pi pi-times"></i>
+                    </a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#home">POČETAK</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#meetDiamond">KATEGORIJE</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#features">MOGUĆNOSTI</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#pricing">KORISNICI</a>
+                </li>
+                <li class="contact landing-menu-item">
+                    <a href="#contact">CONTACT</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#pricing">PRIJAVA</a>
+                </li>
+            </ul>
+            <a onclick="openMenu()" id="landing-menu-button" tabindex="0">
+                <i class="pi pi-bars"></i>
+            </a>
+            <ul class="contact-menu">
+                <li>
+                    <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
+                </li>
+            </ul>
+        </div>
+        <div class="landing-header-content">
+            <div class="header-text">
+                <h1>Dobro došli na ONLINE EVENTS stranice</h1>
+                <p>Mjesto gdje možete pretraživati događaje, organizirati događaje i još mnogo toga zanimljivog.
+                </p>
+                <button class="landing-btn"><span>SAZNAJTE VIŠE</span></button>
+            </div>
+            <div class="header-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/images/home.png"
+                     data-srcset="resources/images/home.png" />
+            </div>
+        </div>
+    </div>
 
-    <h:form id="login">
-    <div class="p-mb-3 p-text-center"
-             style="font-size:64px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Dobrodošli na ONLINE EVENTS stranicu!
+    <div id="meetDiamond" class="landing-meetdiamond">
+        <div class="section-title">
+            <h1>Kategorije događaja</h1>
+<!--            <span>Full Customizable Template</span>-->
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/concert.jpg" />
+                    <h2>Glazbeni događaji</h2>
+                    <span>Koncerti, Festivali, DJ Party, Plesnjak</span>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/theatre1.jpg" />
+                    <h2>Kulturni događaji</h2>
+                    <span>Izložbe, Filmovi, Predstave, Stand-up komedije</span>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/sport1.jpg" />
+                    <h2>Sportski događaji</h2>
+                    <span>Turnir, Utakmice, Sportske edukacije</span>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/business1.jpg" />
+                    <h2>Poslovni događaji</h2>
+                    <span>Seminari, Konferencije, Radionice</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="features" class="landing-features">
+        <div class="feature-row">
+            <div class="feature-text">
+                <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
+                <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
+                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
+                        dolor.</span>
+            </div>
+            <div class="feature-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/images/home.png"
+                     data-srcset="resources/diamond/diamond-layout/images/feature-image-1.png" />
+            </div>
+        </div>
+        <div class="feature-row row-reverse">
+            <div class="feature-text">
+                <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
+                <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
+                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
+                        dolor.</span>
+            </div>
+            <div class="feature-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/diamond-layout/images/pages/landing/feature-image-2.png"
+                     data-srcset="resources/diamond-layout/images/pages/landing/feature-image-2.png" />
+            </div>
+        </div>
+        <div class="feature-row">
+            <div class="feature-text">
+                <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
+                <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
+                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
+                        dolor.</span>
+            </div>
+            <div class="feature-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/diamond-layout/images/pages/landing/feature-image-3.png"
+                     data-srcset="resources/diamond-layout/images/pages/landing/feature-image-3.png" />
+            </div>
+        </div>
+    </div>
+
+    <div id="pricing" class="landing-pricing">
+        <div class="section-title">
+            <h1>Naši korisnici</h1>
+            <span>Najbolje za naše korisnike!</span>
+        </div>
+        <div class="pricing-cards">
+            <div class="widget-pricing-card">
+                <h2>GOST</h2>
+                <span>Pretraga događaja</span>
+                <span>Pregled događaja u kalendaru</span>
+                <span>Nema registracije</span>
+            </div>
+            <div class="widget-pricing-card deal">
+                <h2>KORISNIK</h2>
+                <span>Pretraga događaja</span>
+                <span>Pregled događaja u kalendaru</span>
+                <span>Dodavanje događaja u kalendar</span>
+                <span>Registracija</span>
+                <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
+            </div>
+            <div class="widget-pricing-card">
+                <h2>ORGANIZATOR</h2>
+                <span>Pretraga događaja</span>
+                <span>Pregled događaja u kalendaru</span>
+                <span>Dodavanje događaja u kalendar</span>
+                <span>Upravljanje događajima</span>
+                <span>Registracija</span>
+                <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact" class="landing-contact">
+        <div class="section-title">
+            <h1>Ostanimo u kontaktu</h1>
+            <span>Samo pošaljite mail ili zovite</span>
+        </div>
+        <div class="contact-wrapper">
+            <div class="contact-left">
+                <div class="card-contact">
+                    <img src="resources/diamond/diamond-layout/images/contact.png" />
+                </div>
+            </div>
+            <div class="contact-right">
+                <div class="contact-text">
+                    <h1>Osjećajte se slobodni kontaktirati nas <br />
+                        a mi ćemo Vam se javiti <br />
+                        najbrže što možemo.</h1>
+                    <div class="contact-info">
+                        <div class="info">
+                            <h2>Mail</h2>
+                            <p>info@online-events.hr<br />
+                                24 sata/dan <br />
+                                365 dana/godišnje <br />
+                            </p>
+                        </div>
+                        <div class="info">
+                            <h2>Telefon</h2>
+                            <p>098 000 XXX<br />
+                                099 000 XXX<br />
+                                09 - 17 sati</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <h:panelGroup layout="block" style="text-align : center;">
-            <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"
-                            style="text-align : center;"/>
-        </h:panelGroup>
-
-        <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
-            <p:link id="calendar_CL" href="http://localhost:9080/online-events/guest/kalendarDogadaja.xhtml">
-                <p:graphicImage library="images" name="events_calendar.jpg"/>
-            </p:link>
-            <p:graphicImage library="images" name="blank.png"/>
-            <p:link id="login_CL" href="http://localhost:9080/online-events/home">
-                <p:graphicImage library="images" name="login_home.png"/>
-            </p:link>
-
-<!--            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">-->
-<!--                <p:graphicImage library="images" name="login_home.png" />-->
-<!--            </h:outputLink>-->
+        <div class="landing-footer">
+            <a href="#" class="logo">
+                <img src="resources/diamond/diamond-layout/images/logo-white.svg"/>
+                <h1>ONLINE EVENTS</h1>
+            </a>
 
         </div>
 
-<!--        <p:growl id="growl" sticky="true" showDetail="true" life="3000000" />-->
+        <div class="landing-mask"></div>
+    </div>
 
-        <p:dialog header="Login" widgetVar="dlg" resizable="false" >
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="j_username" value="Korisničko ime:" />
-                <p:inputText id="j_username" name="j_username" />
+</div>
 
-                <h:outputLabel for="j_password" value="Lozinka:" />
-                <p:password id="j_password" name="j_password" autocomplete="false"/>
+<script type="text/javascript">
+    //<![CDATA[
+    var wrapper = document.querySelector('.landing-wrapper');
+    var body = document.querySelector('.landing-body');
+    var menuitems = document.querySelectorAll('.landing-menu-item');
 
-                <f:facet name="footer">
-                    <p:commandButton id="submit" value="Login" ajax="false"/>
-                </f:facet>
-            </h:panelGrid>
-        </p:dialog>
+    function openMenu() {
+        wrapper.classList.add('landing-menu-active');
+        body.classList.add('block-scroll');
+    }
 
+    function closeMenu() {
+        wrapper.classList.remove('landing-menu-active');
+        body.classList.remove('block-scroll');
+    }
 
-    </h:form>
+    for (var i = 0; i < menuitems.length; i++) {
+        var menuitem = menuitems[i];
+        menuitem.addEventListener('click', function(e) {
+            closeMenu();
+        });
+    }
 
-    <script type="text/javascript">
-        // Force safari to refresh the page
-        // if a cached copy was loaded
-        // from the browser back-forward cache.
-        window.onpageshow = function(e) {
-            if (e.persisted) {
-                window.location.reload();
+    var links = document.querySelectorAll('a[href^="#"]');
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        link.addEventListener('click', function(e) {
+            if (document.documentElement.scrollIntoView) {
+                e.preventDefault();
+                document.getElementById(event.currentTarget.getAttribute('href').substring(1)).scrollIntoView({
+                    behavior: 'smooth',
+                    offsetTop: 20
+                });
             }
-        }
-    </script>
+        });
+    }
 
-</h:body>
+    window.onload = function(){
+        document.onclick = function(e){
+            if (e.target.className !== 'pi pi-bars'){
+                closeMenu();
+            }
+        };
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+        let active = false;
+
+        const lazyLoad = function () {
+            if (active === false) {
+                active = true;
+
+                setTimeout(function () {
+                    lazyImages.forEach(function (lazyImage) {
+                        if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove("lazy");
+
+                            setTimeout(function () {
+                                lazyImage.classList.add("animated");
+                            }, 150);
+
+                            lazyImages = lazyImages.filter(function (image) {
+                                return image !== lazyImage;
+                            });
+
+                            if (lazyImages.length === 0) {
+                                document.removeEventListener("scroll", lazyLoad);
+                                window.removeEventListener("resize", lazyLoad);
+                                window.removeEventListener("orientationchange", lazyLoad);
+                            }
+                        }
+                    });
+
+                    active = false;
+                }, 0);
+            }
+        };
+        lazyLoad();
+        document.addEventListener("scroll", lazyLoad);
+        window.addEventListener("resize", lazyLoad);
+        window.addEventListener("orientationchange", lazyLoad);
+    });
+    //]]>
+</script>
+
+</body>
+
 </html>
