@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xml:lang="en" lang="en">
 
-<head>
+<h:head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -17,281 +17,281 @@
     <link rel="stylesheet" href="resources/diamond/diamond-layout/css/primeicons.css"/>
     <link rel="stylesheet" href="resources/diamond/diamond-layout/css/landing.css"/>
     <link rel="stylesheet" href="resources/diamond/diamond-layout/css/primeflex.min.css"/>
-</head>
+</h:head>
 
-<h:body class="landing-body">
-    <script type="text/javascript">
-        //<![CDATA[
-        var wrapper = document.querySelector('.landing-wrapper');
-        var body = document.querySelector('.landing-body');
-        var menuitems = document.querySelectorAll('.landing-menu-item');
+<body class="landing-body">
+<script type="text/javascript">
+    //<![CDATA[
+    var wrapper = document.querySelector('.landing-wrapper');
+    var body = document.querySelector('.landing-body');
+    var menuitems = document.querySelectorAll('.landing-menu-item');
 
-        function openMenu() {
-            wrapper.classList.add('landing-menu-active');
-            body.classList.add('block-scroll');
-        }
+    function openMenu() {
+        wrapper.classList.add('landing-menu-active');
+        body.classList.add('block-scroll');
+    }
 
-        function closeMenu() {
-            wrapper.classList.remove('landing-menu-active');
-            body.classList.remove('block-scroll');
-        }
+    function closeMenu() {
+        wrapper.classList.remove('landing-menu-active');
+        body.classList.remove('block-scroll');
+    }
 
-        for (var i = 0; i < menuitems.length; i++) {
-            var menuitem = menuitems[i];
-            menuitem.addEventListener('click', function (e) {
+    for (var i = 0; i < menuitems.length; i++) {
+        var menuitem = menuitems[i];
+        menuitem.addEventListener('click', function (e) {
+            closeMenu();
+        });
+    }
+
+    var links = document.querySelectorAll('a[href^="#"]');
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        link.addEventListener('click', function (e) {
+            if (document.documentElement.scrollIntoView) {
+                e.preventDefault();
+                document.getElementById(event.currentTarget.getAttribute('href').substring(1)).scrollIntoView({
+                    behavior: 'smooth',
+                    offsetTop: 20
+                });
+            }
+        });
+    }
+
+    window.onload = function () {
+        document.onclick = function (e) {
+            if (e.target.className !== 'pi pi-bars') {
                 closeMenu();
-            });
-        }
+            }
+        };
+    };
 
-        var links = document.querySelectorAll('a[href^="#"]');
-        for (var i = 0; i < links.length; i++) {
-            var link = links[i];
-            link.addEventListener('click', function (e) {
-                if (document.documentElement.scrollIntoView) {
-                    e.preventDefault();
-                    document.getElementById(event.currentTarget.getAttribute('href').substring(1)).scrollIntoView({
-                        behavior: 'smooth',
-                        offsetTop: 20
-                    });
-                }
-            });
-        }
-
-        window.onload = function () {
-            document.onclick = function (e) {
-                if (e.target.className !== 'pi pi-bars') {
-                    closeMenu();
-                }
-            };
+    document.addEventListener("DOMContentLoaded", function () {
+        PrimeFaces.locales ['hr'] = {
+            closeText: 'Zatvori',
+            prevText: 'Natrag',
+            nextText: 'Naprijed',
+            monthNames: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
+            monthNamesShort: ['Sij', 'Vel', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
+            dayNames: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
+            dayNamesShort: ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub'],
+            dayNamesMin: ['N', 'P', 'U', 'S ', 'Č', 'P ', 'S'],
+            weekHeader: 'Tjedan',
+            firstDay: 1,
+            timeOnlyTitle: 'Samo vrijeme',
+            timeText: 'Vrijeme',
+            hourText: 'Sat',
+            minuteText: 'Minuta',
+            secondText: 'Sekunda',
+            currentText: 'Današnji datum',
+            ampm: false,
+            year: 'Godina',
+            month: 'Mjesec',
+            week: 'Tjedan',
+            day: 'Dan',
+            allDayText: 'Cijeli dan',
+            moreLinkText: 'weitere',
+            noEventsText: 'Nema događaja za prikaz',
+            list: 'Pregled rasporeda'
         };
 
-        document.addEventListener("DOMContentLoaded", function () {
-            PrimeFaces.locales ['hr'] = {
-                closeText: 'Zatvori',
-                prevText: 'Natrag',
-                nextText: 'Naprijed',
-                monthNames: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
-                monthNamesShort: ['Sij', 'Vel', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
-                dayNames: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
-                dayNamesShort: ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub'],
-                dayNamesMin: ['N', 'P', 'U', 'S ', 'Č', 'P ', 'S'],
-                weekHeader: 'Tjedan',
-                firstDay: 1,
-                timeOnlyTitle: 'Samo vrijeme',
-                timeText: 'Vrijeme',
-                hourText: 'Sat',
-                minuteText: 'Minuta',
-                secondText: 'Sekunda',
-                currentText: 'Današnji datum',
-                ampm: false,
-                year: 'Godina',
-                month: 'Mjesec',
-                week: 'Tjedan',
-                day: 'Dan',
-                allDayText: 'Cijeli dan',
-                moreLinkText: 'weitere',
-                noEventsText: 'Nema događaja za prikaz',
-                list: 'Pregled rasporeda'
-            };
 
+        let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+        let active = false;
 
-            let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-            let active = false;
+        const lazyLoad = function () {
+            if (active === false) {
+                active = true;
 
-            const lazyLoad = function () {
-                if (active === false) {
-                    active = true;
+                setTimeout(function () {
+                    lazyImages.forEach(function (lazyImage) {
+                        if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove("lazy");
 
-                    setTimeout(function () {
-                        lazyImages.forEach(function (lazyImage) {
-                            if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
-                                lazyImage.src = lazyImage.dataset.src;
-                                lazyImage.classList.remove("lazy");
+                            setTimeout(function () {
+                                lazyImage.classList.add("animated");
+                            }, 150);
 
-                                setTimeout(function () {
-                                    lazyImage.classList.add("animated");
-                                }, 150);
+                            lazyImages = lazyImages.filter(function (image) {
+                                return image !== lazyImage;
+                            });
 
-                                lazyImages = lazyImages.filter(function (image) {
-                                    return image !== lazyImage;
-                                });
-
-                                if (lazyImages.length === 0) {
-                                    document.removeEventListener("scroll", lazyLoad);
-                                    window.removeEventListener("resize", lazyLoad);
-                                    window.removeEventListener("orientationchange", lazyLoad);
-                                }
+                            if (lazyImages.length === 0) {
+                                document.removeEventListener("scroll", lazyLoad);
+                                window.removeEventListener("resize", lazyLoad);
+                                window.removeEventListener("orientationchange", lazyLoad);
                             }
-                        });
+                        }
+                    });
 
-                        active = false;
-                    }, 0);
-                }
-            };
-            lazyLoad();
-            document.addEventListener("scroll", lazyLoad);
-            window.addEventListener("resize", lazyLoad);
-            window.addEventListener("orientationchange", lazyLoad);
-        });
+                    active = false;
+                }, 0);
+            }
+        };
+        lazyLoad();
+        document.addEventListener("scroll", lazyLoad);
+        window.addEventListener("resize", lazyLoad);
+        window.addEventListener("orientationchange", lazyLoad);
+    });
 
-        //]]>
-    </script>
+    //]]>
+</script>
 
 
-    <div class="landing-wrapper">
-        <div id="home" class="landing-header">
-            <div class="landing-topbar">
-                <a href="#home" class="logo">
-                    <img src="resources/diamond/diamond-layout/images/logo-white.svg"/>
-                    <h1>ONLINE EVENTS</h1>
-                </a>
+<div class="landing-wrapper">
+    <div id="home" class="landing-header">
+        <div class="landing-topbar">
+            <a href="#home" class="logo">
+                <img src="resources/diamond/diamond-layout/images/logo-white.svg"/>
+                <h1>ONLINE EVENTS</h1>
+            </a>
 
-                <ul class="landing-menu">
-                    <li>
-                        <a onclick="closeMenu()" id="landing-menu-close" tabindex="0">
-                            <i class="pi pi-times"></i>
-                        </a>
-                    </li>
-                    <li class="landing-menu-item">
-                        <a href="#home">POČETAK</a>
-                    </li>
-                    <li class="landing-menu-item">
-                        <a href="#meetDiamond">KATEGORIJE</a>
-                    </li>
-                    <li class="landing-menu-item">
-                        <a href="#features">MOGUĆNOSTI</a>
-                    </li>
-                    <li class="landing-menu-item">
-                        <a href="#calendar">KALENDAR</a>
-                    </li>
-                    <li class="landing-menu-item">
-                        <a href="#pricing">KORISNICI</a>
-                    </li>
-                    <li class="contact landing-menu-item">
-                        <a href="#contact">CONTACT</a>
-                    </li>
-                    <li class="landing-menu-item">
-                        <a href="#pricing">PRIJAVA</a>
-                    </li>
-                </ul>
-                <a onclick="openMenu()" id="landing-menu-button" tabindex="0">
-                    <i class="pi pi-bars"></i>
-                </a>
-                <ul class="contact-menu">
-                    <li>
-                        <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
-                    </li>
-                </ul>
+            <ul class="landing-menu">
+                <li>
+                    <a onclick="closeMenu()" id="landing-menu-close" tabindex="0">
+                        <i class="pi pi-times"></i>
+                    </a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#home">POČETAK</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#kategorije">KATEGORIJE</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#mogucnosti">MOGUĆNOSTI</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#kalendar">KALENDAR</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#korisnici">KORISNICI</a>
+                </li>
+                <li class="landing-menu-item">
+                    <a href="#kontakt">KONTAKT</a>
+                </li>
+<!--                <li class="landing-menu-item">-->
+<!--                    <a href="#pricing">PRIJAVA</a>-->
+<!--                </li>-->
+            </ul>
+            <a onclick="openMenu()" id="landing-menu-button" tabindex="0">
+                <i class="pi pi-bars"></i>
+            </a>
+            <ul class="contact-menu">
+                <li>
+                    <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
+                </li>
+            </ul>
+        </div>
+        <div class="landing-header-content">
+            <div class="header-text">
+                <h1>Dobro došli na ONLINE EVENTS stranice</h1>
+                <p>Mjesto gdje možete pretraživati događaje, organizirati događaje i još mnogo toga zanimljivog.
+                </p>
+                <button class="landing-btn"><span>SAZNAJTE VIŠE</span></button>
             </div>
-            <div class="landing-header-content">
-                <div class="header-text">
-                    <h1>Dobro došli na ONLINE EVENTS stranice</h1>
-                    <p>Mjesto gdje možete pretraživati događaje, organizirati događaje i još mnogo toga zanimljivog.
-                    </p>
-                    <button class="landing-btn"><span>SAZNAJTE VIŠE</span></button>
+            <div class="header-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/images/home.png"
+                     data-srcset="resources/images/home.png"/>
+            </div>
+        </div>
+    </div>
+
+    <div id="kategorije" class="landing-meetdiamond">
+        <div class="section-title">
+            <h1>Kategorije događaja</h1>
+            <!--            <span>Full Customizable Template</span>-->
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/concert.jpg"/>
+                    <h2>Glazbeni događaji</h2>
+                    <span>Koncerti, Festivali, DJ Party, Plesnjak</span>
                 </div>
-                <div class="header-image">
-                    <img class="lazy"
-                         src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
-                         data-src="resources/images/home.png"
-                         data-srcset="resources/images/home.png"/>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/theatre1.jpg"/>
+                    <h2>Kulturni događaji</h2>
+                    <span>Izložbe, Filmovi, Predstave, Stand-up komedije</span>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/sport1.jpg"/>
+                    <h2>Sportski događaji</h2>
+                    <span>Turniri, Utakmice, Sportske edukacije</span>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="card widget-feature-box">
+                    <img src="resources/diamond/diamond-layout/images/business1.jpg"/>
+                    <h2>Poslovni događaji</h2>
+                    <span>Seminari, Konferencije, Radionice</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="meetDiamond" class="landing-meetdiamond">
-            <div class="section-title">
-                <h1>Kategorije događaja</h1>
-                <!--            <span>Full Customizable Template</span>-->
+    <div id="mogucnosti" class="landing-features">
+        <div class="feature-row">
+            <div class="feature-text">
+                <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
+                <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
+                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
+                        dolor.</span>
             </div>
-            <div class="p-grid">
-                <div class="p-col-12 p-md-6 p-lg-3">
-                    <div class="card widget-feature-box">
-                        <img src="resources/diamond/diamond-layout/images/concert.jpg"/>
-                        <h2>Glazbeni događaji</h2>
-                        <h4>Koncerti, Festivali, DJ Party, Plesnjak</h4>
-                    </div>
-                </div>
-                <div class="p-col-12 p-md-6 p-lg-3">
-                    <div class="card widget-feature-box">
-                        <img src="resources/diamond/diamond-layout/images/theatre1.jpg"/>
-                        <h2>Kulturni događaji</h2>
-                        <h3>Izložbe, Filmovi, Predstave, Stand-up komedije</h3>
-                    </div>
-                </div>
-                <div class="p-col-12 p-md-6 p-lg-3">
-                    <div class="card widget-feature-box">
-                        <img src="resources/diamond/diamond-layout/images/sport1.jpg"/>
-                        <h2>Sportski događaji</h2>
-                        <span>Turniri, Utakmice, Sportske edukacije</span>
-                    </div>
-                </div>
-                <div class="p-col-12 p-md-6 p-lg-3">
-                    <div class="card widget-feature-box">
-                        <img src="resources/diamond/diamond-layout/images/business1.jpg"/>
-                        <h2>Poslovni događaji</h2>
-                        <span>Seminari, Konferencije, Radionice</span>
-                    </div>
-                </div>
+            <div class="feature-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/images/home.png"
+                     data-srcset="resources/diamond/diamond-layout/images/feature-image-1.png"/>
             </div>
         </div>
-
-        <div id="features" class="landing-features">
-            <div class="feature-row">
-                <div class="feature-text">
-                    <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
-                    <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
+        <div class="feature-row row-reverse">
+            <div class="feature-text">
+                <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
+                <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
                         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
                         Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
                         dolor.</span>
-                </div>
-                <div class="feature-image">
-                    <img class="lazy"
-                         src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
-                         data-src="resources/images/home.png"
-                         data-srcset="resources/diamond/diamond-layout/images/feature-image-1.png"/>
-                </div>
             </div>
-            <div class="feature-row row-reverse">
-                <div class="feature-text">
-                    <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
-                    <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
-                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
-                        dolor.</span>
-                </div>
-                <div class="feature-image">
-                    <img class="lazy"
-                         src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
-                         data-src="resources/diamond-layout/images/pages/landing/feature-image-2.png"
-                         data-srcset="resources/diamond-layout/images/pages/landing/feature-image-2.png"/>
-                </div>
-            </div>
-            <div class="feature-row">
-                <div class="feature-text">
-                    <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
-                    <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
-                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
-                        dolor.</span>
-                </div>
-                <div class="feature-image">
-                    <img class="lazy"
-                         src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
-                         data-src="resources/diamond-layout/images/pages/landing/feature-image-3.png"
-                         data-srcset="resources/diamond-layout/images/pages/landing/feature-image-3.png"/>
-                </div>
+            <div class="feature-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/diamond-layout/images/pages/landing/feature-image-2.png"
+                     data-srcset="resources/diamond-layout/images/pages/landing/feature-image-2.png"/>
             </div>
         </div>
-
-        <div id="calendar" class="landing-features">
-            <div class="section-title">
-                <h1>Kalendar događaja</h1>
-                <span>Pregled događaja u kalendaru</span>
+        <div class="feature-row">
+            <div class="feature-text">
+                <h2>Cras suscipit mauris nisl. Donec molestie maximus tellus</h2>
+                <span>Cras suscipit mauris nisl. Donec molestie maximus tellus, eu congue elit interdum vitae.
+                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        Aenean finibus laoreet lorem, non pretium elit. Nunc vel commodo velit, eu venenatis
+                        dolor.</span>
             </div>
-            <div>
+            <div class="feature-image">
+                <img class="lazy"
+                     src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg"
+                     data-src="resources/diamond-layout/images/pages/landing/feature-image-3.png"
+                     data-srcset="resources/diamond-layout/images/pages/landing/feature-image-3.png"/>
+            </div>
+        </div>
+    </div>
+
+    <div id="kalendar" class="landing-features">
+        <div class="section-title">
+            <h1>Kalendar događaja</h1>
+        </div>
+        <div>
+            <h:body>
                 <h:form>
-                    <p:panel id="panel_unos" header="Kalendar događaja" style="margin-bottom:5px" toggleable="false"
+                    <p:panel id="panel_unos" header="Pregled događaja u kalendaru" style="margin-bottom:5px" toggleable="false"
                              toggleSpeed="500" toggleableHeader="true" widgetVar="widgetInput">
                         <p:growl id="messages" showDetail="true"/>
 
@@ -343,92 +343,93 @@
 
                     </p:panel>
                 </h:form>
-            </div>
-
-        </div>
-
-        <div id="pricing" class="landing-pricing">
-            <div class="section-title">
-                <h1>Naši korisnici</h1>
-                <span>Najbolje za naše korisnike!</span>
-            </div>
-            <div class="pricing-cards">
-                <div class="widget-pricing-card">
-                    <h2>GOST</h2>
-                    <span>Početna stranica</span>
-                    <span>Pregled događaja u kalendaru</span>
-                    <span>Nema registracije</span>
-                </div>
-                <div class="widget-pricing-card deal">
-                    <h2>KORISNIK</h2>
-                    <span>Pretraga događaja</span>
-                    <span>Pregled događaja u kalendaru</span>
-                    <span>Dodavanje događaja u kalendar</span>
-                    <span>Registracija</span>
-                    <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
-                </div>
-                <div class="widget-pricing-card">
-                    <h2>ORGANIZATOR</h2>
-                    <span>Pretraga događaja</span>
-                    <span>Pregled događaja u kalendaru</span>
-                    <span>Dodavanje događaja u kalendar</span>
-                    <span>Upravljanje događajima</span>
-                    <span>Registracija</span>
-                    <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="contact" class="landing-contact">
-            <div class="section-title">
-                <h1>Ostanimo u kontaktu</h1>
-                <span>Samo pošaljite mail ili zovite</span>
-            </div>
-            <div class="contact-wrapper">
-                <div class="contact-left">
-                    <div class="card-contact">
-                        <img src="resources/diamond/diamond-layout/images/contact.png"/>
-                    </div>
-                </div>
-                <div class="contact-right">
-                    <div class="contact-text">
-                        <h1>Osjećajte se slobodni kontaktirati nas <br/>
-                            a mi ćemo Vam se javiti <br/>
-                            najbrže što možemo.</h1>
-                        <div class="contact-info">
-                            <div class="info">
-                                <h2>Mail</h2>
-                                <p>info@online-events.hr<br/>
-                                    24 sata/dan <br/>
-                                    365 dana/godišnje <br/>
-                                </p>
-                            </div>
-                            <div class="info">
-                                <h2>Telefon</h2>
-                                <p>098 000 XXX<br/>
-                                    099 000 XXX<br/>
-                                    09 - 17 sati</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="landing-footer">
-                <a href="#" class="logo">
-                    <img src="resources/diamond/diamond-layout/images/logo-white.svg"/>
-                    <h1>ONLINE EVENTS</h1>
-                </a>
-
-            </div>
-
-            <div class="landing-mask"></div>
+            </h:body>
         </div>
 
     </div>
 
+    <div id="korisnici" class="landing-pricing">
+        <div class="section-title">
+            <h1>Naši korisnici</h1>
+            <span>Najbolje za naše korisnike!</span>
+        </div>
+        <div class="pricing-cards">
+            <div class="widget-pricing-card">
+                <h2>GOST</h2>
+                <span>Početna stranica</span>
+                <span>Pregled događaja u kalendaru</span>
+                <span>Nema registracije</span>
+            </div>
+            <div class="widget-pricing-card deal">
+                <h2>KORISNIK</h2>
+                <span>Pretraga događaja</span>
+                <span>Pregled događaja u kalendaru</span>
+                <span>Dodavanje događaja u kalendar</span>
+                <span>Registracija</span>
+                <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
+            </div>
+            <div class="widget-pricing-card">
+                <h2>ORGANIZATOR</h2>
+                <span>Pretraga događaja</span>
+                <span>Pregled događaja u kalendaru</span>
+                <span>Dodavanje događaja u kalendar</span>
+                <span>Upravljanje događajima</span>
+                <span>Registracija</span>
+                <a href="http://localhost:9080/online-events/home">PRIJAVA</a>
+            </div>
+        </div>
+    </div>
 
-</h:body>
+    <div id="kontakt" class="landing-contact">
+        <div class="section-title">
+            <h1>Ostanimo u kontaktu</h1>
+            <span>Samo pošaljite mail ili zovite</span>
+        </div>
+        <div class="contact-wrapper">
+            <div class="contact-left">
+                <div class="card-contact">
+                    <img src="resources/diamond/diamond-layout/images/contact.png"/>
+                </div>
+            </div>
+            <div class="contact-right">
+                <div class="contact-text">
+                    <h1>Osjećajte se slobodni kontaktirati nas <br/>
+                        a mi ćemo Vam se javiti <br/>
+                        najbrže što možemo.</h1>
+                    <div class="contact-info">
+                        <div class="info">
+                            <h2>Mail</h2>
+                            <p>info@online-events.hr<br/>
+                                24 sata/dan <br/>
+                                365 dana/godišnje <br/>
+                            </p>
+                        </div>
+                        <div class="info">
+                            <h2>Telefon</h2>
+                            <p>098 000 XXX<br/>
+                                099 000 XXX<br/>
+                                09 - 17 sati</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="landing-footer">
+            <a href="#" class="logo">
+                <img src="resources/diamond/diamond-layout/images/logo-white.svg"/>
+                <h1>ONLINE EVENTS</h1>
+            </a>
+
+        </div>
+
+        <div class="landing-mask"></div>
+    </div>
+
+</div>
+
+
+</body>
 
 </html>
