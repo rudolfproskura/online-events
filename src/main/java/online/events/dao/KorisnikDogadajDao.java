@@ -135,5 +135,13 @@ public class KorisnikDogadajDao extends GenericDao<Object, KorisnikDogadajDto> i
         query.executeUpdate();
     }
 
+    public void deleteDogadajByCreator(String kreator) throws DogadajAppRuleException {
+
+        String sql = "delete from online_events.dogadaj where kreator = :kreator";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter("kreator", kreator);
+        query.executeUpdate();
+    }
 
 }

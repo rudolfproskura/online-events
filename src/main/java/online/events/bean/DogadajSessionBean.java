@@ -65,6 +65,8 @@ public class DogadajSessionBean implements IDogadajSessionBean {
     public void deleteKorisnik(String korisnik) throws DogadajAppRuleException {
         //DB delete dogadaj korisnik
         korisnikDogadajDao.deleteKorisnikDogadajByKorisnik(korisnik);
+        //DB delete dogadaj
+        korisnikDogadajDao.deleteDogadajByCreator(korisnik);
         //DB delete korisnik
         korisnikDao.deleteKorisnik(korisnik);
         //LDAP delete
