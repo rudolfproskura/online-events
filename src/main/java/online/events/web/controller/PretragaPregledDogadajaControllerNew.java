@@ -76,43 +76,6 @@ public class PretragaPregledDogadajaControllerNew implements Serializable {
     private List<DogadajDto> dogadajiAllList;
     private List<DogadajDto> dogadajiMyList;
 
-
-    private boolean slotEventOverlap = true;
-    private boolean showWeekNumbers = false;
-    private boolean showHeader = true;
-    private boolean draggable = true;
-    private boolean resizable = true;
-    private boolean showWeekends = true;
-    private boolean tooltip = true;
-    private boolean allDaySlot = true;
-    private boolean rtl = false;
-
-    private double aspectRatio = Double.MIN_VALUE;
-
-    private String leftHeaderTemplate = "prev,next today";
-    private String centerHeaderTemplate = "title";
-    private String rightHeaderTemplate = "dayGridMonth,timeGridWeek,timeGridDay,listYear";
-    private String nextDayThreshold = "09:00:00";
-    private String weekNumberCalculation = "local";
-    private String weekNumberCalculator = "date.getTime()";
-    private String displayEventEnd;
-    private String timeFormat;
-    private String slotDuration = "00:30:00";
-    private String slotLabelInterval;
-    private String slotLabelFormat;
-    private String scrollTime = "06:00:00";
-    private String minTime = "04:00:00";
-    private String maxTime = "20:00:00";
-    private String locale = "en";
-    private String timeZone = "";
-    private String clientTimeZone = "local";
-    private String columnHeaderFormat = "";
-    private String view = "timeGridWeek";
-    private String height = "auto";
-
-    private String extenderCode = "// Write your code here or select an example from above";
-    private String selectedExtenderExample = "";
-
     //CDI
     @Inject
     private GradDao gradDao;
@@ -142,46 +105,11 @@ public class PretragaPregledDogadajaControllerNew implements Serializable {
         //initialization
         dogadajFilterDto = new DogadajFilterDto();
         dogadajFilterDto.setLoggedUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-        //calendar
-        getAllDogadaj();
     }
 
-    /*
-     * save metoda za spremanje/ažuriranje događaja
-     */
-    public void save() {
-        try {
-            if (dogadajDto != null) {
-                if (dogadajDto.getSifraDogadaja() != null) {
-                    dogadajSessionBean.editDogadaj(dogadajDto, logedUser);
-                    addMessage("Događaj " + dogadajDto.getSifraDogadaja() + " je uspješno ažuriran.", DogadajAppConstants.SEVERITY_INFO);
-                } else {
-                    //create
-                    DogadajDto resultDogadaj = dogadajSessionBean.createDogadaj(dogadajDto);
-                    dogadajDto.setSifraDogadaja(resultDogadaj.getSifraDogadaja());
-                    addMessage("Događaj je uspješno spremljen. Šifra događaja je " + resultDogadaj.getSifraDogadaja() + ".", DogadajAppConstants.SEVERITY_INFO);
-                }
-                dogadajiFilterList = dogadajDao.getFilterList(new DogadajFilterDto(dogadajDto.getSifraDogadaja()));
-            } else {
-                addMessage("Događaj je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
-            }
-        } catch (DogadajAppRuleException eventEx) {
-            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
-                for (String message : eventEx.getMessages()) {
-                    eventEx.printStackTrace();
-                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            addMessage("Došlo je do greške prilikom kreiranja/ažuriranja događaja.", DogadajAppConstants.SEVERITY_ERR);
-        }
-    }
-
-    public void dodajUKalendar(String korisnik, Integer dogadaj) {
+     public void dodajUKalendar(String korisnik, Integer dogadaj) {
         try {
             dogadajSessionBean.createKorisnikDogadaj(korisnik, dogadaj);
-            getMyDogadaj();
             getFilterListDogadaj();
             addMessage("Događaj je dodan u kalendar.", DogadajAppConstants.SEVERITY_INFO);
         } catch (Exception ex) {
@@ -193,7 +121,6 @@ public class PretragaPregledDogadajaControllerNew implements Serializable {
     public void makniIzKalendara(String korisnik, Integer dogadaj) {
         try {
             dogadajSessionBean.deleteKorisnikDogadaj(korisnik, dogadaj);
-            getMyDogadaj();
             getFilterListDogadaj();
             addMessage("Događaj je maknut iz kalendara.", DogadajAppConstants.SEVERITY_INFO);
         } catch (Exception ex) {
@@ -221,127 +148,8 @@ public class PretragaPregledDogadajaControllerNew implements Serializable {
         }
     }
 
-    private void getAllDogadajForCalendar() {
-        getListAllDogadaj();
-        getListMyDogadaj();
 
-        eventModelAllEvents = new DefaultScheduleModel();
-        if (dogadajiAllList != null && !dogadajiAllList.isEmpty()) {
 
-            for (DogadajDto dogadajDto : dogadajiAllList) {
-                DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                        .title(dogadajDto.getNazivDogadaja())
-                        .startDate(dogadajDto.getVrijemeOd())
-                        .endDate(dogadajDto.getVrijemeDo())
-                        .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                        //.borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
-                        .overlapAllowed(true)
-                        .backgroundColor("#0dec33")
-                        .borderColor("RED !important")
-                        .textColor("#fffbfb")
-                        .build();
-                eventModelAllEvents.addEvent(event);
-            }
-        }
-
-    }
-
-    private void getAllDogadaj() {
-
-        try {
-            eventModelAllEvents = new DefaultScheduleModel();
-            getListAllDogadaj();
-            getListMyDogadaj();
-            if (dogadajiAllList != null && !dogadajiAllList.isEmpty()) {
-                for (DogadajDto dogadajDto : dogadajiAllList) {
-                    if (dogadajiMyList != null && !dogadajiMyList.isEmpty() && containsDogadajById(dogadajiMyList, dogadajDto.getSifraDogadaja())) {
-                        DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                                .title(dogadajDto.getNazivDogadaja())
-                                .startDate(dogadajDto.getVrijemeOd())
-                                .endDate(dogadajDto.getVrijemeDo())
-                                .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                                .borderColor("YELLOW")
-                                .overlapAllowed(true)
-                                .build();
-                        eventModelAllEvents.addEvent(event);
-                    } else {
-                        DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                                .title(dogadajDto.getNazivDogadaja())
-                                .startDate(dogadajDto.getVrijemeOd())
-                                .endDate(dogadajDto.getVrijemeDo())
-                                .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                                //.borderColor("WHITE")
-                                .overlapAllowed(true)
-                                .build();
-                        eventModelAllEvents.addEvent(event);
-                    }
-
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            addMessage("Došlo je do greške prilikom pretraživanja događaja.", DogadajAppConstants.SEVERITY_ERR);
-        }
-
-    }
-
-    public boolean containsDogadajById(final List<DogadajDto> list, final Integer id){
-        return list.stream().filter(o -> o.getSifraDogadaja().equals(id)).findFirst().isPresent();
-    }
-
-    private void getListAllDogadaj() {
-        try {
-            dogadajiAllList = dogadajDao.getFilterList(new DogadajFilterDto());
-        } catch (DogadajAppRuleException eventEx) {
-            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
-                for (String message : eventEx.getMessages()) {
-                    eventEx.printStackTrace();
-                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            addMessage("Došlo je do greške prilikom pretraživanja događaja.", DogadajAppConstants.SEVERITY_ERR);
-        }
-    }
-
-    private void getMyDogadaj() {
-        eventModelMyEvents = new DefaultScheduleModel();
-
-        getListMyDogadaj();
-        if (dogadajiMyList != null && !dogadajiMyList.isEmpty()) {
-            for (DogadajDto dogadajDto : dogadajiMyList) {
-                DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
-                        .title(dogadajDto.getNazivDogadaja())
-                        .startDate(dogadajDto.getVrijemeOd())
-                        .endDate(dogadajDto.getVrijemeDo())
-                        .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                        .borderColor("YELLOW")
-                        .overlapAllowed(true)
-                        .build();
-                eventModelMyEvents.addEvent(event);
-            }
-        }
-    }
-
-    private void getListMyDogadaj() {
-        try {
-            DogadajFilterDto dogadajFilterDto = new DogadajFilterDto();
-            dogadajFilterDto.setDodaniUKalendar("ADDED_TO_CAL");
-            dogadajFilterDto.setLoggedUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-            dogadajiMyList = dogadajDao.getFilterList(dogadajFilterDto);
-        } catch (DogadajAppRuleException eventEx) {
-            if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
-                for (String message : eventEx.getMessages()) {
-                    eventEx.printStackTrace();
-                    addMessage(message, DogadajAppConstants.SEVERITY_ERR);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            addMessage("Došlo je do greške prilikom pretraživanja događaja.", DogadajAppConstants.SEVERITY_ERR);
-        }
-    }
 
     /*
      * Odabirom retk u tablici popunjava se dogadajDto, odnosno popunjava input form

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xml:lang="en" lang="en">
+
+
+<!--<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>-->
+
+<h:head>
+    <title>Pretraga / Pregled događaja</title>
+
+</h:head>
+
+<h:body>
+    <script type="text/javascript">
+        PrimeFaces.locales ['hr'] = {
+            closeText: 'Zatvori',
+            prevText: 'Natrag',
+            nextText: 'Naprijed',
+            monthNames: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
+            monthNamesShort: ['Sij', 'Vel', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
+            dayNames: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
+            dayNamesShort: ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub'],
+            dayNamesMin: ['N', 'P', 'U', 'S ', 'Č', 'P ', 'S'],
+            weekHeader: 'Tjedan',
+            firstDay: 1,
+            timeOnlyTitle: 'Samo vrijeme',
+            timeText: 'Vrijeme',
+            hourText: 'Sat',
+            minuteText: 'Minuta',
+            secondText: 'Sekunda',
+            currentText: 'Današnji datum',
+            ampm: false,
+            year: 'Godina',
+            month: 'Mjesec',
+            week: 'Tjedan',
+            day: 'Dan',
+            allDayText: 'Cijeli dan',
+            moreLinkText: 'weitere',
+            noEventsText: 'Nema događaja za prikaz',
+            list: 'Pregled rasporeda'
+        };
+    </script>
+    <p:growl id="growl" showDetail="true" />
+    <form id="logout" action="ibm_security_logout" method="post">
+        <p:menubar style="background-color: #a6cbfa; color: black">
+            <p:menuitem value="Početna"
+                        icon="pi pi-fw pi-home"
+                        url="http://localhost:9080/online-events/welcome.xhtml"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
+            <p:menuitem value="Pretraga/pregled"
+                        icon="pi pi-fw pi-filter"
+                        url="http://localhost:9080/online-events/secured/user/pregledDogadaja.xhtml"
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
+            <p:menuitem value="Kalendar"
+                        icon="pi pi-fw pi-calendar-times"
+                        url="http://localhost:9080/online-events/secured/user/kalendar.xhtml"
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
+            <p:menuitem value="Unos/Ažuriranje"
+                        icon="pi pi-fw pi-calendar-plus"
+                        url="http://localhost:9080/online-events/secured/admin/upravljanjeDogadajima.xhtml"
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
+            <p:menuitem value="Korisnici"
+                        icon="pi pi-fw pi-user-plus"
+                        url="http://localhost:9080/online-events/secured/super-admin/pregledKorisnika.xhtml"
+                        rendered="#{request.isUserInRole('admin')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
+            <f:facet name="options">
+                <span class="ui-input-icon-left">
+                    <h:form id="userDialogForm">
+                     <p:commandButton value="#{request.remoteUser}"
+                                      icon="pi pi-fw pi-user-edit"
+                                      styleClass="rounded-button ui-button-info" ajax="true"
+                                      onclick="PF('includedDialog').show();"
+                     />
+
+                    </h:form>
+                </span>
+                <input type="hidden" name="logoutExitPage" value="/welcome.xhtml"/>
+                <p:button value="Odjava"
+                          icon="pi pi-fw pi-sign-out"
+                          styleClass="rounded-button ui-button-secondary"
+                          onclick="document.getElementById('logout').submit()"/>
+            </f:facet>
+
+        </p:menubar>
+    </form>
+
+
+    <h:form id="mainForm">
+
+
+
+
+
+                    <p:panel id="panel_my_calendar" header="Kalendar događaja" style="margin-top:1px; color: #dfefff" toggleable="false"
+                             widgetVar="widgetMyCalendar">
+
+                        <p:growl id="messages" showDetail="true"/>
+
+                        <p:schedule id="schedule" value="#{kalendarController.eventModelAllEvents}" widgetVar="myschedule" style="width: 800px;"
+                                    locale="hr">
+                            <p:ajax event="dateSelect" listener="#{kalendarController.onDateSelect}"
+                                    update="eventDetails"
+                                    oncomplete="PF('eventDialog').show();"/>
+                            <p:ajax event="eventSelect" listener="#{kalendarController.onEventSelect}"
+                                    update="eventDetails"
+                                    oncomplete="PF('eventDialog').show();"/>
+                            <p:ajax event="eventMove" listener="#{kalendarController.onEventMove}" update="messages"/>
+                            <p:ajax event="eventResize" listener="#{kalendarController.onEventResize}"
+                                    update="messages"/>
+                        </p:schedule>
+
+                        <p:dialog widgetVar="eventDialog" header="Detalji događaja" showEffect="fade" hideEffect="fade">
+                            <h:panelGrid id="eventDetails" columns="2" cellpadding="7">
+                                <p:outputLabel for="title" value="Naziv" styleClass="p-text-bold"/>
+                                <p:inputText id="title" value="#{kalendarController.event.title}" required="true" disabled="true"/>
+
+                                <p:outputLabel for="from" value="Od" styleClass="p-text-bold"/>
+                                <p:datePicker id="from" value="#{kalendarController.event.startDate}"
+                                              pattern="dd/MM/yyyy"
+                                              showTime="true" appendTo="@(body)"
+                                              disabled="true"/>
+
+                                <p:outputLabel for="to" value="Do" styleClass="p-text-bold"/>
+                                <p:datePicker id="to" value="#{kalendarController.event.endDate}" pattern="dd/MM/yyyy"
+                                              showTime="true" appendTo="@(body)"
+                                              disabled="true"
+                                />
+
+                                <p:outputLabel for="description" value="Mjesto održavanja:" styleClass="p-text-bold"/>
+                                <p:inputTextarea id="description" value="#{kalendarController.event.description}" disabled="true"/>
+                            </h:panelGrid>
+
+
+                        </p:dialog>
+
+                    </p:panel>
+
+
+
+        <p:dialog global="true" id="test" widgetVar="includedDialog" header="Moji podaci"  showEffect="explode" >
+
+            <ui:include src="/secured/user/korisnikInfo.xhtml" />
+
+        </p:dialog>
+    </h:form>
+
+</h:body>
+</html>

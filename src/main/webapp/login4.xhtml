@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<head id="j_idt2">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="/diamond/resources/diamond-layout/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/diamond/resources/diamond-layout/images/favicon.ico" type="image/x-icon" /><link type="text/css" rel="stylesheet" href="resources/diamond/diamond-layout/css/theme.css" /><link type="text/css" rel="stylesheet" href="resources/diamond/diamond-layout/css/primeicons.css" /><link type="text/css" rel="stylesheet" href="resources/diamond/diamond-layout/css/components.css" /><script type="text/javascript" src="resources/diamond/diamond-layout/css/jquery.js"></script><script type="text/javascript" src="resources/diamond/diamond-layout/css/core.js"></script><script type="text/javascript" src="resources/diamond/diamond-layout/css/component.js"></script><script type="text/javascript" src="resources/diamond/diamond-layout/css/plugins.js"></script><link type="text/css" rel="stylesheet" href="resources/diamond/diamond-layout/css/layout-light.css" /><link type="text/css" rel="stylesheet" href="resources/diamond/diamond-layout/css/primeicons.css" /><script type="text/javascript">if(window.PrimeFaces){PrimeFaces.settings.locale='en_US';PrimeFaces.settings.viewId='/login.xhtml';PrimeFaces.settings.contextPath='/diamond';PrimeFaces.settings.cookiesSecure=false;}</script>
+    <title>Online events registracija</title></head><body class="login-body ">
+<div class="login-wrapper">
+    <div class="login-panel"><img id="j_idt7" src="resources/diamond/diamond-layout/images/placeholder-hero-image.jpg" alt="" class="logo" />
+
+<!--        <div class="login-form">-->
+<!--            <h2>Kreirajte svoj besplatni korisnički račun</h2>-->
+<!--            <p>Već imate korisnički račun? <a href="#">Prijava</a></p>-->
+<!--            <input id="name" name="name" type="text"-->
+<!--                   class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all "-->
+<!--                   placeholder="Full Name" />-->
+<!--            <script id="name_s" type="text/javascript">$(function(){PrimeFaces.cw("InputText","widget_name",{id:"name"});});</script>-->
+<!--            <input id="email" name="email" type="text"-->
+<!--                   class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all "-->
+<!--                   placeholder="Email" /><script id="email_s" type="text/javascript">$(function(){PrimeFaces.cw("InputText","widget_email",{id:"email"});});</script><input id="password" name="password" type="password" class="ui-password ui-inputfield ui-widget ui-state-default ui-corner-all" placeholder="Password" /><script id="password_s" type="text/javascript">$(function(){PrimeFaces.cw("Password","widget_password",{id:"password"});});</script><button id="j_idt9" name="j_idt9" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text ui-c">CONTINUE</span></button><script id="j_idt9_s" type="text/javascript">$(function(){PrimeFaces.cw("CommandButton","widget_j_idt9",{id:"j_idt9"});});</script>-->
+<!--        </div>-->
+
+        <div class="login-form">
+            <h2>Kreirajte svoj besplatni korisnički račun</h2>
+            <p>Već imate korisnički račun? <a href="#">Prijava</a></p>
+            <h:body>
+                <h:form id="register">
+                    <div class="p-mb-3 p-text-center"
+                         style="font-size:44px; text-align: center; padding-bottom: 20px;  padding-top: 20px;">Registracija na ONLINE EVENTS stranice! Dobrodošli!
+                    </div>
+                    <p:separator style="width:540px; text-align: center; "/>
+
+
+                    <h:panelGroup layout="block" style="padding-top: 20px;">
+                        <!--        <p:graphicImage library="images" name="home.png" title="Dobrodošli na ONLINE EVENTS stranice!"-->
+                        <!--                        style="text-align : center;"/>-->
+                        <!--            <p:growl id="growl" showDetail="true" />-->
+
+                        <p:messages id="messages" showDetail="true" closable="true" styleClass="section-title">
+                            <p:autoUpdate/>
+                        </p:messages>
+
+
+                        <h:panelGrid id="panelGridInputForm" columns="2" cellpadding="5" style="margin : 0 auto" >
+
+                            <p:outputLabel for="korisnickoImeInput" value="Korisničko ime:   "/>
+                            <p:inputText id="korisnickoImeInput"
+                                         value="#{registracijaKorisnikaController.korisnikDto.korisnickoIme}"
+                                         maxlength="20"
+                                         required="false"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ">
+                            </p:inputText>
+
+                            <p:outputLabel for="imeInput" value="Ime   :   "/>
+                            <p:inputText id="imeInput"
+                                         value="#{registracijaKorisnikaController.korisnikDto.ime}"
+                                         maxlength="50" size="50"
+                                         required="false"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ">
+                            </p:inputText>
+
+
+                            <p:outputLabel for="prezimeInput" value="Prezime   :   "/>
+                            <p:inputText id="prezimeInput"
+                                         value="#{registracijaKorisnikaController.korisnikDto.prezime}"
+                                         maxlength="50" size="50"
+                                         required="false"
+                                         requiredMessage="Prezime korisnika je obavezan podatak!"/>
+
+                            <p:outputLabel for="oibInput" value="OIB   :   "/>
+                            <p:inputText id="oibInput"
+                                         value="#{registracijaKorisnikaController.korisnikDto.oib}"
+                                         maxlength="11"
+                                         required="false" />
+
+                            <p:outputLabel for="emailInput" value="Email   :   "/>
+                            <p:inputText id="emailInput"
+                                         value="#{registracijaKorisnikaController.korisnikDto.email}"
+                                         maxlength="50" size="50"
+                                         required="false"
+                            />
+
+
+                            <p:outputLabel for="password" value="Lozinka:" style="font-size: large"/>
+                            <p:password id="password"
+                                        required="false"
+                                        value="#{registracijaKorisnikaController.korisnikDto.lozinka}"
+                                        toggleMask="true" redisplay="true"
+                            />
+                            <!--                <p:tooltip for="password" value="Minimalno 5 znakova, bez razmaka" position="right"/>-->
+
+                            <p:outputLabel for="password1" value="Ponovite lozinku:" style="font-size: large"/>
+                            <p:password id="password1"
+                                        required="false"
+                                        value="#{registracijaKorisnikaController.korisnikDto.lozinka1}"
+                                        toggleMask="true" redisplay="true"/>
+                            <!--                <p:tooltip for="password1" value="Minimalno 5 znakova, bez razmaka" position="right"/>-->
+
+                            <p:commandButton value="Registracija" actionListener="#{registracijaKorisnikaController.save}" id="spremi"
+                                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
+                                             update="panelGridInputForm,messages" icon="pi pi-save"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+
+
+                    <p:separator style="width:540px; text-align: center"/>
+
+                    <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+                        <p:link id="home_CL1" href="http://localhost:9080/online-events/home">
+                            <p><b>Već ste registirani - Prijavite se!</b></p>
+                        </p:link>
+                    </div>
+
+                    <div class="card" style="text-align: center; padding-bottom: 10px;  padding-top: 10px;">
+                        <p:link id="home_CL" href="http://localhost:9080/online-events/welcome.xhtml">
+                            <p:graphicImage library="images" name="home_page.png"/>
+                        </p:link>
+                    </div>
+
+
+
+
+                </h:form>
+            </h:body>
+        </div>
+
+        <p>A problem? <a href="#">Click here</a> and let us help you.</p>
+    </div>
+    <div class="login-image">
+        <div class="login-image-content">
+            <h1>Access to your</h1>
+            <h1>Diamond</h1>
+            <h1>Account</h1>
+            <h3>Lorem ipsum dolor sit amet, consectetur
+                <br /> adipiscing elit. Donec posuere velit nec enim
+                <br /> sodales, nec placerat erat tincidunt. </h3>
+        </div>
+        <div class="image-footer">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="icons">
+                <i class="pi pi-github"></i>
+                <i class="pi pi-twitter"></i>
+            </div>
+        </div>
+    </div>
+</div></body>
+
+</html>

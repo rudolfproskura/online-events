@@ -30,6 +30,12 @@
                         rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"
                         style="color: black; font-size:larger; font-weight:600"/>
 
+            <p:menuitem value="Kalendar"
+                        icon="pi pi-fw pi-calendar-times"
+                        url="http://localhost:9080/online-events/secured/user/kalendar.xhtml"
+                        rendered="#{request.isUserInRole('admin') or request.isUserInRole('organizer') or request.isUserInRole('user')}"
+                        style="color: black; font-size:larger; font-weight:600"/>
+
             <p:menuitem value="Unos/Ažuriranje"
                         icon="pi pi-fw pi-calendar-plus"
                         url="http://localhost:9080/online-events/secured/admin/upravljanjeDogadajima.xhtml"
