@@ -89,7 +89,7 @@ public class PregledDogadajaController implements Serializable {
                         .startDate(dogadajDto.getVrijemeOd())
                         .endDate(dogadajDto.getVrijemeDo())
                         .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                        .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
+                       // .borderColor((StringUtils.equals(dogadajDto.getSlobodanUlaz(), "DA") ? "GREEN" : "BLUE"))
                         .overlapAllowed(true)
                         .build();
                 eventModel.addEvent(event);

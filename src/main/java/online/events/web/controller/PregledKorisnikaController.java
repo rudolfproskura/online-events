@@ -89,7 +89,13 @@ public class PregledKorisnikaController implements Serializable {
         getKorisnikDto().setOib(null);
         getKorisnikDto().setEmail(null);
         getKorisnikDto().setTipKorisnika(null);
-        resetFilterDto();
+        getKorisnikFilterDto().setKorisnickoIme(null);
+        getKorisnikFilterDto().setIme(null);
+        getKorisnikFilterDto().setPrezime(null);
+        getKorisnikFilterDto().setOib(null);
+        getKorisnikFilterDto().setEmail(null);
+        getKorisnikFilterDto().setTipKorisnika(null);
+        korisnikDtoList = null;
     }
 
     public void resetFilterDto() {
@@ -100,7 +106,12 @@ public class PregledKorisnikaController implements Serializable {
         getKorisnikFilterDto().setEmail(null);
         getKorisnikFilterDto().setTipKorisnika(null);
         korisnikDtoList = null;
-        resetDto();
+        getKorisnikDto().setKorisnickoIme(null);
+        getKorisnikDto().setIme(null);
+        getKorisnikDto().setPrezime(null);
+        getKorisnikDto().setOib(null);
+        getKorisnikDto().setEmail(null);
+        getKorisnikDto().setTipKorisnika(null);
     }
 
     public void getUserInfo(String userName) {
