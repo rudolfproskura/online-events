@@ -11,6 +11,7 @@ import online.events.exception.DogadajAppRuleException;
 import online.events.util.DogadajAppConstants;
 import online.events.util.DogadajAppUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -113,6 +114,8 @@ public class DogadajiController implements Serializable {
                     addMessage("Događaj je uspješno spremljen. Šifra događaja je " + resultDogadaj.getSifraDogadaja() + ".", DogadajAppConstants.SEVERITY_INFO);
                 }
                 dogadajiFilterList = dogadajDao.getFilterList(new DogadajFilterDto(dogadajDto.getSifraDogadaja()));
+             //   PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+           //     PrimeFaces.current().ajax().update("messages", "dogadaji_table");
             } else {
                 addMessage("Događaj je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
             }
@@ -127,6 +130,10 @@ public class DogadajiController implements Serializable {
             ex.printStackTrace();
             addMessage("Došlo je do greške prilikom kreiranja/ažuriranja događaja.", DogadajAppConstants.SEVERITY_ERR);
         }
+    }
+
+    public void otvoriNovi() {
+        this.dogadajDto = new DogadajDto();
     }
 
     /*
