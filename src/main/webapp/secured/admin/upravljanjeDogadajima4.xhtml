@@ -174,6 +174,18 @@
                         <p:confirm type="popup" header="Confirmation"
                                    message="Jeste li sigurni da želite izbrisati događaj?" icon="pi pi-info-circle"/>
                     </p:commandButton>
+
+                    <p:commandButton icon="pi pi-pencil" update="mainForm" title="Ažuriraj događaj"
+                                     rendered="#{dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
+                                     oncomplete="PF('manageEventDialog').show()"
+                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{dogadajDto}" target="#{dogadajiController.dogadajDto}"/>
+                        <p:resetInput target="mainForm:panel_grid_unos"/>
+
+                    </p:commandButton>
+
+
+
                     <p:confirmPopup global="true">
                         <p:commandButton value="Ne" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
                         <p:commandButton value="Da" type="button" styleClass="ui-confirm-popup-yes"/>
