@@ -192,6 +192,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             hasError = true;
             messages.add("Događaj nema odabrano vrijeme od!");
         }
+        if (dogadajDto.getVrijemeDo() == null) {
+            hasError = true;
+            messages.add("Događaj nema odabrano vrijeme do!");
+        }
         if (dogadajDto.getVrijemeOd() != null && dogadajDto.getVrijemeOd().isBefore(LocalDateTime.now())) {
             hasError = true;
             messages.add("Događaj ne može biti u proplosti!");
@@ -240,6 +244,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (dogadajDto.getVrijemeOd() == null) {
             hasError = true;
             messages.add("Događaj nema odabrano vrijeme od!");
+        }
+        if (dogadajDto.getVrijemeDo() == null) {
+            hasError = true;
+            messages.add("Događaj nema odabrano vrijeme do!");
         }
         if (dogadajDto.getVrijemeOd() != null && dogadajDto.getVrijemeOd().isBefore(LocalDateTime.now())) {
             hasError = true;

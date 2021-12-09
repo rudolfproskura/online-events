@@ -114,11 +114,13 @@ public class DogadajiController implements Serializable {
                     addMessage("Događaj je uspješno spremljen. Šifra događaja je " + resultDogadaj.getSifraDogadaja() + ".", DogadajAppConstants.SEVERITY_INFO);
                 }
                 dogadajiFilterList = dogadajDao.getFilterList(new DogadajFilterDto(dogadajDto.getSifraDogadaja()));
-             //   PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+             //   PrimeFaces.current().executeScript("PF('manageEventDialog').hide()");
            //     PrimeFaces.current().ajax().update("messages", "dogadaji_table");
             } else {
                 addMessage("Događaj je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
             }
+            PrimeFaces.current().ajax().update("form:messages");
+            PrimeFaces.current().executeScript("PF('manageEventDialog').hide()");
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
                 for (String message : eventEx.getMessages()) {

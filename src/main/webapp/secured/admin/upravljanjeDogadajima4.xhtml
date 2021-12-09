@@ -77,11 +77,16 @@
             </h1>
         </div>
 
-        <h:panelGrid>
-            <p:messages id="messages" showDetail="true" closable="true">
-                <p:autoUpdate/>
-            </p:messages>
-        </h:panelGrid>
+                <h:panelGrid id="message_panel_grid">
+                    <p:growl id="messages" showDetail="true"/>
+
+                </h:panelGrid>
+
+<!--        <h:panelGrid>-->
+<!--            <p:messages id="messages" showDetail="true" closable="true">-->
+<!--                <p:autoUpdate/>-->
+<!--            </p:messages>-->
+<!--        </h:panelGrid>-->
 
         <div class="card"  >
 
@@ -267,7 +272,7 @@
 
             <f:facet name="footer">
                 <p:commandButton value="Spremi" icon="pi pi-replay" actionListener="#{dogadajiController.save}"
-                                 update="panel_grid_unos" process="panel_grid_unos @this"/>
+                                 update="message_panel_grid panel_grid_unos" process="panel_grid_unos @this"/>
                 <p:commandButton value="Odustani" icon="pi pi-save" onclick="PF('manageEventDialog').hide()"
                                  class="ui-button-secondary"/>
             </f:facet>
