@@ -292,7 +292,7 @@ public class DogadajiController implements Serializable {
         gradSelectItems.add(new SelectItem(null, "Odaberite"));
         gradDtoList.stream().forEach(gradDto -> gradSelectItems.add(new SelectItem(gradDto.getSifraGrada(), gradDto.getNazivGrada())));
         //slobodan ulaz - filter
-        slobodanUlazFilterSelectItems.add(new SelectItem(null, "--"));
+//        slobodanUlazFilterSelectItems.add(new SelectItem(null, "--"));
         slobodanUlazFilterSelectItems.add(new SelectItem(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA, DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA));
         slobodanUlazFilterSelectItems.add(new SelectItem(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_NE, DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_NE));
         //regija - filter

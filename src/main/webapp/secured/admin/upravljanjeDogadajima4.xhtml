@@ -87,16 +87,16 @@
 
             <p:toolbar>
                 <p:toolbarGroup>
-                    <p:commandButton value="Novi događaj" icon="pi pi-plus" actionListener="#{dogadajiController.otvoriNovi}"
+                    <p:commandButton value="Novi događaj" icon="pi pi-plus" actionListener="#{dogadajiController.resetDto}"
                                      update="panel_grid_unos" oncomplete="PF('manageEventDialog').show()"
                                      styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target="panel_grid_unos"/>
                     </p:commandButton>
-
                 </p:toolbarGroup>
+
                 <p:toolbarGroup align="right">
                     <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
-                        <p:dataExporter type="pdf" target="dogadaji_table" fileName="events"/>
+                        <p:dataExporter type="pdf" target="dogadaji_table" fileName="events" encoding="UTF-8"/>
                     </p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
@@ -129,10 +129,12 @@
                     <h:outputText value="#{dogadajDto.nazivDogadaja}"/>
                 </p:column>
 
-                <p:column headerText="Tip" filterBy="#{dogadajDto.tipDogadaja}" filterMatchMode="exact">
-                    <f:facet name="filter">
+<!--                <p:column headerText="Tip" filterBy="#{dogadajDto.tipDogadaja}" filterMatchMode="exact">-->
+                <p:column headerText="Tip" >
+
+                <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('dogadajiTable').filter()" styleClass="custom-filter">
-                            <f:selectItem itemLabel="-" itemValue="#{null}" noSelectionOption="true"/>
+<!--                            <f:selectItem itemLabel="-" itemValue="#{null}" noSelectionOption="true"/>-->
                             <f:selectItems value="#{dogadajiController.tipDogadajaFilterSelectItems}"/>
                         </p:selectOneMenu>
                     </f:facet>
@@ -247,17 +249,17 @@
                                  value="#{dogadajiController.dogadajDto.kreatorDogadaja.korisnickoIme}"
                                  readonly="true" disabled="true"/>
 
-<!--                    <f:facet name="footer">-->
-<!--                    <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"-->
-<!--                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"-->
+                    <f:facet name="footer">
+                    <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
+                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
 
 
-<!--                                     icon="pi pi-replay"/>-->
-<!--                    <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"-->
-<!--                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"-->
-<!--                                     update="panel_grid_unos" process="panel_grid_unos @this"-->
-<!--                                     icon="pi pi-save"/>-->
-<!--                    </f:facet>-->
+                                     icon="pi pi-replay"/>
+                    <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"
+                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
+                                     update="panel_grid_unos" process="panel_grid_unos @this"
+                                     icon="pi pi-save"/>
+                    </f:facet>
                     <!--                                         update="panelGridInputForm, filterAdvanced, messages" -->
 
                 </h:panelGrid>
