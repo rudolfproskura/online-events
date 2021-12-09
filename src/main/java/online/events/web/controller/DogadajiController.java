@@ -111,6 +111,8 @@ public class DogadajiController implements Serializable {
                     //create
                     DogadajDto resultDogadaj = dogadajSessionBean.createDogadaj(dogadajDto);
                     dogadajDto.setSifraDogadaja(resultDogadaj.getSifraDogadaja());
+                    this.dogadajiFilterList = new ArrayList<>();
+                    this.dogadajiFilterList.add(dogadajDto);
                     addMessage("Događaj je uspješno spremljen. Šifra događaja je " + resultDogadaj.getSifraDogadaja() + ".", DogadajAppConstants.SEVERITY_INFO);
                 }
                 dogadajiFilterList = dogadajDao.getFilterList(new DogadajFilterDto(dogadajDto.getSifraDogadaja()));
@@ -119,7 +121,7 @@ public class DogadajiController implements Serializable {
             } else {
                 addMessage("Događaj je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
             }
-            PrimeFaces.current().ajax().update("form:messages");
+            PrimeFaces.current().ajax().update("form:messages", "form:dogadaji_table");
             PrimeFaces.current().executeScript("PF('manageEventDialog').hide()");
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
@@ -294,7 +296,7 @@ public class DogadajiController implements Serializable {
         gradSelectItems.add(new SelectItem(null, "Odaberite"));
         gradDtoList.stream().forEach(gradDto -> gradSelectItems.add(new SelectItem(gradDto.getSifraGrada(), gradDto.getNazivGrada())));
         //slobodan ulaz - filter
-//        slobodanUlazFilterSelectItems.add(new SelectItem(null, "--"));
+        slobodanUlazFilterSelectItems.add(new SelectItem(null, "--"));
         slobodanUlazFilterSelectItems.add(new SelectItem(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA, DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_DA));
         slobodanUlazFilterSelectItems.add(new SelectItem(DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_NE, DogadajAppConstants.ENTITY_SLOBODAN_ULAZ_NE));
         //regija - filter
@@ -372,9 +374,11 @@ public class DogadajiController implements Serializable {
             dogadajSessionBean.deleteDogadaj(korisnik, dogadaj);
             getFilterListDogadaj();
             addMessage("Događaj je izbrisan (id događaja " + dogadaj + ").", DogadajAppConstants.SEVERITY_INFO);
+            PrimeFaces.current().ajax().update("form:messages", "form:dogadaji_table");
         } catch (Exception ex) {
             ex.printStackTrace();
             addMessage("Došlo je do greške prilikom brisanja događaja.", DogadajAppConstants.SEVERITY_ERR);
+            PrimeFaces.current().ajax().update("form:messages", "form:dogadaji_table");
         }
     }
 
