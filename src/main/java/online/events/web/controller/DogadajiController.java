@@ -111,17 +111,17 @@ public class DogadajiController implements Serializable {
                     //create
                     DogadajDto resultDogadaj = dogadajSessionBean.createDogadaj(dogadajDto);
                     dogadajDto.setSifraDogadaja(resultDogadaj.getSifraDogadaja());
-                    this.dogadajiFilterList = new ArrayList<>();
-                    this.dogadajiFilterList.add(dogadajDto);
                     addMessage("Događaj je uspješno spremljen. Šifra događaja je " + resultDogadaj.getSifraDogadaja() + ".", DogadajAppConstants.SEVERITY_INFO);
                 }
-                dogadajiFilterList = dogadajDao.getFilterList(new DogadajFilterDto(dogadajDto.getSifraDogadaja()));
+                dogadajFilterDto = new DogadajFilterDto();
+                dogadajiFilterList = new ArrayList<>();
+                getFilterListDogadaj();
              //   PrimeFaces.current().executeScript("PF('manageEventDialog').hide()");
            //     PrimeFaces.current().ajax().update("messages", "dogadaji_table");
             } else {
                 addMessage("Događaj je prazan (nema podataka).", DogadajAppConstants.SEVERITY_WARN);
             }
-            PrimeFaces.current().ajax().update("form:messages", "form:dogadaji_table");
+            PrimeFaces.current().ajax().update("mainForm:message_panel_grid", "mainForm:dogadaji_table");
             PrimeFaces.current().executeScript("PF('manageEventDialog').hide()");
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {

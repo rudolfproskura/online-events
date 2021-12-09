@@ -420,7 +420,7 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
         if (StringUtils.isNotBlank(filterDto.getKreator()))
             sql = sql + "and dog.kreator = :kreator ";
         //default order by
-        sql = sql + " order by dog.sifra ";
+        sql = sql + " order by dog.sifra desc ";
         Query queryDogadaj = getEntityManager().createNativeQuery(sql);
         //parametri
         if (filterDto.getSifraDogadaja() != null)
