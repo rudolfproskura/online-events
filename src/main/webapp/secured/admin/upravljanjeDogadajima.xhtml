@@ -71,293 +71,209 @@
 
 
     <h:form id="mainForm">
+        <div>
+            <h1>
+                Unos i ažuriranje događaja
+            </h1>
+        </div>
 
-        <p:panel id="panel_all" header="Unos/Ažuriranje događaja"   style="margin-top:10px; color: #ff4d4d">
+                <h:panelGrid id="message_panel_grid">
+                    <p:growl id="messages" showDetail="true"/>
 
-            <h:panelGrid>
-                <p:messages id="messages" showDetail="true" closable="true">
-                    <p:autoUpdate/>
-                </p:messages>
-            </h:panelGrid>
+                </h:panelGrid>
 
+<!--        <h:panelGrid>-->
+<!--            <p:messages id="messages" showDetail="true" closable="true">-->
+<!--                <p:autoUpdate/>-->
+<!--            </p:messages>-->
+<!--        </h:panelGrid>-->
 
-            <h:panelGrid columns="2" id="panel_grid_unos_pretraga">
+        <div class="card"  >
 
-                <p:panel id="panel_unos" header="Unos / ažuriranje događaja" style="margin-top:10px; color: #dfefff"
-                         toggleable="false"
-                         toggleSpeed="500"
-                         toggleableHeader="false" widgetVar="widgetInput">
+            <p:toolbar style="margin-bottom:20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Novi događaj" icon="pi pi-plus" actionListener="#{dogadajiController.resetDto}"
+                                     update="panel_grid_unos" oncomplete="PF('manageEventDialog').show()"
+                                     styleClass="ui-button-success" style="margin-right: .5rem">
+                        <p:resetInput target="panel_grid_unos"/>
+                    </p:commandButton>
+                </p:toolbarGroup>
 
-                    <h:panelGrid id="panel_grid_unos" columns="2">
-                        <p:outputLabel for="sifraDogadajaInput" value="Šifra događaja:   "/>
-                        <p:inputText id="sifraDogadajaInput"
-                                     value="#{dogadajiController.dogadajDto.sifraDogadaja}"
-                                     readonly="true" disabled="true"/>
-
-                        <p:outputLabel for="tipDogadaja" value="Tip događaja:   "/>
-                        <p:selectOneMenu id="tipDogadaja"
-                                         value="#{dogadajiController.dogadajDto.tipDogadaja}">
-                            <f:selectItems value="#{dogadajiController.tipDogadajaSelectItems}"/>
-                        </p:selectOneMenu>
-
-                        <p:outputLabel for="nazivDogadaja" value="Naziv događaja   :   "/>
-                        <p:inputTextarea id="nazivDogadaja"
-                                         value="#{dogadajiController.dogadajDto.nazivDogadaja}" rows="3"
-                                         cols="40"
-                                         maxlength="250" autoResize="false" required="false"
-                                         requiredMessage="Naziv događaja je obavezan podatak!"/>
-
-                        <p:outputLabel for="grad" value="Grad:   "/>
-                        <p:selectOneMenu id="grad"
-                                         value="#{dogadajiController.dogadajDto.gradDogadajaDto.sifraGrada}"
-                                         filter="true"
-                                         filterMatchMode="startsWith" style="width:250px" required="false"
-                                         requiredMessage="Grad je obavezan podatak!">
-                            <f:selectItems value="#{dogadajiController.gradSelectItems}"/>
-                        </p:selectOneMenu>
-
-                        <p:outputLabel for="vrijemeOd" value="Vrijeme od   :"/>
-                        <p:calendar id="vrijemeOd"
-                                    value="#{dogadajiController.dogadajDto.vrijemeOd}" locale="de"
-                                    pattern="dd.MM.yyyy HH:mm">
-                            <f:converter converterId="LocalDateConverter"/>
-                        </p:calendar>
-
-                        <p:outputLabel for="vrijemeDo" value="Vrijeme do   :"/>
-                        <p:calendar id="vrijemeDo"
-                                    value="#{dogadajiController.dogadajDto.vrijemeDo}" locale="de"
-                                    pattern="dd.MM.yyyy HH:mm">
-                            <f:converter converterId="LocalDateConverter"/>
-                        </p:calendar>
-
-                        <h:outputText value="Slobodan ulaz: "/>
-                        <p:selectBooleanButton id="value1"
-                                               value="#{dogadajiController.dogadajDto.slobodanUlazBoolen}"
-                                               onLabel="Da"
-                                               offLabel="Ne"
-                                               onIcon="pi pi-check" offIcon="pi pi-times"
-                                               style="width:60px"/>
-                        <p:outputLabel for="kretorDogadaja" value="Kreator događaja:   "/>
-                        <p:inputText id="kretorDogadaja"
-                                     value="#{dogadajiController.dogadajDto.kreatorDogadaja.korisnickoIme}"
-                                     readonly="true" disabled="true"/>
-                        <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"
-                                         style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"
-
-                                         update="panel_all"
-                                         icon="pi pi-replay"/>
-                        <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"
-                                         style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"
-                                         update="panel_all"
-
-                                         icon="pi pi-save"/>
-
-                        <!--                                         update="panelGridInputForm, filterAdvanced, messages" -->
-
-                    </h:panelGrid>
-                </p:panel>
-
-                <p:panel id="panel_filter" header="Pretraga događaja" style="margin-top:5px; color: #dfefff"
-                         toggleable="false"
-                         toggleSpeed="500" closeSpeed="500" toggleableHeader="false" collapsed="false"
-                         widgetVar="widgetFilter">
-
-                    <h:panelGrid columns="2" id="panel_grid_filter">
-                        <h:panelGrid columns="2">
-                            <h:outputLabel for="sifraFilter" value="Šifra događaja:"/>
-                            <p:inputText id="sifraFilter" value="#{dogadajiController.dogadajFilterDto.sifraDogadaja}"/>
-
-                            <p:outputLabel for="nazivDogadajaFilter" value="Naziv događaja:   "/>
-                            <p:inputTextarea id="nazivDogadajaFilter"
-                                             value="#{dogadajiController.dogadajFilterDto.nazivDogadaja}"
-                                             rows="3" cols="40"
-                                             maxlength="250" autoResize="false" required="false"/>
-
-                            <p:outputLabel for="ulazSlobodanFilter" value="Slobodan ulaz:   "/>
-                            <p:selectOneMenu id="ulazSlobodanFilter"
-                                             value="#{dogadajiController.dogadajFilterDto.slobodanUlaz}"
-                                             filter="false" style="width:100px">
-                                <f:selectItems value="#{dogadajiController.slobodanUlazFilterSelectItems}"/>
-                            </p:selectOneMenu>
-
-                            <h:outputLabel for="tipDogadajaFilter" value="Tip:"/>
-                            <p:selectCheckboxMenu id="tipDogadajaFilter"
-                                                  value="#{dogadajiController.dogadajFilterDto.odabraneTipoviDogadaja}"
-                                                  label="Tip događaja" multiple="true"
-                                                  panelStyle="width:250px">
-                                <f:selectItems value="#{dogadajiController.tipDogadajaFilterSelectItems}"/>
-                            </p:selectCheckboxMenu>
-
-                            <!--                    <p:outputLabel for="vrijemeOdPocetakFilter" value="Vrijeme od (početak)  :"/>-->
-                            <!--                    <p:calendar id="vrijemeOdPocetakFilter"-->
-                            <!--                                value="#{dogadajiController.dogadajFilterDto.vrijemeOdPocetak}"-->
-                            <!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
-                            <!--                        <f:converter converterId="LocalDateConverter"/>-->
-                            <!--                    </p:calendar>-->
-                            <!--                    <p:outputLabel for="vrijemeDoPocetakFilter" value="Vrijeme do (početak)  :"/>-->
-                            <!--                    <p:calendar id="vrijemeDoPocetakFilter"-->
-                            <!--                                value="#{dogadajiController.dogadajFilterDto.vrijemeDoPocetak}"-->
-                            <!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
-                            <!--                        <f:converter converterId="LocalDateConverter"/>-->
-                            <!--                    </p:calendar>-->
-                            <!--                    <p:outputLabel for="vrijemeOdKrajFilter" value="Vrijeme od (kraj)  :"/>-->
-                            <!--                    <p:calendar id="vrijemeOdKrajFilter" value="#{dogadajiController.dogadajFilterDto.vrijemeOdKraj}"-->
-                            <!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
-                            <!--                        <f:converter converterId="LocalDateConverter"/>-->
-                            <!--                    </p:calendar>-->
-                            <!--                    <p:outputLabel for="vrijemeDoKrajFilter" value="Vrijeme do (početak)  :"/>-->
-                            <!--                    <p:calendar id="vrijemeDoKrajFilter" value="#{dogadajiController.dogadajFilterDto.vrijemeDoKraj}"-->
-                            <!--                                locale="de" pattern="dd.MM.yyyy HH:mm">-->
-                            <!--                        <f:converter converterId="LocalDateConverter"/>-->
-                            <!--                    </p:calendar>-->
-
-                        </h:panelGrid>
-                        <h:panelGrid columns="2">
+<!--                <p:toolbarGroup align="right">-->
+<!--                    <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">-->
+<!--                        <p:dataExporter type="pdf" target="dogadaji_table" fileName="events" encoding="UTF-8"/>-->
+<!--                    </p:commandButton>-->
+<!--                </p:toolbarGroup>-->
+            </p:toolbar>
 
 
-                            <h:outputLabel for="regijaFilter" value="Regija:"/>
-                            <p:selectCheckboxMenu id="regijaFilter"
-                                                  value="#{dogadajiController.dogadajFilterDto.odabraneRegije}"
-                                                  label="Regija" multiple="true"
-                                                  filter="false" panelStyle="width:250px">
-                                <f:selectItems value="#{dogadajiController.regijaFilterSelectItems}"/>
-                                <p:ajax update="zupanijaFilter, gradFilter"/>
-                            </p:selectCheckboxMenu>
+            <p:dataTable id="dogadaji_table"
+                         widgetVar="dogadajiTable"
+                         var="dogadajDto"
+                         rows="5"
+                         value="#{dogadajiController.dogadajiFilterList}"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,15"
+                         selectionMode="single"
+                         paginatorPosition="bottom"
+                         rowKey="#{dogadajDto.sifraDogadaja}"
+                         emptyMessage="Nije pronađen niti jedan događaj"
+                         filteredValue="#{dogadajiController.dogadajiFilteredList}"
+            >
+                <f:facet name="header">
+                    <div>
+                        <span style="font-weight: bold">Pregled događaja</span>
+                    </div>
+                </f:facet>
+                <p:column headerText="Šifra">
+                    <h:outputText value="#{dogadajDto.sifraDogadaja}"/>
+                </p:column>
+                <p:column headerText="Naziv">
+                    <h:outputText value="#{dogadajDto.nazivDogadaja}"/>
+                </p:column>
 
-                            <h:outputLabel for="zupanijaFilter" value="Županija:"/>
-                            <p:selectCheckboxMenu id="zupanijaFilter"
-                                                  value="#{dogadajiController.dogadajFilterDto.odabraneZupanije}"
-                                                  label="Županija"
-                                                  multiple="true"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                <f:selectItems
-                                        value="#{dogadajiController.getZupanija(dogadajiController.dogadajFilterDto.odabraneRegije)}"/>
-                                <p:ajax update="gradFilter"/>
-                            </p:selectCheckboxMenu>
+<!--                <p:column headerText="Tip" filterBy="#{dogadajDto.tipDogadaja}" filterMatchMode="exact">-->
+                <p:column headerText="Tip" >
+                    <h:outputText value="#{dogadajDto.tipDogadajaNaziv}" styleClass="#{dogadajDto.tipDogadaja == 1 ? 'glazba' :  dogadajDto.tipDogadaja == 2 ? 'kultura' :
+                                        dogadajDto.tipDogadaja == 3 ? 'sport' : dogadajDto.tipDogadaja == 4 ? 'posao' : 'ostalo'}"/>
+                </p:column>
 
+                <p:column headerText="Vrijeme od" >
+                    <h:outputText value="#{dogadajDto.vrijemeOd}">
+                        <f:converter converterId="LocalDateConverter"/>
+                    </h:outputText>
+                </p:column>
 
-                            <h:outputLabel for="velicinaGradaFilter" value="Veličina grada:"/>
-                            <p:selectCheckboxMenu id="velicinaGradaFilter"
-                                                  value="#{dogadajiController.dogadajFilterDto.odabraneVelicineGrada}"
-                                                  label="Veličine grada" multiple="true"
-                                                  panelStyle="width:250px">
-                                <f:selectItems value="#{dogadajiController.velicinaGradaFilterSelectItems}"/>
-                                <p:ajax update="gradFilter"/>
-                            </p:selectCheckboxMenu>
+                <p:column headerText="Vrijeme do">
+                    <h:outputText value="#{dogadajDto.vrijemeDo}">
+                        <f:converter converterId="LocalDateConverter"/>
+                    </h:outputText> </p:column>
+                <p:column headerText="Ulaz slobodan" >
+                    <h:outputText value="#{dogadajDto.slobodanUlaz}"/>
+                </p:column>
+                <p:column headerText="Grad">
+                    <h:outputText value="#{dogadajDto.gradDogadajaDto.nazivGrada}"/>
+                </p:column>
 
-                            <h:outputLabel for="gradFilter" value="Grad:"/>
-                            <p:selectCheckboxMenu id="gradFilter"
-                                                  value="#{dogadajiController.dogadajFilterDto.odabraniGradovi}"
-                                                  label="Grad" multiple="true"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                <f:selectItems
-                                        value="#{dogadajiController.getGrad(dogadajiController.dogadajFilterDto.odabraneRegije, dogadajiController.dogadajFilterDto.odabraneZupanije, dogadajiController.dogadajFilterDto.odabraneVelicineGrada)}"/>
-                            </p:selectCheckboxMenu>
-                            <p:outputLabel for="kreatorFilter" value="Kreator:   "/>
-                            <p:selectOneMenu id="kreatorFilter" value="#{dogadajiController.dogadajFilterDto.kreator}"
-                                             filter="false" style="width:100px">
-                                <f:selectItems value="#{dogadajiController.kreatorFilterSelectItems}"/>
-                            </p:selectOneMenu>
+                <p:column headerText="Županija">
+                    <h:outputText
+                            value="#{dogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nazivOrgJedinice}"/>
+                </p:column>
+                <p:column headerText="Kreator">
+                    <h:outputText
+                            value="#{dogadajDto.kreatorDogadaja.korisnickoIme}"/>
+                </p:column>
+                <p:column headerText="Akcija" exportable="false">
+                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Izbriši događaj"
+                                     rendered="#{dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
+                                     actionListener="#{dogadajiController.deleteDogadaj(request.remoteUser, dogadajDto.sifraDogadaja)}"
+                                     update="mainForm"
+                    >
+                        <p:confirm type="popup" header="Confirmation"
+                                   message="Jeste li sigurni da želite izbrisati događaj?" icon="pi pi-info-circle"/>
+                    </p:commandButton>
 
-                            <p:commandButton value="Poništi filter"
-                                             actionListener="#{dogadajiController.resetFilterDto}"
-                                             id="filterreset"
-                                             style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                                             ajax="true"
-                                             update="panel_all" icon="pi pi-replay"/>
-                            <p:commandButton value="Pretraži"
-                                             actionListener="#{dogadajiController.getFilterListDogadaj}"
-                                             id="filter" style="margin-right:20px;margin-top:10px;margin-bottom: 10px"
-                                             ajax="true" update="panel_all"
-                                             icon="pi pi-search"/>
+                    <p:commandButton icon="pi pi-pencil" update="mainForm" title="Ažuriraj događaj"
+                                     rendered="#{dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
+                                     oncomplete="PF('manageEventDialog').show()"
+                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{dogadajDto}" target="#{dogadajiController.dogadajDto}"/>
+                        <p:resetInput target="mainForm:panel_grid_unos"/>
 
-                        </h:panelGrid>
-                    </h:panelGrid>
-
-                </p:panel>
-
-            </h:panelGrid>
-
-
-            <h:panelGrid columns="2" id="panelGrid_data_table" title="Rezultati pretrage">
-                <p:dataTable id="data_table_rezultati" var="filterDogadajDto"
-                             rows="10"
-                             paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,15"
-                             value="#{dogadajiController.dogadajiFilterList}"
-                             selectionMode="single"
-                             rowKey="#{filterDogadajDto.sifraDogadaja}"
-                             emptyMessage="Nije pronađen niti jedan događaj">
-                    <!--                    <f:facet name="header">-->
-                    <!--                        Rezultati pretrage-->
-                    <!--                    </f:facet>-->
-                    <f:facet name="header">
-                        Rezultati pretrage
-                    </f:facet>
-                    <p:ajax event="rowSelect" listener="#{dogadajiController.onTableRowSelect}"
-                            update="mainForm:panel_unos"/>
-                    <p:column headerText="Šifra">
-                        <h:outputText value="#{filterDogadajDto.sifraDogadaja}"/>
-                    </p:column>
-                    <p:column headerText="Naziv">
-                        <h:outputText value="#{filterDogadajDto.nazivDogadaja}"/>
-                    </p:column>
-                    <p:column headerText="Tip">
-                        <h:outputText value="#{filterDogadajDto.tipDogadajaNaziv}"/>
-                    </p:column>
-                    <p:column headerText="Vrijeme od">
-                        <h:outputText value="#{filterDogadajDto.vrijemeOd}">
-                            <f:converter converterId="LocalDateConverter"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Vrijeme do">
-                        <h:outputText value="#{filterDogadajDto.vrijemeDo}">
-                            <f:converter converterId="LocalDateConverter"/>
-                        </h:outputText> </p:column>
-                    <p:column headerText="Ulaz slobodan">
-                        <h:outputText value="#{filterDogadajDto.slobodanUlaz}"/>
-                    </p:column>
-                    <p:column headerText="Grad">
-                        <h:outputText value="#{filterDogadajDto.gradDogadajaDto.nazivGrada}"/>
-                    </p:column>
-                    <!--                    <p:column headerText="Veličina grada">-->
-                    <!--                        <h:outputText value="#{filterDogadajDto.gradDogadajaDto.velicinaGradaDto.nazivVelicineGrada}"/>-->
-                    <!--                    </p:column>-->
-                    <p:column headerText="Županija">
-                        <h:outputText
-                                value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nazivOrgJedinice}"/>
-                    </p:column>
-                    <!--                    <p:column headerText="Regija">-->
-                    <!--                        <h:outputText-->
-                    <!--                                value="#{filterDogadajDto.gradDogadajaDto.organizacijskaJedinicaDto.nadredenaOrganizacijeDto.nazivOrgJedinice}"/>-->
-                    <!--                    </p:column>-->
-                    <p:column headerText="Kreator">
-                        <h:outputText
-                                value="#{filterDogadajDto.kreatorDogadaja.korisnickoIme}"/>
-                    </p:column>
-                    <p:column headerText="Akcija" exportable="false">
-                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" title="Izbriši događaj"
-                                         rendered="#{filterDogadajDto.kreatorDogadaja != null and filterDogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
-                                         actionListener="#{dogadajiController.deleteDogadaj(request.remoteUser, filterDogadajDto.sifraDogadaja)}"
-                                         update="mainForm"
-                        >
-                            <p:confirm type="popup" header="Confirmation" message="Jeste li sigurni da želite izbrisati događaj?" icon="pi pi-info-circle"/>
-                        </p:commandButton>
-                        <p:confirmPopup global="true">
-                            <p:commandButton value="Ne" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
-                            <p:commandButton value="Da" type="button" styleClass="ui-confirm-popup-yes" />
-                        </p:confirmPopup>
-                    </p:column>
+                    </p:commandButton>
 
 
 
-                </p:dataTable>
-            </h:panelGrid>
+                    <p:confirmPopup global="true">
+                        <p:commandButton value="Ne" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                        <p:commandButton value="Da" type="button" styleClass="ui-confirm-popup-yes"/>
+                    </p:confirmPopup>
+                </p:column>
+            </p:dataTable>
+        </div>
+
+        <p:dialog header="Detalji događaja" showEffect="fade" modal="true"
+                  widgetVar="manageEventDialog" responsive="true">
+                <h:panelGrid id="panel_grid_unos" columns="2">
+                    <p:outputLabel for="sifraDogadajaInput" value="Šifra događaja:   "/>
+                    <p:inputText id="sifraDogadajaInput"
+                                 value="#{dogadajiController.dogadajDto.sifraDogadaja}"
+                                 readonly="true" disabled="true"/>
+
+                    <p:outputLabel for="tipDogadaja" value="Tip događaja:   "/>
+                    <p:selectOneMenu id="tipDogadaja"
+                                     value="#{dogadajiController.dogadajDto.tipDogadaja}">
+                        <f:selectItems value="#{dogadajiController.tipDogadajaSelectItems}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="nazivDogadaja" value="Naziv događaja   :   "/>
+                    <p:inputTextarea id="nazivDogadaja"
+                                     value="#{dogadajiController.dogadajDto.nazivDogadaja}" rows="3"
+                                     cols="40"
+                                     maxlength="250" autoResize="false" required="false"
+                                     requiredMessage="Naziv događaja je obavezan podatak!"/>
+
+                    <p:outputLabel for="grad" value="Grad:   "/>
+                    <p:selectOneMenu id="grad"
+                                     value="#{dogadajiController.dogadajDto.gradDogadajaDto.sifraGrada}"
+                                     filter="true"
+                                     filterMatchMode="startsWith" style="width:250px" required="false"
+                                     requiredMessage="Grad je obavezan podatak!">
+                        <f:selectItems value="#{dogadajiController.gradSelectItems}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="vrijemeOd" value="Vrijeme od   :"/>
+                    <p:calendar id="vrijemeOd"
+                                value="#{dogadajiController.dogadajDto.vrijemeOd}" locale="de"
+                                pattern="dd.MM.yyyy HH:mm">
+                        <f:converter converterId="LocalDateConverter"/>
+                    </p:calendar>
+
+                    <p:outputLabel for="vrijemeDo" value="Vrijeme do   :"/>
+                    <p:calendar id="vrijemeDo"
+                                value="#{dogadajiController.dogadajDto.vrijemeDo}" locale="de"
+                                pattern="dd.MM.yyyy HH:mm">
+                        <f:converter converterId="LocalDateConverter"/>
+                    </p:calendar>
+
+                    <h:outputText value="Slobodan ulaz: "/>
+                    <p:selectBooleanButton id="value1"
+                                           value="#{dogadajiController.dogadajDto.slobodanUlazBoolen}"
+                                           onLabel="Da"
+                                           offLabel="Ne"
+                                           onIcon="pi pi-check" offIcon="pi pi-times"
+                                           style="width:60px"/>
+                    <p:outputLabel for="kretorDogadaja" value="Kreator događaja:   "/>
+                    <p:inputText id="kretorDogadaja"
+                                 value="#{dogadajiController.dogadajDto.kreatorDogadaja.korisnickoIme}"
+                                 readonly="true" disabled="true"/>
+
+<!--                    <f:facet name="footer">-->
+<!--                    <p:commandButton value="Novi" actionListener="#{dogadajiController.resetDto}" id="novizapis"-->
+<!--                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px " ajax="true"-->
 
 
-        </p:panel>
+<!--                                     icon="pi pi-replay"/>-->
+<!--                    <p:commandButton value="Spremi" actionListener="#{dogadajiController.save}" id="spremi"-->
+<!--                                     style="margin-right:20px;margin-top:10px;margin-bottom: 10px" ajax="true"-->
+<!--                                     update="panel_grid_unos" process="panel_grid_unos @this"-->
+<!--                                     icon="pi pi-save"/>-->
+<!--                    </f:facet>-->
+                    <!--                                         update="panelGridInputForm, filterAdvanced, messages" -->
+
+                </h:panelGrid>
+
+
+            <f:facet name="footer">
+                <p:commandButton value="Spremi" icon="pi pi-replay" actionListener="#{dogadajiController.save}"
+                                 update="message_panel_grid panel_grid_unos" process="panel_grid_unos @this"/>
+                <p:commandButton value="Odustani" icon="pi pi-save" onclick="PF('manageEventDialog').hide()"
+                                 class="ui-button-secondary"/>
+            </f:facet>
+        </p:dialog>
+
 
 
         <p:dialog global="true" id="test" widgetVar="includedDialog" header="Moji podaci" showEffect="explode">
@@ -366,4 +282,37 @@
 
     </h:form>
 </h:body>
+
+<style type="text/css">
+    .sport {
+        background-color: #b4ea85 !important;
+        background-image: none !important;
+        color: #1d3705 !important;
+
+    }
+
+    .kultura {
+        background-color: #ecb97b !important;
+        background-image: none !important;
+        color: #452a08 !important;
+    }
+
+    .glazba {
+        background-color: #fc8d8d !important;
+        background-image: none !important;
+        color: #400a0a !important;
+    }
+
+    .posao {
+        background-color: #8ceae7 !important;
+        background-image: none !important;
+        color: #0b2624 !important;
+    }
+
+    .ostalo {
+        background-color: #838282 !important;
+        background-image: none !important;
+        color: #242424 !important;
+    }
+</style>
 </html>
