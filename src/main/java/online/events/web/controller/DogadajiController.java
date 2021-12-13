@@ -146,6 +146,8 @@ public class DogadajiController implements Serializable {
     public void getFilterListDogadaj() {
         try {
             dogadajiFilterList = dogadajDao.getFilterList(dogadajFilterDto);
+            PrimeFaces.current().ajax().update("mainForm:message_panel_grid", "mainForm:dogadaji_table");
+            PrimeFaces.current().executeScript("PF('searchEventDialog').hide()");
         } catch (DogadajAppRuleException eventEx) {
             if (eventEx.getMessages() != null && !eventEx.getMessages().isEmpty()) {
                 for (String message : eventEx.getMessages()) {
@@ -197,6 +199,7 @@ public class DogadajiController implements Serializable {
         dogadajFilterDto.setOdabraneTipoviDogadaja(null);
         dogadajFilterDto.setOdabraniGradovi(null);
         dogadajFilterDto.setOdabraneZupanije(null);
+        dogadajFilterDto.setKreator(null);
         dogadajiFilterList = null;
     }
 
