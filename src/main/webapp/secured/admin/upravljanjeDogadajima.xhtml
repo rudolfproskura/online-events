@@ -183,7 +183,7 @@
                     <p:column headerText="Akcija" exportable="false">
                         <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                          title="Izbriši događaj"
-                                         rendered="#{dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
+                                         rendered="#{(dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser)) or request.isUserInRole('admin') }"
                                          actionListener="#{dogadajiController.deleteDogadaj(request.remoteUser, dogadajDto.sifraDogadaja)}"
                                          update="mainForm"
                         >
@@ -193,7 +193,7 @@
                         </p:commandButton>
 
                         <p:commandButton icon="pi pi-pencil" update="mainForm" title="Ažuriraj događaj"
-                                         rendered="#{dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser) }"
+                                         rendered="#{(dogadajDto.kreatorDogadaja != null and dogadajDto.kreatorDogadaja.korisnickoIme.equals(request.remoteUser)) or request.isUserInRole('admin') }"
                                          oncomplete="PF('manageEventDialog').show()"
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{dogadajDto}"

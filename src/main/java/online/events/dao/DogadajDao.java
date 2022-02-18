@@ -265,10 +265,10 @@ public class DogadajDao extends GenericDao<Object, DogadajDto> implements Serial
             hasError = true;
             messages.add("Događaj nema odabran način ulaza!");
         }
-        if (!StringUtils.equals(dogadajDto.getKreatorDogadaja().getKorisnickoIme(), logedUser)) {
-            hasError = true;
-            messages.add("Ne možete mijenjati događaje koje niste kreirali!");
-        }
+//        if (!StringUtils.equals(dogadajDto.getKreatorDogadaja().getKorisnickoIme(), logedUser)) {
+//            hasError = true;
+//            messages.add("Ne možete mijenjati događaje koje niste kreirali!");
+//        }
         if (hasError && !messages.isEmpty()) {
             throw new DogadajAppRuleException(messages);
         }
