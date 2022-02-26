@@ -125,10 +125,13 @@ public class KalendarController implements Serializable {
                                 .startDate(dogadajDto.getVrijemeOd())
                                 .endDate(dogadajDto.getVrijemeDo())
                                 .description(dogadajDto.getGradDogadajaDto().getNazivGrada())
-                                .borderColor("YELLOW")
-                                .textColor("YELLOW")
+                               // .borderColor("GREEN")
+                               // .textColor("GREEN")
+                               // .backgroundColor("YELLOW")
+                                .styleClass("myclass")
                                 .overlapAllowed(true)
                                 .build();
+event.setStyleClass("myclass");
                         eventModelAllEvents.addEvent(event);
                     } else {
                         DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()

@@ -1,0 +1,37 @@
+.fc .fc-event,
+.fc .fc-event .fc-event-main {
+    background: #0d89ec;
+    border: 0px solid #032099;
+    color: #ffffff;
+
+}
+
+.myclass {
+    border: green !important;
+    color: white !important;
+    background: #28d75e !important;
+}
+
+.myclass .fc .fc-event,
+.myclass .fc .fc-event .fc-event-main {
+    border: green !important;
+    color: white !important;
+    background: #28d75e !important;
+}
+
+
+.myclass .fc-event {
+    border: green !important;
+    color: white !important;
+    background: #28d75e !important;
+}
+.myclass a{
+    border: green !important;
+    color: white !important;
+    background: #28d75e !important;
+}
+.myclass .fc-event-inner{
+    border: green !important;
+    color: white !important;
+    background: #28d75e !important;
+}
