@@ -25,6 +25,13 @@
     color: white !important;
     background: #28d75e !important;
 }
+
+.myclass .fc-event-main {
+    border: green !important;
+    color: white !important;
+    background: #28d75e !important;
+}
+
 .myclass a{
     border: green !important;
     color: white !important;
